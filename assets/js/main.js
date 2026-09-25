@@ -8,15 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(ready);
   setTimeout(ready, 300); // rAF is paused in background tabs
 
-  // Project tiles: static image by default, play the loop while hovered.
+  // Project tiles. Desktop: static image, play the loop while hovered.
+  // Phones (no hover): autoplay every tile, staggered 0.5s apart.
   const canHover = window.matchMedia('(hover: hover)').matches;
-  document.querySelectorAll('.project').forEach((tile) => {
+  const autoplay = !canHover || window.matchMedia('(max-width: 639px)').matches;
+  document.querySelectorAll('.project').forEach((tile, i) => {
     const video = tile.querySelector('video');
-    if (!video || !canHover) return;
-    tile.addEventListener('mouseenter', () => {
+    if (!video) return;
+    const start = () => {
       if (!video.src) video.src = video.dataset.src;
-      video.play().then(() => tile.classList.add('is-playing')).catch(() => {});
-    });
+      const play = () => video.play().then(() => tile.classList.add('is-playing'));
+      // A play() that races the initial load gets aborted; retry once it can play.
+      play().catch(() => video.addEventListener('canplay', () => play().catch(() => {}), { once: true }));
+    };
+    if (autoplay) {
+      // Load all clips now so the 0.5s stagger isn't skewed by download time.
+      video.preload = 'auto';
+      video.src = video.dataset.src;
+      setTimeout(start, i * 500);
+      return;
+    }
+    tile.addEventListener('mouseenter', start);
     tile.addEventListener('mouseleave', () => {
       tile.classList.remove('is-playing');
       setTimeout(() => {
@@ -27,6 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 500);
     });
   });
+
+  // Toolkit ticker: keep a steady 40px/s whatever the icon size.
+  const set = document.querySelector('.skills__set');
+  if (set) {
+    const track = set.parentElement;
+    const fit = () => track.style.setProperty('--dur', `${set.offsetWidth / 40}s`);
+    fit();
+    window.addEventListener('resize', fit);
+  }
 
   // Email buttons copy the address and show a toast.
   const toast = document.querySelector('.toast');

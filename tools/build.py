@@ -71,6 +71,7 @@ def build_index():
     t = lambda key, d: project_tile(cards[key], d)
     skills = '\n      '.join(f'<img src="assets/img/{s["file"]}" alt="{e(s["name"])}" title="{e(s["name"])}" loading="lazy">'
                              for s in SITE['skills'])
+    skills_dup = skills.replace(' title="', ' data-title="').replace(' alt="', ' data-alt="').replace('<img ', '<img alt="" ')
     ext = 'target="_blank" rel="noopener"'
     socials = '\n    '.join(
         f'<a class="card social" href="{e(s["url"])}" {ext} aria-label="{s["name"]}">'
@@ -94,7 +95,14 @@ def build_index():
     <span class="label">TOOLKIT</span>
     <h2>{e(SITE['toolkit'])}</h2>
     <div class="skills">
-      {skills}
+      <div class="skills__track">
+        <div class="skills__set">
+          {skills}
+        </div>
+        <div class="skills__set" aria-hidden="true">
+          {skills_dup}
+        </div>
+      </div>
     </div>
   </section>
   {t('toeic-fc', 5)}
