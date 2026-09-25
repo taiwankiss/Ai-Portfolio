@@ -41,8 +41,8 @@ def head(title, base, desc):
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta name="theme-color" content="#0c0c0c">
-<link rel="icon" type="image/png" href="{base}assets/icons/favicon.png">
-<link rel="apple-touch-icon" href="{base}assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="{base}assets/icons/favicon.png?v={ver('assets/icons/favicon.png')}">
+<link rel="apple-touch-icon" href="{base}assets/icons/apple-touch-icon.png?v={ver('assets/icons/apple-touch-icon.png')}">
 {FONTS}
 <link rel="stylesheet" href="{base}assets/css/style.css?v={ver('assets/css/style.css')}">
 <script src="{base}assets/js/main.js?v={ver('assets/js/main.js')}" defer></script>
