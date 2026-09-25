@@ -1,0 +1,134 @@
+{
+  "title": "Wei’s AI Portfolio",
+  "description": "用 AI 把腦袋的想法做出來，這裡收錄我目前的幾個 AI 專案。",
+  "hero": {
+    "kicker": "Wei’s AI PORTFOLIO",
+    "title": "This is Wei",
+    "intro": "用 AI 把腦袋的想法做出來，這裡收錄我目前的幾個 AI 專案。"
+  },
+  "toolkit": "相關工具技能",
+  "about": "對設計與 AI 都著迷，\n先把問題拆開再解掉。",
+  "contact": "有想合作的專案嗎？",
+  "cards": [
+    {
+      "key": "dashboard",
+      "num": "01",
+      "image": "card-dashboard.webp",
+      "video": "card-dashboard.mp4"
+    },
+    {
+      "key": "sport-journey",
+      "num": "02",
+      "image": "card-sport-journey.webp",
+      "video": "card-sport-journey.mp4"
+    },
+    {
+      "key": "digital-resume",
+      "num": "03",
+      "image": "card-digital-resume.webp",
+      "video": "card-digital-resume.mp4",
+      "half": true
+    },
+    {
+      "key": "toeic-fc",
+      "num": "04",
+      "image": "card-toeic-fc.webp",
+      "video": null,
+      "half": true
+    },
+    {
+      "key": "campaign-page",
+      "num": "05",
+      "image": "card-campaign-page.webp",
+      "video": "card-campaign-page.mp4"
+    }
+  ],
+  "skills": [
+    {
+      "file": "skill-0.webp",
+      "name": "Claude"
+    },
+    {
+      "file": "skill-1.webp",
+      "name": "Gemini"
+    },
+    {
+      "file": "skill-2.webp",
+      "name": "ChatGPT"
+    },
+    {
+      "file": "skill-3.webp",
+      "name": "Blender"
+    },
+    {
+      "file": "skill-4.webp",
+      "name": "Photoshop"
+    },
+    {
+      "file": "skill-5.webp",
+      "name": "Illustrator"
+    },
+    {
+      "file": "skill-6.webp",
+      "name": "Premiere Pro"
+    },
+    {
+      "file": "skill-7.webp",
+      "name": "Figma"
+    }
+  ],
+  "tools": {
+    "dashboard": [
+      "Claude",
+      "Strava",
+      "Santa"
+    ],
+    "sport-journey": [
+      "Claude",
+      "Strava",
+      "Google Sheets"
+    ],
+    "toeic-fc": [
+      "Claude"
+    ],
+    "digital-resume": [
+      "Claude",
+      "Adobe Firefly"
+    ],
+    "campaign-page": [
+      "Claude",
+      "Higgsfield",
+      "ChatGPT"
+    ]
+  },
+  "socials": [
+    {
+      "name": "Website",
+      "icon": "website.svg",
+      "url": "https://weilee01.com/",
+      "w": 45,
+      "h": 45
+    },
+    {
+      "name": "Instagram",
+      "icon": "instagram.svg",
+      "url": "https://www.instagram.com/c.w._lee/",
+      "w": 33,
+      "h": 33
+    },
+    {
+      "name": "LinkedIn",
+      "icon": "linkedin.svg",
+      "url": "https://www.linkedin.com/in/chienweilee/",
+      "w": 28,
+      "h": 28
+    },
+    {
+      "name": "Facebook",
+      "icon": "facebook.svg",
+      "url": "https://www.facebook.com/taiwankiss1",
+      "w": 13,
+      "h": 25
+    }
+  ]
+}

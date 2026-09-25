@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campaign Page · Wei’s AI Portfolio</title>
+<meta name="description" content="結合跑步、騎車、爬山的卷動式品牌活動頁">
+<meta property="og:title" content="Campaign Page · Wei’s AI Portfolio">
+<meta property="og:description" content="結合跑步、騎車、爬山的卷動式品牌活動頁">
+<meta name="theme-color" content="#0c0c0c">
+<link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="../assets/js/main.js" defer></script>
+</head>
+<body>
+<main class="detail">
+  <article class="sheet">
+    <a class="close" href="../index.html" aria-label="關閉，回到首頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+    <div class="content">
+      <header>
+        <h1>Campaign Page</h1>
+        <div class="subtitle">Scrolling Website</div>
+      </header>
+      <div class="info">
+        <div class="panel panel--meta">
+          <img class="meta__icon" src="../assets/img/campaign-page-icon.webp" alt="">
+          <div class="meta__text">
+            <div class="field"><span class="field__label">類型</span><span class="field__value">AI · 活動頁面</span></div>
+            <div class="field"><span class="field__label">使用工具</span><div class="tools"><img src="../assets/img/campaign-page-tool0.webp" alt="Claude" title="Claude"><img src="../assets/img/campaign-page-tool1.webp" alt="Higgsfield" title="Higgsfield"><img src="../assets/img/campaign-page-tool2.webp" alt="ChatGPT" title="ChatGPT"></div></div>
+          </div>
+        </div>
+        <div class="panel panel--summary">
+          <div class="field"><span class="field__label">簡介</span><span class="field__value field__value--lead">結合跑步、騎車、爬山的卷動式品牌活動頁</span></div>
+          <div class="field"><span class="field__label">背景</span><span class="field__value field__value--body">以動態影片與數據 UI 營造熱血感，引導訓練</span></div>
+          <a class="open-btn" href="https://train-hard.s923446.workers.dev/" target="_blank" rel="noopener">開啟專案 ↗</a>
+        </div>
+      </div>
+      <div class="row scroll-in" style="gap:2.63%;background:#171717;border-radius:20px;padding:2.50% 2.63%"><div style="flex:216 1 0"><img src="../assets/img/campaign-page-m0.webp" width="216" height="142" alt="Campaign Page 畫面" loading="lazy"></div><div style="flex:243 1 0"><img src="../assets/img/campaign-page-m1.webp" width="243" height="143" alt="Campaign Page 畫面" loading="lazy"></div><div style="flex:214 1 0"><img src="../assets/img/campaign-page-m2.webp" width="214" height="142" alt="Campaign Page 畫面" loading="lazy"></div></div>
+      <section class="section scroll-in"><h2>Problem</h2><p>一直很想嘗試卷動式頁面（scrollytelling）的華麗視覺效果，於是把自己本身熱愛的跑步、騎車、爬山三項興趣結合起來，構想成一個品牌活動頁面。目標是透過視覺構圖的一致性與持續進步的數據 UI，讓觀看者在瀏覽過程中感受到熱血感，進而產生想開始訓練的念頭，甚至順勢點進去挑選、購買所需的推薦商品。</p></section>
+      <figure class="media scroll-in" style="margin:0"><img src="../assets/img/campaign-page-m3.webp" width="760" height="507" alt="Campaign Page 畫面" loading="lazy"></figure>
+      <section class="section scroll-in"><h2>Process</h2><p>影片素材的產出則分兩階段：先用 ChatGPT 針對跑步、騎車、爬山三種運動情境生成設定圖，包括攝影機角度、角色配件與場景設定；再透過 Higgsfield 的 Seedance 2.5 model 依據這些設定圖渲染出最終影片。</p><p>初期嘗試以「一幀畫面對齊一次滑鼠滾動」的方式做卷動效果，但實測後發現這樣會讓 UI 的呈現效果變差，因此調整為「滑動一次播放一段畫面」的方式，讓動態轉場更流暢自然。</p></section>
+      <section class="section scroll-in"><h2>Result</h2><p>完成後的 Campaign Page 呈現出具備一致視覺構圖與熱血氛圍的卷動式活動頁面，三項運動的動態影片搭配持續進步的數據 UI，成功營造出想開始訓練的情緒感受。雖然轉場效果跟原本設想的仍有些落差（且製作到後段 Token 也用盡了），但整體看久了效果也算是可以接受，達成了頁面的核心體驗目標。</p></section>
+      <figure class="media scroll-in" style="margin:0"><img src="../assets/img/campaign-page-m4.webp" width="760" height="507" alt="Campaign Page 畫面" loading="lazy"></figure>
+      <section class="section scroll-in"><h2>Reflection</h2><p>這個專案是一次高強度的多工具整合嘗試——從 ChatGPT 生成設定圖、Higgsfield/Seedance 渲染影片，到卷動邏輯的反覆調整，讓我實際碰到不少「理想效果 vs. 實際限制」的落差（無論是 UI 表現還是資源／Token 的限制）。這個過程讓我更清楚在做視覺化與互動專案時，需要在創意構想與技術／資源限制之間持續拉鋸取得平衡，也是這次嘗試中最寶貴的實作經驗。</p></section>
+    </div>
+  </article>
+  <a class="btn back" href="../index.html">Back</a>
+</main>
+</body>
+</html>

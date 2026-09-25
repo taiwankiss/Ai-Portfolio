@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Dashboard · Wei’s AI Portfolio</title>
+<meta name="description" content="整合多平台數據的個人儀表板">
+<meta property="og:title" content="My Dashboard · Wei’s AI Portfolio">
+<meta property="og:description" content="整合多平台數據的個人儀表板">
+<meta name="theme-color" content="#0c0c0c">
+<link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="../assets/js/main.js" defer></script>
+</head>
+<body>
+<main class="detail">
+  <article class="sheet">
+    <a class="close" href="../index.html" aria-label="關閉，回到首頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+    <div class="content">
+      <header>
+        <h1>My Dashboard</h1>
+        <div class="subtitle">Analytics · AI Dashboard</div>
+      </header>
+      <div class="info">
+        <div class="panel panel--meta">
+          <img class="meta__icon" src="../assets/img/dashboard-icon.webp" alt="">
+          <div class="meta__text">
+            <div class="field"><span class="field__label">類型</span><span class="field__value">AI · 數據儀表板</span></div>
+            <div class="field"><span class="field__label">使用工具</span><div class="tools"><img src="../assets/img/dashboard-tool0.webp" alt="Claude" title="Claude"><img src="../assets/img/dashboard-tool1.webp" alt="Strava" title="Strava"><img src="../assets/img/dashboard-tool2.webp" alt="Santa" title="Santa"></div></div>
+          </div>
+        </div>
+        <div class="panel panel--summary">
+          <div class="field"><span class="field__label">簡介</span><span class="field__value field__value--lead">整合多平台數據的個人儀表板</span></div>
+          <div class="field"><span class="field__label">背景</span><span class="field__value field__value--body">資料分散難以掌握時間分配，透過數據鞭策自己</span></div>
+          <a class="open-btn" href="https://taiwankiss.github.io/wei-dashboard/" target="_blank" rel="noopener">開啟專案 ↗</a>
+        </div>
+      </div>
+      <div class="row scroll-in" style="gap:2.63%;background:#ffffff;border-radius:20px;padding:3.88% 2.63%"><div style="flex:237 1 0"><img src="../assets/img/dashboard-m0.webp" width="237" height="155" alt="My Dashboard 畫面" loading="lazy"></div><div style="flex:198 1 0"><img src="../assets/img/dashboard-m1.webp" width="198" height="155" alt="My Dashboard 畫面" loading="lazy"></div><div style="flex:234 1 0"><img src="../assets/img/dashboard-m2.webp" width="234" height="155" alt="My Dashboard 畫面" loading="lazy"></div></div>
+      <section class="section scroll-in"><h2>Problem</h2><p>過去在追蹤自己的運動、學習與 AI 使用狀況時，資料分散在 Strava、Claude、Santa 英文等不同平台，每次要檢視進度都得逐一登入比對，既耗時又難以掌握整體趨勢。長期下來容易失去對時間分配的掌控感，也難以及時察覺自己是否又在「蹉跎時間」。</p></section>
+      <figure class="media scroll-in" style="margin:0"><img src="../assets/img/dashboard-m3.webp" width="760" height="507" alt="My Dashboard 畫面" loading="lazy"></figure>
+      <section class="section scroll-in"><h2>Process</h2><p>為了解決這個痛點，我設計並實作了一個整合式儀表板，透過 Connector 串接 Strava（跑步、騎車數據）、Claude（AI 使用時間）與 Santa 英文（學習分析數據），將原本分散的三方資訊統一拉進同一介面。過程中特別著重於：</p><ul><li>研究並串接不同服務的 API／Connector 機制，處理各平台資料格式與更新頻率的差異</li><li>設計清晰的視覺化圖表架構，讓近期數據能一目了然地呈現趨勢與異常</li><li>反覆調整介面配置，確保資訊密度與可讀性的平衡</li></ul></section>
+      <figure class="media scroll-in" style="margin:0"><img src="../assets/img/dashboard-m4.webp" width="760" height="388" alt="My Dashboard 畫面" loading="lazy"></figure>
+      <section class="section scroll-in"><h2>Result</h2><p>完成後的 Dashboard 能即時彙整跑步/騎車里程、AI 使用時數與英文學習進度，並以圖表方式呈現週期性變化。使用者（自己）不再需要切換多個 App 或網頁，單一畫面即可掌握近期的時間分配狀態，大幅降低了追蹤與比對的時間成本。</p></section>
+      <section class="section scroll-in"><h2>Reflection</h2><p>這個專案讓我實際掌握了跨平台資料整合的方法——如何透過 Connector 串接不同服務、統一資料格式，並設計出有意義的視覺化呈現。它不只解決了我個人管理時間的痛點，也讓我累積了資料整合與系統串接的實作經驗，為之後更複雜的專案打下基礎。</p></section>
+    </div>
+  </article>
+  <a class="btn back" href="../index.html">Back</a>
+</main>
+</body>
+</html>

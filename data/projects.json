@@ -1,0 +1,429 @@
+[
+  {
+    "key": "dashboard",
+    "title": "My Dashboard",
+    "subtitle": "Analytics · AI Dashboard",
+    "type": "AI · 數據儀表板",
+    "intro": "整合多平台數據的個人儀表板",
+    "background": "資料分散難以掌握時間分配，透過數據鞭策自己",
+    "link": "https://taiwankiss.github.io/wei-dashboard/",
+    "tools": [
+      "dashboard-tool0.webp",
+      "dashboard-tool1.webp",
+      "dashboard-tool2.webp"
+    ],
+    "icon": "dashboard-icon.webp",
+    "blocks": [
+      {
+        "kind": "row",
+        "bg": "#ffffff",
+        "radius": 20,
+        "gap": 20,
+        "pad": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "h": 214,
+        "justify": "CENTER",
+        "items": [
+          {
+            "file": "dashboard-m0.webp",
+            "w": 237,
+            "h": 155
+          },
+          {
+            "file": "dashboard-m1.webp",
+            "w": 198,
+            "h": 155
+          },
+          {
+            "file": "dashboard-m2.webp",
+            "w": 234,
+            "h": 155
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "title": "Problem",
+        "body": "過去在追蹤自己的運動、學習與 AI 使用狀況時，資料分散在 Strava、Claude、Santa 英文等不同平台，每次要檢視進度都得逐一登入比對，既耗時又難以掌握整體趨勢。長期下來容易失去對時間分配的掌控感，也難以及時察覺自己是否又在「蹉跎時間」。"
+      },
+      {
+        "kind": "img",
+        "file": "dashboard-m3.webp",
+        "w": 760,
+        "h": 507
+      },
+      {
+        "kind": "text",
+        "title": "Process",
+        "body": "為了解決這個痛點，我設計並實作了一個整合式儀表板，透過 Connector 串接 Strava（跑步、騎車數據）、Claude（AI 使用時間）與 Santa 英文（學習分析數據），將原本分散的三方資訊統一拉進同一介面。過程中特別著重於：\n研究並串接不同服務的 API／Connector 機制，處理各平台資料格式與更新頻率的差異\n設計清晰的視覺化圖表架構，讓近期數據能一目了然地呈現趨勢與異常\n反覆調整介面配置，確保資訊密度與可讀性的平衡"
+      },
+      {
+        "kind": "img",
+        "file": "dashboard-m4.webp",
+        "w": 760,
+        "h": 388
+      },
+      {
+        "kind": "text",
+        "title": "Result",
+        "body": "完成後的 Dashboard 能即時彙整跑步/騎車里程、AI 使用時數與英文學習進度，並以圖表方式呈現週期性變化。使用者（自己）不再需要切換多個 App 或網頁，單一畫面即可掌握近期的時間分配狀態，大幅降低了追蹤與比對的時間成本。"
+      },
+      {
+        "kind": "text",
+        "title": "Reflection",
+        "body": "這個專案讓我實際掌握了跨平台資料整合的方法——如何透過 Connector 串接不同服務、統一資料格式，並設計出有意義的視覺化呈現。它不只解決了我個人管理時間的痛點，也讓我累積了資料整合與系統串接的實作經驗，為之後更複雜的專案打下基礎。"
+      }
+    ]
+  },
+  {
+    "key": "sport-journey",
+    "title": "Sport Journey",
+    "subtitle": "Outdoor · Trail Record",
+    "type": "AI · 數據整理記錄",
+    "intro": "登山旅程紀錄與分享平台",
+    "background": "詳細記錄與整理數據，提升登山掌握度",
+    "link": "https://sport-journey.pages.dev/#races",
+    "tools": [
+      "sport-journey-tool0.webp",
+      "sport-journey-tool1.webp",
+      "sport-journey-tool2.webp"
+    ],
+    "icon": "sport-journey-icon.webp",
+    "blocks": [
+      {
+        "kind": "row",
+        "bg": "#ffffff",
+        "radius": 20,
+        "gap": 20,
+        "pad": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "h": 249,
+        "justify": "CENTER",
+        "items": [
+          {
+            "file": "sport-journey-m0.webp",
+            "w": 298,
+            "h": 195
+          },
+          {
+            "file": "sport-journey-m1.webp",
+            "w": 249,
+            "h": 194
+          },
+          {
+            "file": "sport-journey-m2.webp",
+            "w": 95,
+            "h": 195
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "title": "Problem",
+        "body": "爬山一直是我的個人興趣，站在山峰俯瞰美景時心情特別開闊，但高海拔與山林環境本身帶有一定的不確定性與危險性，身體狀態也會隨每次行程持續變化。如果沒有詳細記錄每一次登山的路線變化、時程規劃、補給安排、交通方式與氣候狀況，下一次出發時就很難累積經驗、提高掌握度，過去的軌跡也難以回顧與檢視。"
+      },
+      {
+        "kind": "img",
+        "file": "sport-journey-m3.webp",
+        "w": 760,
+        "h": 507
+      },
+      {
+        "kind": "text",
+        "title": "Process",
+        "body": "為了系統化保存這些登山紀錄，我先以 Excel 作為數據後台，將每次行程的路線、時程、補給、交通、氣候等資訊結構化整理。接著將這些原始數據轉換成適合網頁呈現的格式，重新設計頁面排版，讓內容不只是資料表格，而是兼具美觀與高可讀性的呈現方式。最後透過 GitHub 搭配 Cloudflare 將成果發布上線，產生一個可以直接分享給朋友的公開連結。"
+      },
+      {
+        "kind": "img",
+        "file": "sport-journey-m4.webp",
+        "w": 760,
+        "h": 388
+      },
+      {
+        "kind": "text",
+        "title": "Result",
+        "body": "完成後的 Sport Journey 讓每一次登山經驗都能被完整保留下來，路線、時程、補給、交通、氣候等關鍵資訊一目了然，方便自己在規劃下一趟行程時快速回顧過去的軌跡與經驗。同時，公開連結的形式也讓這些登山紀錄能輕鬆分享給朋友，增加交流與參考的價值。"
+      },
+      {
+        "kind": "row",
+        "bg": null,
+        "radius": 0,
+        "gap": 0,
+        "pad": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "h": 507,
+        "justify": "SPACE_BETWEEN",
+        "items": [
+          {
+            "file": "sport-journey-m5.webp",
+            "w": 380,
+            "h": 507
+          },
+          {
+            "file": "sport-journey-m6.webp",
+            "w": 380,
+            "h": 507
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "title": "Reflection",
+        "body": "這個專案讓我體會到，即使是個人興趣的紀錄，只要透過結構化的數據管理與適當的視覺呈現，就能轉化成有實質幫助的規劃工具。從 Excel 數據後台的整理、格式轉換，到最終透過 GitHub + Cloudflare 完成公開發布，我也實際走過一次「資料 → 視覺化 → 部署分享」的完整流程，累積了資料整合與網頁部署的實作能力。"
+      }
+    ]
+  },
+  {
+    "key": "toeic-fc",
+    "title": "TOEIC FC",
+    "subtitle": "English Learning",
+    "type": "AI · 學習工具",
+    "intro": "TOEIC 單字卡複習工具",
+    "background": "善用零碎時間，專注複習還沒背起來的單字",
+    "link": "https://wei-vocabulary.s923446.workers.dev/",
+    "tools": [
+      "toeic-fc-tool0.webp"
+    ],
+    "icon": "toeic-fc-icon.webp",
+    "blocks": [
+      {
+        "kind": "img",
+        "file": "toeic-fc-m0.webp",
+        "w": 760,
+        "h": 347
+      },
+      {
+        "kind": "text",
+        "title": "Problem",
+        "body": "零碎時間的有效運用一直是我想追求的目標，回想國高中通勤搭公車時，手上拿著單字卡背誦就是最經典的做法。這次想以此為題，作為接觸 AI 開發的敲門磚與起始專案；同時也希望藉此提升自己的英文能力，準備 TOEIC 測驗時，若能有一個順手的小工具輔助複習，會很有幫助。"
+      },
+      {
+        "kind": "row",
+        "bg": null,
+        "radius": 0,
+        "gap": 25,
+        "pad": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "h": 484,
+        "justify": "MIN",
+        "items": [
+          {
+            "file": "toeic-fc-m1.webp",
+            "w": 363,
+            "h": 459
+          },
+          {
+            "file": "toeic-fc-m2.webp",
+            "w": 361,
+            "h": 459
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "title": "Process",
+        "body": "我將整體邏輯設計得單純直接：單字只分成「已背起來」與「還沒背起來」兩種狀態。使用者可以點擊進入這兩個清單，重新檢視與複習單字；當還沒背起來的單字之後成功記住時，系統會特別標注，並將其歸類移動到已完成的清單中，讓進度變化清楚可見。"
+      },
+      {
+        "kind": "row",
+        "bg": null,
+        "radius": 0,
+        "gap": 25,
+        "pad": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "h": 484,
+        "justify": "MIN",
+        "items": [
+          {
+            "file": "toeic-fc-m3.webp",
+            "w": 361,
+            "h": 459
+          },
+          {
+            "file": "toeic-fc-m4.webp",
+            "w": 363,
+            "h": 459
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "title": "Result",
+        "body": "完成後的工具讓 TOEIC 單字複習變得更聚焦——不需要在一長串單字表中反覆翻找，只要專注在「還沒背起來」的清單上重複加強記憶，同時能透過標注機制即時看到自己的學習進度累積，善用零碎時間也能持續推進背誦成效。"
+      },
+      {
+        "kind": "text",
+        "title": "Reflection",
+        "body": "作為接觸 AI 開發的第一個專案，這次刻意選擇了一個單純、需求明確的題目，讓我能專注在從 0 到 1 完成一個可用工具的完整流程，而不被複雜邏輯分散注意力。雖然單字卡這類題目很多人做過，但透過親手實作，我更踏實地掌握了 AI 輔助開發的基本節奏與思維方式，也為後續像 My Dashboard、Sport Journey 這類更複雜的專案打下了基礎。"
+      }
+    ]
+  },
+  {
+    "key": "digital-resume",
+    "title": "Digital Resume",
+    "subtitle": "Resume · Motion Visual",
+    "type": "AI · 動態履歷",
+    "intro": "結合動態影像與光效的互動式個人履歷",
+    "background": "讓履歷不只被閱讀，也能被當作作品欣賞",
+    "link": "https://taiwankiss.github.io/resume/",
+    "tools": [
+      "digital-resume-tool0.webp",
+      "digital-resume-tool1.webp"
+    ],
+    "icon": "digital-resume-icon.webp",
+    "blocks": [
+      {
+        "kind": "img",
+        "file": "digital-resume-m0.webp",
+        "w": 760,
+        "h": 312
+      },
+      {
+        "kind": "text",
+        "title": "Problem",
+        "body": "傳統履歷多以純文字條列呈現，雖然資訊完整，卻缺乏個人特色與視覺記憶點。我想讓自己的履歷不只是被「閱讀」，同時也能被當作一件作品來「欣賞」，透過加入動態視覺效果，讓履歷在眾多文字排版的求職文件中更有辨識度。"
+      },
+      {
+        "kind": "row",
+        "bg": null,
+        "radius": 0,
+        "gap": 25,
+        "pad": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "h": 484,
+        "justify": "MIN",
+        "items": [
+          {
+            "file": "digital-resume-m1.webp",
+            "w": 363,
+            "h": 459
+          },
+          {
+            "file": "digital-resume-m2.webp",
+            "w": 363,
+            "h": 459
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "title": "Process",
+        "body": "我先用個人大頭照作為參考，透過 Adobe Firefly 生成頭像動態影片，作為履歷視覺的核心元素。接著採用 vibe coding 的方式，與 Claude Code 持續來回調整排版結構、整體配色，並加入發光、閃爍等動態效果，反覆微調細節直到畫面呈現符合預期的質感與節奏。"
+      },
+      {
+        "kind": "text",
+        "title": "Result",
+        "body": "完成後的 Digital Resume 不再是單純的文字文件，而是結合動態影像與視覺效果的互動式作品，頭像的呼吸感動態與光效讓整體頁面更有生命力，也讓履歷本身多了一層設計作品的展示價值。"
+      },
+      {
+        "kind": "text",
+        "title": "Reflection",
+        "body": "這個小專案讓我體會到，即使是履歷這種看似制式的文件，也能透過 AI 生成素材與 vibe coding 的方式，快速將想法落地成有溫度、有質感的成品。整個過程也讓我更熟悉如何與 Claude Code 溝通、迭代排版與動態效果的細節，這種快速試錯、持續調整的節奏，對日後處理其他視覺化或互動類型的專案都很有幫助。"
+      }
+    ]
+  },
+  {
+    "key": "campaign-page",
+    "title": "Campaign Page",
+    "subtitle": "Scrolling Website",
+    "type": "AI · 活動頁面",
+    "intro": "結合跑步、騎車、爬山的卷動式品牌活動頁",
+    "background": "以動態影片與數據 UI 營造熱血感，引導訓練",
+    "link": "https://train-hard.s923446.workers.dev/",
+    "tools": [
+      "campaign-page-tool0.webp",
+      "campaign-page-tool1.webp",
+      "campaign-page-tool2.webp"
+    ],
+    "icon": "campaign-page-icon.webp",
+    "blocks": [
+      {
+        "kind": "row",
+        "bg": "#171717",
+        "radius": 20,
+        "gap": 20,
+        "pad": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "h": 181,
+        "justify": "CENTER",
+        "items": [
+          {
+            "file": "campaign-page-m0.webp",
+            "w": 216,
+            "h": 142
+          },
+          {
+            "file": "campaign-page-m1.webp",
+            "w": 243,
+            "h": 143
+          },
+          {
+            "file": "campaign-page-m2.webp",
+            "w": 214,
+            "h": 142
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "title": "Problem",
+        "body": "一直很想嘗試卷動式頁面（scrollytelling）的華麗視覺效果，於是把自己本身熱愛的跑步、騎車、爬山三項興趣結合起來，構想成一個品牌活動頁面。目標是透過視覺構圖的一致性與持續進步的數據 UI，讓觀看者在瀏覽過程中感受到熱血感，進而產生想開始訓練的念頭，甚至順勢點進去挑選、購買所需的推薦商品。"
+      },
+      {
+        "kind": "img",
+        "file": "campaign-page-m3.webp",
+        "w": 760,
+        "h": 507
+      },
+      {
+        "kind": "text",
+        "title": "Process",
+        "body": "影片素材的產出則分兩階段：先用 ChatGPT 針對跑步、騎車、爬山三種運動情境生成設定圖，包括攝影機角度、角色配件與場景設定；再透過 Higgsfield 的 Seedance 2.5 model 依據這些設定圖渲染出最終影片。\n\n初期嘗試以「一幀畫面對齊一次滑鼠滾動」的方式做卷動效果，但實測後發現這樣會讓 UI 的呈現效果變差，因此調整為「滑動一次播放一段畫面」的方式，讓動態轉場更流暢自然。"
+      },
+      {
+        "kind": "text",
+        "title": "Result",
+        "body": "完成後的 Campaign Page 呈現出具備一致視覺構圖與熱血氛圍的卷動式活動頁面，三項運動的動態影片搭配持續進步的數據 UI，成功營造出想開始訓練的情緒感受。雖然轉場效果跟原本設想的仍有些落差（且製作到後段 Token 也用盡了），但整體看久了效果也算是可以接受，達成了頁面的核心體驗目標。"
+      },
+      {
+        "kind": "img",
+        "file": "campaign-page-m4.webp",
+        "w": 760,
+        "h": 507
+      },
+      {
+        "kind": "text",
+        "title": "Reflection",
+        "body": "這個專案是一次高強度的多工具整合嘗試——從 ChatGPT 生成設定圖、Higgsfield/Seedance 渲染影片，到卷動邏輯的反覆調整，讓我實際碰到不少「理想效果 vs. 實際限制」的落差（無論是 UI 表現還是資源／Token 的限制）。這個過程讓我更清楚在做視覺化與互動專案時，需要在創意構想與技術／資源限制之間持續拉鋸取得平衡，也是這次嘗試中最寶貴的實作經驗。"
+      }
+    ]
+  }
+]
