@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(ready);
   setTimeout(ready, 300); // rAF is paused in background tabs
 
-  // Project tiles. Desktop: static image, play the loop while hovered.
+  // Project tiles. Desktop: static image until first hover, then play while hovered.
   // Phones (no hover): autoplay every tile, staggered 0.5s apart.
   const canHover = window.matchMedia('(hover: hover)').matches;
   const autoplay = !canHover || window.matchMedia('(max-width: 639px)').matches;
@@ -19,7 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!video.src) video.src = video.dataset.src;
       const play = () => video.play().then(() => tile.classList.add('is-playing'));
       // A play() that races the initial load gets aborted; retry once it can play.
-      play().catch(() => video.addEventListener('canplay', () => play().catch(() => {}), { once: true }));
+      play().catch(() => video.addEventListener('canplay', () => {
+        if (autoplay || tile.matches(':hover')) play().catch(() => {});
+      }, { once: true }));
     };
     if (autoplay) {
       // Load all clips now so the 0.5s stagger isn't skewed by download time.
@@ -29,15 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     tile.addEventListener('mouseenter', start);
-    tile.addEventListener('mouseleave', () => {
-      tile.classList.remove('is-playing');
-      setTimeout(() => {
-        if (!tile.classList.contains('is-playing')) {
-          video.pause();
-          video.currentTime = 0;
-        }
-      }, 500);
-    });
+    // Pause on the current frame; the next hover resumes from there.
+    tile.addEventListener('mouseleave', () => video.pause());
   });
 
   // Toolkit ticker: keep a steady 40px/s whatever the icon size.
