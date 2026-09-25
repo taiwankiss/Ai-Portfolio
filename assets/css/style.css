@@ -342,7 +342,7 @@ a:hover > .arrow svg + svg { transform: none; }
   gap: 20px;
 }
 .panel--meta { width: 280px; flex-shrink: 0; }
-.panel--summary { flex: 1; }
+.panel--summary { flex: 1; gap: 43px; }
 .meta__icon { width: 94px; height: 94px; }
 .meta__text { display: flex; flex-direction: column; gap: 20px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
@@ -389,7 +389,7 @@ a:hover > .arrow svg + svg { transform: none; }
   .content h1 { font-size: 40px; }
   .subtitle { font-size: 14px; }
   .info { flex-direction: column; gap: 12px; }
-  .panel { padding: 20px; gap: 14px; }
+  .panel, .panel--summary { padding: 20px; gap: 14px; }
   .panel--meta { width: auto; flex-direction: row; align-items: center; gap: 30px; }
   .meta__icon { width: 99px; height: 99px; flex-shrink: 0; }
   .meta__text { gap: 12px; }
