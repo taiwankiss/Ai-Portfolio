@@ -2,6 +2,7 @@
 
 Run from the repo root:  python3 tools/build.py
 """
+import hashlib
 import html
 import json
 from pathlib import Path
@@ -24,6 +25,11 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
 e = html.escape
 
 
+def ver(path):
+    """Short content hash so browsers fetch the new file after each update."""
+    return hashlib.md5((ROOT / path).read_bytes()).hexdigest()[:8]
+
+
 def head(title, base, desc):
     return f'''<!doctype html>
 <html lang="zh-Hant">
@@ -38,8 +44,8 @@ def head(title, base, desc):
 <link rel="icon" type="image/png" href="{base}assets/icons/favicon.png">
 <link rel="apple-touch-icon" href="{base}assets/icons/apple-touch-icon.png">
 {FONTS}
-<link rel="stylesheet" href="{base}assets/css/style.css">
-<script src="{base}assets/js/main.js" defer></script>
+<link rel="stylesheet" href="{base}assets/css/style.css?v={ver('assets/css/style.css')}">
+<script src="{base}assets/js/main.js?v={ver('assets/js/main.js')}" defer></script>
 </head>'''
 
 
