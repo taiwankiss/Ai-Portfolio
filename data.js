@@ -38,6 +38,7 @@ window.PROJECTS = [
     link: 'https://taiwankiss.github.io/wei-dashboard/',
     shots: ['dashboard-1', 'dashboard-2'],
     mobile: 'dashboard-m',
+    mshots: ['dashboard-m', 'dashboard-m2', 'dashboard-m3'],
     video: 'dashboard',
   },
   {
@@ -62,6 +63,7 @@ window.PROJECTS = [
     link: 'https://100-peaks.pages.dev/',
     shots: ['peaks-1', 'peaks-3', 'peaks-2', 'peaks-4'],
     mobile: 'peaks-m',
+    mshots: ['peaks-m', 'peaks-m2', 'peaks-m3'],
     video: 'peaks',
   },
   {
@@ -86,6 +88,7 @@ window.PROJECTS = [
     link: 'https://shopping-insight.s923446.workers.dev/',
     shots: ['shopping-1', 'shopping-2', 'shopping-3', 'shopping-4', 'shopping-5'],
     mobile: 'shopping-m',
+    mshots: ['shopping-m', 'shopping-m2', 'shopping-m3'],
     video: 'shopping',
   },
   {
@@ -110,6 +113,7 @@ window.PROJECTS = [
     link: 'https://train-hard.s923446.workers.dev/',
     shots: ['campaign-1', 'campaign-2', 'campaign-3', 'campaign-4'],
     mobile: 'campaign-m',
+    mshots: ['campaign-m', 'campaign-m2', 'campaign-m3'],
     video: 'campaign',
     // recorded without the site's dot texture; the page lays the dots back on in CSS (much smaller files)
     halftone: true,
@@ -139,6 +143,7 @@ window.ABOUT = {
   shot: 'resume-1',
   shots: ['resume-1', 'resume-2'],
   mobile: 'resume-m',
+  mshots: ['resume-m', 'resume-m2', 'resume-m3'],
   video: 'resume',
   showcase: true,
 };
