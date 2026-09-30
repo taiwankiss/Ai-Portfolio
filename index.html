@@ -139,8 +139,8 @@ img,video{display:block}
 .fan .stack{position:relative;width:min(760px,70vw);aspect-ratio:16/10}
 .fan figure{position:absolute;inset:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -20px #000;transition:transform .9s var(--ease);z-index:var(--z);transform:rotate(calc((var(--k) - var(--mid))*3deg)) translateY(calc(var(--k)*-6px))}
 .fan figure img{width:100%;height:100%;object-fit:cover;object-position:top}
-.fan .stack:hover figure{transform:translateX(calc((var(--k) - var(--mid))*34%)) rotate(calc((var(--k) - var(--mid))*6deg)) scale(.7)}
-.fan .stack figure:hover{z-index:50;transform:translateX(calc((var(--k) - var(--mid))*34%)) scale(.82)}
+.fan .stack:hover figure{transform:translateX(calc((var(--k) - var(--mid))*var(--sp))) rotate(calc((var(--k) - var(--mid))*6deg)) scale(.7)}
+.fan .stack figure:hover{z-index:50;transform:translateX(calc((var(--k) - var(--mid))*var(--sp))) scale(.82)}
 .fan .cap{position:absolute;left:6vw;top:110px;font:400 12px var(--mono);color:var(--mute)}
 .show{align-items:center;justify-content:center}
 .show .cap{position:absolute;left:6vw;top:110px;font:400 12px var(--mono);color:var(--mute)}
@@ -318,7 +318,7 @@ function project(key) {
       <div class="nhead in"><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div>
       <div class="g">${p.stats.map(([n, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${n}">${n}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div>
       <div class="nfoot in"><div><span class="k">BUILT WITH</span><div class="chips">${p.tools.map(t => `<span>${t}</span>`).join('')}</div></div><p>${p.one}</p></div></section>
-    <section class="panel fan"><div class="dots"></div><span class="cap">HOVER TO SPREAD · ${shots.length} SCREENS</span><div class="stack in">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
+    <section class="panel fan"><div class="dots"></div><span class="cap">HOVER TO SPREAD · ${shots.length} SCREENS</span><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
     <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
       <small class="in">NEXT PROJECT</small><h2 class="in">${nx.title}</h2>
       <div class="endbtns in"><a class="enter" href="${p.link}" target="_blank" rel="noopener">Go to project ↗</a><a class="nextbtn" href="#/p/${nx.key}"><span>Next project →</span></a></div></section>
