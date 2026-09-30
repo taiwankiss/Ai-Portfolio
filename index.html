@@ -50,7 +50,6 @@ img,video{display:block}
 .pj .brand{display:none}
 .pj .backc{display:grid!important}
 .livepill{position:relative;overflow:hidden;display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:99px;background:color-mix(in srgb,var(--c) 38%,transparent);border:1px solid color-mix(in srgb,var(--c) 60%,#ffffff40);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);color:#fff;font:500 13px/1 var(--sans);white-space:nowrap;box-shadow:inset 0 1px 0 #ffffff30;opacity:0;visibility:hidden;max-width:0;padding:0;border-width:0;margin-left:-22px;transform:translateY(-6px);transition:opacity .6s var(--ease),visibility .6s,transform .6s var(--ease),max-width .6s var(--ease),padding .6s var(--ease),margin .6s var(--ease),background .6s var(--ease)}
-.livepill::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#fff6 50%,transparent 70%);transform:translateX(-100%);animation:shine 2.6s 1s infinite}
 .livepill:hover{background:color-mix(in srgb,var(--c) 60%,transparent)}
 .pj.past .livepill{opacity:1;visibility:visible;transform:none;max-width:200px;padding:0 18px;border-width:1px;margin-left:0}
 
@@ -377,13 +376,12 @@ function project(key) {
   if (mobile) {
     const sio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && lit(lis.indexOf(e.target))), { rootMargin: '-45% 0px -45% 0px' });
     lis.forEach(li => sio.observe(li));
-    const lio = new IntersectionObserver(([e]) => document.body.classList.toggle('past', !e.isIntersecting && e.boundingClientRect.top < 0), { rootMargin: '-60px 0px 0px 0px' });
-    lio.observe($('.cover .enter'));
-    const cv = $('.cover .bgv'); cv.style.transition = 'none'; let pr = 0;
+    const cv = $('.cover .bgv'), cb = $('.cover .enter'); cv.style.transition = 'none'; let pr = 0;
     const par = () => { cancelAnimationFrame(pr); pr = requestAnimationFrame(() => { const y = Math.min(document.body.scrollTop || scrollY, innerHeight * 1.2);
-      cv.style.transform = `translate3d(0,${y * .45}px,0) scale(${1 + y / innerHeight * .35})`; }); };
+      cv.style.transform = `translate3d(0,${y * .45}px,0) scale(${1 + y / innerHeight * .35})`;
+      document.body.classList.toggle('past', cb.getBoundingClientRect().bottom < 64); }); }; // pill shows once the cover button has passed under the header, at any scroll speed
     document.body.addEventListener('scroll', par, { passive: true }); addEventListener('scroll', par, { passive: true }); par();
-    const pc = cleanup; cleanup = () => { pc(); sio.disconnect(); lio.disconnect(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
+    const pc = cleanup; cleanup = () => { pc(); sio.disconnect(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
   }
   if (!mobile) requestAnimationFrame(() => show(0));
   const prev = cleanup;
