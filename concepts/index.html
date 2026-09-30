@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio v2 · 三種方向</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#0b0b0d;--card:#141418;--line:#ffffff17;--txt:#f3f3f5;--mute:#9a9aa5;--ease:cubic-bezier(.2,.8,.1,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:Inter,'Noto Sans TC',sans-serif;-webkit-font-smoothing:antialiased;padding:48px 16px 80px}
+a{color:inherit;text-decoration:none}
+.w{max-width:1240px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+h1{font:800 clamp(34px,5vw,60px)/1 Inter,'Noto Sans TC';letter-spacing:-.04em}
+header p{color:var(--mute);font-size:15px;line-height:1.6;max-width:52ch}
+.mono{font:400 12px 'JetBrains Mono',monospace;color:var(--mute);letter-spacing:.04em}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .5s var(--ease),border-color .3s}
+.c:hover{transform:translateY(-6px);border-color:var(--a)}
+.pv{position:relative;aspect-ratio:16/10;overflow:hidden;background:#000}
+.pv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;transition:opacity .6s,transform 1s var(--ease)}
+.pv img+img{opacity:0}
+.c:hover .pv img+img{opacity:1}
+.c:hover .pv img{transform:scale(1.03)}
+.pv span{position:absolute;right:10px;bottom:10px;z-index:2;font:400 11px 'JetBrains Mono';background:#000b;padding:5px 8px;border-radius:7px}
+.bd{padding:22px;display:flex;flex-direction:column;gap:14px;flex:1}
+.bd h2{font:700 26px/1.1 Inter;letter-spacing:-.03em;display:flex;align-items:center;gap:10px}
+.bd h2 i{font-style:normal;width:30px;height:30px;border-radius:9px;background:var(--a);color:#111;display:grid;place-items:center;font-size:15px}
+.bd .vibe{color:#d4d4da;font-size:15px;line-height:1.55}
+.bd h3{font:400 11px 'JetBrains Mono';color:var(--a);letter-spacing:.08em;margin-top:4px}
+.bd ul{list-style:none;display:flex;flex-direction:column;gap:7px;font-size:14px;line-height:1.45;color:#c9c9d1}
+.bd li{padding-left:16px;position:relative}
+.bd li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--a)}
+.links{display:flex;gap:8px;margin-top:auto;padding-top:8px;flex-wrap:wrap}
+.links a{font:500 14px Inter;padding:11px 16px;border-radius:99px;border:1px solid var(--line);transition:.3s var(--ease)}
+.links a:first-child{background:var(--a);color:#111;border-color:transparent}
+.links a:hover{transform:translateY(-2px)}
+table{width:100%;border-collapse:collapse;margin-top:40px;font-size:14px}
+th,td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:400 11px 'JetBrains Mono';color:var(--mute);letter-spacing:.06em}
+td:first-child{color:var(--mute);white-space:nowrap}
+.note{margin-top:40px;padding:22px;border:1px dashed var(--line);border-radius:18px;color:#c9c9d1;font-size:14px;line-height:1.7}
+.note b{color:var(--txt)}
+.tw{overflow-x:auto}
+@media (max-width:960px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="w">
+  <header>
+    <div><div class="mono">WEI'S AI PORTFOLIO · V2 CONCEPTS</div><h1 style="margin-top:12px">三種視覺方向</h1></div>
+    <p>每個方向都包含「主頁 + 專案頁」，可以直接點進去玩。內容一律使用各網站 2026/09/30 的最新截圖與錄影；Sport Journey 已換成 100 Peaks，Digital Resume 改為 About me 卡片直連履歷。</p>
+  </header>
+
+  <div class="grid">
+    <article class="c" style="--a:#ff5b1f">
+      <a class="pv" href="a-index.html"><img src="../media/prev-a-home.webp" alt=""><img src="../media/prev-a-pj.webp" alt=""><span>hover → 專案頁</span></a>
+      <div class="bd">
+        <h2><i>A</i>Kinetic Index</h2>
+        <p class="vibe">米白紙感、雜誌編排。超大字級的專案清單就是主視覺，影片跟著滑鼠浮出來。</p>
+        <h3>MICRO-INTERACTIONS</h3>
+        <ul><li>標題上下翻轉成斜體、整列用專案色填滿</li><li>游標跟隨的影片預覽（慣性 + 依速度傾斜）</li><li>分類篩選、磁吸按鈕、數字 count-up</li><li>專案頁：影片開場展開、直向捲動 → 橫向圖庫</li></ul>
+        <div class="links"><a href="a-index.html">主頁 →</a><a href="a-index.html#/p/peaks">專案頁</a></div>
+      </div>
+    </article>
+
+    <article class="c" style="--a:#9b8cff">
+      <a class="pv" href="b-bento.html"><img src="../media/prev-b-home.webp" alt=""><img src="../media/prev-b-pj.webp" alt=""><span>hover → 專案頁</span></a>
+      <div class="bd">
+        <h2><i>B</i>Bento OS</h2>
+        <p class="vibe">現版 Bento 的進化版。深色玻璃質感，像一個作業系統的桌面，資訊密度最高、最好擴充。</p>
+        <h3>MICRO-INTERACTIONS</h3>
+        <ul><li>游標光暈 + 邊框發光、卡片 3D 傾斜</li><li>hover 播放專案影片、篩選時卡片 FLIP 重排</li><li>⌘K 指令面板快速跳專案</li><li>專案頁：卡片圖片變形成主影片（View Transition）、可拖曳圖庫</li></ul>
+        <div class="links"><a href="b-bento.html">主頁 →</a><a href="b-bento.html#/p/dashboard">專案頁</a></div>
+      </div>
+    </article>
+
+    <article class="c" style="--a:#ff8a3d">
+      <a class="pv" href="../index.html"><img src="../media/prev-c-home.webp" alt=""><img src="../media/prev-c-pj.webp" alt=""><span>hover → 專案頁</span></a>
+      <div class="bd">
+        <h2><i>C</i>Cinematic Orbit</h2>
+        <p class="vibe">全螢幕、電影感。專案排成 3D 環狀輪播，背景是模糊的專案影片，一次只看一個。</p>
+        <h3>MICRO-INTERACTIONS</h3>
+        <ul><li>拖曳 / 滾輪 / 方向鍵轉動 3D 環</li><li>標題亂碼解碼動畫、底部時間軸 scrubber</li><li>專案頁：5 個章節橫向切換，數字圓環填滿</li><li>截圖扇形展開、長按圓鈕前往下一個專案</li></ul>
+        <div class="links"><a href="../index.html">主頁 →</a><a href="../index.html#/p/campaign">專案頁</a></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="tw"><table>
+    <tr><th></th><th>A · KINETIC INDEX</th><th>B · BENTO OS</th><th>C · CINEMATIC ORBIT</th></tr>
+    <tr><td>第一印象</td><td>設計師品味、排版感</td><td>科技感、資訊豐富</td><td>最有 motion graphic 衝擊力</td></tr>
+    <tr><td>專案頁文字量</td><td>1 句 + 3 行步驟 + 3 個數字</td><td>同左，切成小卡</td><td>同左，一章一件事</td></tr>
+    <tr><td>專案變多時</td><td>★★★ 清單直接往下長，20 個也可以</td><td>★★★ 自動排版，加分類也不亂</td><td>★★ 環會自動變大，建議 12 個以內</td></tr>
+    <tr><td>手機體驗</td><td>變成影片卡片清單</td><td>單欄卡片</td><td>環縮小，專案頁改直向</td></tr>
+    <tr><td>風險</td><td>淺色和專案的暗色截圖反差大</td><td>跟現版差異感較小</td><td>較重，需要控制影片大小</td></tr>
+  </table></div>
+
+  <p class="note"><b>三個方向共用同一份資料 <code>data.js</code>。</b>新增專案時只要多加一筆（標題、一句話、三行步驟、三個數字、截圖、影片），三種版型都會自動排好，不用再寫長篇文案。選定方向後，我會把它接到現有的 <code>build.py</code> 流程，產出可以靜態部署的正式站。</p>
+</div>
+</body>
+</html>

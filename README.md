@@ -1,26 +1,32 @@
-# Wei’s AI Portfolio
+# Ai Work — Wei's AI Portfolio
 
-Bento-style portfolio for Wei’s AI projects. Plain HTML, CSS and JS — no build step needed to host it.
+Cinematic portfolio for Wei's AI projects: a 3D orbit of project cards on the home page, and a five-chapter deck for each project. Plain HTML, CSS and JS — no build step.
 
 ## Editing content
 
-Text and links live in two files:
+Everything lives in `data.js`:
 
-- `data/site.json` — home page copy, card order, toolkit icons, social links
-- `data/projects.json` — each project page (title, summary, sections, images, project link)
+- `PROJECTS` — one object per project (title, one-line intro, three steps, three stats, tools, link, screenshots, videos)
+- `ABOUT` — the About me page (`showcase: true` adds the desktop + mobile résumé chapter)
 
-After editing, regenerate the pages:
+To add a project, append one object to `PROJECTS`; the orbit and project page lay themselves out.
 
-```bash
-python3 tools/build.py
-```
+Media goes in `media/`, named after the project key:
 
-The email address used by the Email buttons is set at the top of `assets/js/main.js`.
+- `<key>-1.webp`, `<key>-2.webp`… — desktop screenshots (2× capture)
+- `<key>-m.webp` — mobile screenshot (used on phones)
+- `<key>.mp4`, `<key>-m.mp4` — desktop and mobile screen recordings
+- `halftone: true` — for sites recorded without their dot texture; the page adds the dots in CSS
 
 ## Preview locally
 
 ```bash
-python3 -m http.server 4173
+python3 -m http.server 4174
 ```
 
-Then open http://localhost:4173.
+Then open http://localhost:4174.
+
+## Other folders
+
+- `v1/` — the previous bento-style site (built with `python3 v1/tools/build.py`)
+- `concepts/` — the other two v2 design directions (Kinetic Index, Bento OS)

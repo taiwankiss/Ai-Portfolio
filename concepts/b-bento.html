@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B · Bento OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#07070a; --tile:#111116; --tile2:#16161c; --line:#ffffff14; --txt:#f4f4f6; --mute:#8b8b96;
+  --acc:#ff7a2f;
+  --sans:'Geist','Noto Sans TC',system-ui,sans-serif; --mono:'Geist Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.2,.8,.1,1); --r:22px; --gap:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,video{display:block;max-width:100%}
+body::before{content:'';position:fixed;inset:-20%;z-index:-1;background:radial-gradient(40% 30% at var(--gx,20%) var(--gy,10%),#ff7a2f22,transparent 70%),radial-gradient(35% 35% at 85% 80%,#6a5cff1f,transparent 70%);transition:background .8s}
+
+.shell{max-width:1320px;margin:0 auto;padding:16px}
+.top{display:flex;align-items:center;gap:10px;padding:6px 4px 16px;position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:linear-gradient(#07070acc,#07070a00)}
+.top img{width:32px;height:32px;border-radius:9px}
+.top b{font:600 15px var(--sans)}
+.seg{display:flex;gap:2px;padding:4px;background:var(--tile);border:1px solid var(--line);border-radius:99px;margin-left:auto;position:relative}
+.seg button{position:relative;z-index:1;font:500 13px var(--sans);padding:8px 14px;border-radius:99px;color:var(--mute);transition:color .3s}
+.seg button[aria-pressed=true]{color:#111}
+.seg i{position:absolute;top:4px;bottom:4px;border-radius:99px;background:var(--txt);transition:left .45s var(--ease),width .45s var(--ease)}
+.kbd{display:flex;align-items:center;gap:8px;font:500 13px var(--sans);color:var(--mute);padding:9px 12px;border:1px solid var(--line);border-radius:99px;background:var(--tile)}
+.kbd kbd{font:500 11px var(--mono);border:1px solid var(--line);border-radius:6px;padding:2px 6px}
+
+/* bento grid */
+.grid{display:grid;grid-auto-flow:dense;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(92px,auto);gap:var(--gap)}
+.t{position:relative;background:var(--tile);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;isolation:isolate;transform-style:preserve-3d;transition:transform .5s var(--ease),border-color .3s;--mx:50%;--my:50%}
+.t::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(420px circle at var(--mx) var(--my),#ffffff12,transparent 45%);opacity:0;transition:opacity .4s;z-index:3}
+.t::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:radial-gradient(260px circle at var(--mx) var(--my),var(--c,#fff),transparent 60%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .4s;z-index:4;pointer-events:none}
+.t:hover::after,.t:hover::before{opacity:1}
+.lbl{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+
+.hero{grid-column:span 7;grid-row:span 4;padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:420px}
+.hero .mesh{position:absolute;inset:0;z-index:-1;background:conic-gradient(from var(--a,0deg) at 70% 40%,#ff7a2f33,#6a5cff33,#3ee6d022,#ff7a2f33);filter:blur(60px);animation:spin 14s linear infinite;opacity:.8}
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes spin{to{--a:360deg}}
+.hero h1{font:700 clamp(48px,6.4vw,92px)/.95 var(--sans);letter-spacing:-.045em}
+.hero h1 .w{display:inline-block;background:linear-gradient(90deg,#ff7a2f,#ffc36b,#ff7a2f);background-size:200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 4s linear infinite}
+@keyframes sh{to{background-position:200%}}
+.hero p{font:400 17px/1.6 var(--sans);color:#c9c9d1;max-width:30ch;margin-top:16px}
+.hero .row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.live{display:flex;gap:18px;font:500 12px var(--mono);color:var(--mute)}
+.live b{display:block;font:500 22px var(--mono);color:var(--txt);margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 14px var(--sans);padding:12px 18px;border-radius:99px;background:var(--txt);color:#111;transition:transform .3s var(--ease),box-shadow .3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--c,#fff)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+
+.p{grid-column:span 5;grid-row:span 4;cursor:pointer;display:flex;flex-direction:column}
+.p.w7{grid-column:span 7}.p.w5{grid-column:span 5}.p.w4{grid-column:span 4}.p.w6{grid-column:span 6}
+.p .media{position:relative;flex:1;min-height:220px;margin:8px 8px 0;border-radius:16px;overflow:hidden;background:#000}
+.p .media img,.p .media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease),opacity .5s}
+.p .media video{opacity:0}
+.p:hover .media video{opacity:1}
+.p:hover .media img{transform:scale(1.05)}
+.p .media .yr{position:absolute;top:12px;left:12px;font:500 11px var(--mono);background:#000a;backdrop-filter:blur(8px);padding:5px 8px;border-radius:8px;z-index:2}
+.p .meta{display:flex;align-items:center;gap:14px;padding:16px 18px 18px}
+.p .meta h3{font:600 20px var(--sans);letter-spacing:-.02em}
+.p .meta p{font:400 13px var(--sans);color:var(--mute);margin-top:3px}
+.p .go{margin-left:auto;flex:0 0 auto;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--tile2);border:1px solid var(--line);transition:.45s var(--ease)}
+.p:hover .go{background:var(--c);color:#111;transform:rotate(-45deg);border-color:transparent}
+.p .dot{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c);flex:0 0 auto}
+
+.about{grid-column:span 5;grid-row:span 2;display:flex;align-items:center;gap:18px;padding:18px}
+.about img{width:130px;height:92px;object-fit:cover;object-position:left top;border-radius:12px;flex:0 0 auto;transition:transform .6s var(--ease)}
+.about:hover img{transform:scale(1.06) rotate(-2deg)}
+.about h3{font:600 20px var(--sans)}
+.about p{font:400 13px/1.5 var(--sans);color:var(--mute);margin-top:4px}
+.about .go{margin-left:auto}
+
+.tools{grid-column:span 4;grid-row:span 2;padding:18px;overflow:hidden}
+.tools .rail{display:flex;gap:8px;margin-top:14px;width:max-content;animation:mq 22s linear infinite}
+.tools .rail+.rail{animation-direction:reverse;margin-top:8px}
+.tools span{font:500 13px var(--sans);padding:9px 13px;border-radius:12px;background:var(--tile2);border:1px solid var(--line);white-space:nowrap}
+@keyframes mq{to{transform:translateX(-50%)}}
+.num{grid-column:span 3;grid-row:span 2;padding:18px;display:flex;flex-direction:column;justify-content:space-between}
+.num b{font:700 56px/1 var(--sans);letter-spacing:-.04em}
+.contact{grid-column:span 5;grid-row:span 2;padding:20px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,#ff7a2f,#ff5b8a);color:#111;--c:#fff}
+.contact h3{font:700 30px/1.05 var(--sans);letter-spacing:-.03em}
+.contact .btn{background:#111;color:#fff;align-self:flex-start}
+.soon{grid-column:span 12;grid-row:span 1;border-style:dashed;display:grid;place-items:center;text-align:center;color:var(--mute);padding:18px}
+.soon>div{display:flex;align-items:center;gap:14px}.soon b{display:block;font:300 36px/1 var(--sans);color:var(--txt);transition:transform .6s var(--ease)}
+.soon:hover b{transform:rotate(90deg)}
+.socials{grid-column:span 5;grid-row:span 2;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px;background:transparent;border:0}
+.socials a{display:grid;place-items:center;border-radius:16px;background:var(--tile);border:1px solid var(--line);font:500 12px var(--mono);color:var(--mute);transition:.3s var(--ease)}
+.socials a:hover{color:var(--txt);background:var(--tile2);transform:translateY(-2px)}
+.t.gone{display:none}
+.enter{animation:pop .7s var(--ease) both;animation-delay:calc(var(--i,0)*60ms)}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.97)}}
+
+/* ⌘K */
+.cmd{position:fixed;inset:0;z-index:80;background:#0008;backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding-top:16vh}
+.cmd.on{display:flex}
+.cmd__box{width:min(560px,92vw);background:#16161cf2;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 40px 100px -20px #000;animation:pop .35s var(--ease)}
+.cmd input{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);padding:18px 20px;font:500 17px var(--sans);color:var(--txt);outline:0}
+.cmd ul{list-style:none;padding:8px;max-height:50vh;overflow:auto}
+.cmd li a{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;font:500 15px var(--sans)}
+.cmd li a small{margin-left:auto;font:500 11px var(--mono);color:var(--mute)}
+.cmd li a.sel{background:var(--tile2)}
+
+/* project page */
+.pg{grid-template-columns:repeat(12,1fr)}
+.pg .vid{grid-column:span 8;grid-row:span 5;padding:8px}
+.pg .vid .frame{position:relative;height:100%;min-height:420px;border-radius:16px;overflow:hidden;background:#000}
+.pg .vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pg .vid .ctrl{position:absolute;left:14px;bottom:14px;display:flex;gap:8px;z-index:2}
+.pg .vid .ctrl button{font:500 12px var(--mono);background:#000a;backdrop-filter:blur(8px);padding:7px 11px;border-radius:9px}
+.pg .ttl{grid-column:span 4;grid-row:span 5;padding:24px;display:flex;flex-direction:column;gap:18px}
+.pg .ttl h1{font:700 clamp(40px,4.4vw,64px)/.95 var(--sans);letter-spacing:-.045em}
+.pg .ttl .one{font:400 18px/1.55 var(--sans);color:#d4d4dc}
+.pg .ttl .chips{display:flex;flex-wrap:wrap;gap:6px}
+.pg .ttl .chips span{font:500 12px var(--mono);padding:6px 10px;border-radius:9px;background:var(--tile2);border:1px solid var(--line);color:var(--mute)}
+.pg .ttl .cta{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+.pg .ttl .btn{background:var(--c)}
+.step{grid-column:span 4;grid-row:span 2;padding:20px;display:flex;flex-direction:column;justify-content:space-between}
+.step .n{font:500 11px var(--mono);color:var(--c)}
+.step p{font:600 22px/1.3 var(--sans);letter-spacing:-.02em}
+.step .bar{height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+.step .bar i{display:block;height:100%;background:var(--c);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease)}
+.step.in .bar i{transform:scaleX(1)}
+.stat{grid-column:span 3;grid-row:span 2;padding:20px;display:flex;flex-direction:column;justify-content:space-between}
+.stat b{font:700 clamp(40px,4.4vw,60px)/1 var(--sans);letter-spacing:-.04em}
+.mob{grid-column:span 3;grid-row:span 4;padding:8px;display:grid;place-items:center;background:radial-gradient(circle at 50% 30%,color-mix(in srgb,var(--c) 30%,transparent),var(--tile) 70%)}
+.mob img{width:62%;border-radius:18px;border:4px solid #000;box-shadow:0 30px 60px -20px #000;transition:transform .8s var(--ease)}
+.mob:hover img{transform:translateY(-8px) rotate(-3deg)}
+.gal{grid-column:span 9;grid-row:span 4;padding:8px;display:flex;flex-direction:column}
+.gal .strip{flex:1;display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;cursor:grab;scrollbar-width:none;border-radius:16px}
+.gal .strip::-webkit-scrollbar{display:none}
+.gal .strip.drag{cursor:grabbing;scroll-snap-type:none}
+.gal figure{flex:0 0 78%;scroll-snap-align:start;border-radius:16px;overflow:hidden;background:#000}
+.gal img{width:100%;height:100%;object-fit:cover;object-position:top;pointer-events:none}
+.gal .dots{display:flex;gap:6px;justify-content:center;padding:10px}
+.gal .dots i{width:6px;height:6px;border-radius:99px;background:var(--line);transition:width .4s var(--ease),background .4s}
+.gal .dots i.on{width:22px;background:var(--c)}
+.nxt{grid-column:span 12;grid-row:span 2;padding:24px;display:flex;align-items:center;gap:20px;cursor:pointer}
+.nxt h2{font:700 clamp(32px,4vw,56px)/1 var(--sans);letter-spacing:-.04em}
+.nxt img{width:180px;height:100px;object-fit:cover;border-radius:12px;margin-left:auto;transition:transform .6s var(--ease)}
+.nxt:hover img{transform:scale(1.08) rotate(2deg)}
+.back{display:inline-flex;gap:8px;align-items:center;font:500 13px var(--sans);color:var(--mute);padding:9px 12px;border:1px solid var(--line);border-radius:99px;background:var(--tile)}
+.back:hover{color:var(--txt)}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,calc(100% + 50px));background:var(--txt);color:#111;font:500 13px var(--sans);padding:12px 18px;border-radius:99px;transition:transform .5s var(--ease);z-index:90}
+.toast.on{transform:translate(-50%,0)}
+
+@media (max-width:980px){
+  .grid{grid-template-columns:repeat(6,1fr)}
+  .hero,.p,.p.w7,.p.w5,.p.w4,.p.w6,.about,.contact,.pg .vid,.pg .ttl,.gal,.nxt{grid-column:span 6}
+  .tools,.soon,.num,.socials,.step,.stat,.mob{grid-column:span 3}
+  .pg .vid,.pg .ttl{grid-row:auto}
+  .pg .vid .frame{min-height:260px;aspect-ratio:16/10}
+}
+@media (max-width:620px){
+  .grid{grid-template-columns:1fr 1fr;--gap:10px}
+  .hero,.p,.p.w7,.p.w5,.p.w4,.p.w6,.about,.contact,.tools,.soon,.pg .vid,.pg .ttl,.gal,.nxt,.step{grid-column:span 2}
+  .num,.socials,.stat,.mob{grid-column:span 1}
+  .stat:last-of-type{grid-column:span 2}
+  .hero{min-height:auto;gap:40px}
+  .kbd span{display:none}
+  .seg{display:none}
+  .about img{width:90px;height:70px}
+  .nxt img{display:none}
+  .gal figure{flex-basis:92%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <a href="#/" style="display:flex;gap:10px;align-items:center"><img src="../media/logo.webp" alt=""><b>Wei</b></a>
+    <div class="seg" id="seg"></div>
+    <button class="kbd" id="openCmd"><span>Search</span><kbd>⌘K</kbd></button>
+  </header>
+  <main id="app"></main>
+</div>
+<div class="cmd" id="cmd"><div class="cmd__box"><input id="q" placeholder="跳到專案…" autocomplete="off"><ul id="res"></ul></div></div>
+<div class="toast" id="toast">已複製 Email</div>
+
+<script src="../data.js"></script>
+<script>
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const app = $('#app'), M = n => `../media/${n}`;
+const arrow = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M8 7h9v9"/></svg>`;
+// layout recipe: widths cycle so any number of projects still tiles cleanly
+const WIDTHS = ['w5', 'w6', 'w6', 'w7', 'w5'];
+let filter = 'All';
+
+function seg() {
+  const tags = ['All', ...new Set(PROJECTS.map(p => p.tag))];
+  $('#seg').innerHTML = tags.map(t => `<button data-f="${t}" aria-pressed="${t === filter}">${t}</button>`).join('') + '<i></i>';
+  const move = () => { const b = $('#seg [aria-pressed=true]'), i = $('#seg i'); i.style.left = b.offsetLeft + 'px'; i.style.width = b.offsetWidth + 'px'; };
+  $$('#seg button').forEach(b => b.onclick = () => {
+    if (location.hash.startsWith('#/p/')) location.hash = '#/';
+    filter = b.dataset.f; $$('#seg button').forEach(x => x.setAttribute('aria-pressed', x === b)); move(); applyFilter();
+  });
+  requestAnimationFrame(move);
+}
+
+function applyFilter() {
+  // FLIP: record, toggle, animate from old position
+  const tiles = $$('.grid .t'), first = new Map(tiles.map(t => [t, t.getBoundingClientRect()]));
+  tiles.forEach(t => { if (t.dataset.tag) t.classList.toggle('gone', filter !== 'All' && t.dataset.tag !== filter); });
+  tiles.forEach(t => {
+    if (t.classList.contains('gone')) return;
+    const a = first.get(t), b = t.getBoundingClientRect();
+    if (!a.width) { t.animate([{ opacity: 0, transform: 'scale(.9)' }, { opacity: 1, transform: 'none' }], { duration: 500, easing: 'cubic-bezier(.2,.8,.1,1)' }); return; }
+    t.animate([{ transform: `translate(${a.left - b.left}px,${a.top - b.top}px) scale(${a.width / b.width},${a.height / b.height})` }, { transform: 'none' }], { duration: 600, easing: 'cubic-bezier(.2,.8,.1,1)' });
+  });
+}
+
+function home() {
+  const tiles = PROJECTS.map((p, i) => `
+    <a class="t p ${WIDTHS[i % WIDTHS.length]} enter" style="--c:${p.color};--i:${i + 1}" href="#/p/${p.key}" data-tag="${p.tag}" data-key="${p.key}">
+      <div class="media"><span class="yr">${String(i + 1).padStart(2, '0')} · ${p.tag}</span>
+        <img src="${M(p.shots[0])}.webp" alt="" loading="lazy" style="view-transition-name:m-${p.key}">
+        <video muted loop playsinline preload="none" data-src="${M(p.video)}.mp4"></video></div>
+      <div class="meta"><span class="dot"></span><div><h3>${p.title}</h3><p>${p.one}</p></div><span class="go">${arrow}</span></div>
+    </a>`);
+    app.innerHTML = `<div class="grid" id="grid">
+    <section class="t hero enter" style="--c:#ff7a2f">
+      <div class="mesh"></div>
+      <span class="lbl">${SITE.kicker}</span>
+      <div><h1>Hi, this is<br><span class="w">Wei.</span></h1><p>${SITE.intro} 這裡是我的 AI 專案實驗室。</p></div>
+      <div class="row">
+        <div class="live"><div>TAIPEI<b id="clock">--:--</b></div><div>PROJECTS<b>${String(PROJECTS.length).padStart(2, '0')}</b></div><div>STATUS<b style="color:#4ade80">● Open</b></div></div>
+        <button class="btn" data-copy>Email me ${arrow}</button>
+      </div>
+    </section>
+    ${tiles[0] || ''}
+    <a class="t about enter" style="--c:${ABOUT.color};--i:2" href="${ABOUT.link}" target="_blank" rel="noopener" data-tag="About">
+      <img src="${M(ABOUT.shot)}.webp" alt="">
+      <div><span class="lbl">About me ↗</span><h3>${ABOUT.sub}</h3><p>${ABOUT.one}</p></div>
+    </a>
+    <section class="t tools enter" style="--i:3"><span class="lbl">Toolkit</span>
+      <div class="rail">${[...SITE.toolkit, ...SITE.toolkit].map(t => `<span>${t}</span>`).join('')}</div>
+      <div class="rail">${[...SITE.toolkit].reverse().concat([...SITE.toolkit].reverse()).map(t => `<span>${t}</span>`).join('')}</div></section>
+    <section class="t num enter" style="--i:4"><span class="lbl">Shipped in 2026</span><b data-count="${PROJECTS.length}">${PROJECTS.length}</b><span class="lbl">live projects</span></section>
+    ${tiles.slice(1).join('')}
+    <a class="t soon enter" style="--i:9" href="#" onclick="return false"><div><b>+</b><span class="lbl">Next project loading…</span></div></a>
+    <section class="t contact enter" style="--i:10"><h3>有想合作的<br>專案嗎？</h3><button class="btn" data-copy>Copy email ${arrow}</button></section>
+    <nav class="t socials enter" style="--i:11">${SITE.socials.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</nav>
+  </div>`;
+  $$('.p').forEach(t => {
+    const v = $('video', t);
+    t.addEventListener('mouseenter', () => { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); });
+    t.addEventListener('mouseleave', () => v.pause());
+    // morph the clicked card's image into the project hero
+    t.addEventListener('click', () => $$('.p img').forEach(i => i.style.viewTransitionName = i.closest('.p') === t ? 'hero' : 'none'));
+  });
+  if (matchMedia('(hover:none)').matches) {
+    const io = new IntersectionObserver(es => es.forEach(e => { const v = $('video', e.target); if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.style.opacity = 1; v.play().catch(() => {}); } else v.pause(); }), { threshold: .6 });
+    $$('.p').forEach(t => io.observe(t));
+  }
+  applyFilter();
+}
+
+function project(key) {
+  const i = PROJECTS.findIndex(p => p.key === key), p = PROJECTS[i];
+  if (!p) return home();
+  const nx = PROJECTS[(i + 1) % PROJECTS.length];
+  const shots = [...p.shots];
+  app.innerHTML = `<div class="grid pg" style="--c:${p.color}">
+    <section class="t vid enter" style="--c:${p.color}"><div class="frame">
+      <video src="${M(p.video)}.mp4" poster="${M(p.shots[0])}.webp" muted loop playsinline autoplay style="view-transition-name:hero"></video>
+      <div class="ctrl"><button id="pp">❚❚ Pause</button><button id="snd" onclick="window.open('${p.link}')">Live ↗</button></div></div></section>
+    <section class="t ttl enter" style="--i:1">
+      <a class="back" href="#/">← All projects</a>
+      <span class="lbl">${String(i + 1).padStart(2, '0')} · ${p.tag} · ${p.year}</span>
+      <h1>${p.title}</h1>
+      <p class="one">${p.one}</p>
+      <div class="chips">${p.tools.map(t => `<span>${t}</span>`).join('')}</div>
+      <div class="cta"><a class="btn" href="${p.link}" target="_blank" rel="noopener">Open live site ${arrow}</a></div>
+    </section>
+    ${p.steps.map(([h, t], k) => `<section class="t step enter" style="--i:${k + 2}"><span class="n">0${k + 1} — ${h}</span><p>${t}</p><div class="bar"><i style="transition-delay:${k * 200 + 300}ms"></i></div></section>`).join('')}
+    ${p.stats.map(([n, l], k) => `<section class="t stat enter" style="--i:${k + 5}"><span class="lbl">${l}</span><b data-count="${n}">${n}</b></section>`).join('')}
+    <section class="t mob enter" style="--i:8"><img src="${M(p.mobile)}.webp" alt="${p.title} mobile"></section>
+    <section class="t gal enter" style="--i:9"><div class="strip" id="strip">${shots.map(s => `<figure><img src="${M(s)}.webp" alt="" loading="lazy"></figure>`).join('')}</div><div class="dots">${shots.map((_, k) => `<i class="${k ? '' : 'on'}"></i>`).join('')}</div></section>
+    <a class="t nxt enter" href="#/p/${nx.key}" style="--c:${nx.color};--i:10"><div><span class="lbl">Next →</span><h2>${nx.title}</h2></div><img src="${M(nx.shots[0])}.webp" alt=""></a>
+  </div>`;
+  const v = $('.vid video'); $('#pp').onclick = e => { v.paused ? v.play() : v.pause(); e.target.textContent = v.paused ? '▶ Play' : '❚❚ Pause'; };
+  // drag-to-scroll gallery
+  const s = $('#strip'); let down = false, sx = 0, sl = 0;
+  s.onpointerdown = e => { down = true; sx = e.clientX; sl = s.scrollLeft; s.classList.add('drag'); s.setPointerCapture(e.pointerId); };
+  s.onpointermove = e => { if (down) s.scrollLeft = sl - (e.clientX - sx); };
+  s.onpointerup = () => { down = false; s.classList.remove('drag'); };
+  s.onscroll = () => { const k = Math.round(s.scrollLeft / (s.scrollWidth - s.clientWidth || 1) * (shots.length - 1)); $$('.gal .dots i').forEach((d, j) => d.classList.toggle('on', j === k)); };
+  setTimeout(() => $$('.step').forEach(x => x.classList.add('in')), 200);
+  countUp();
+}
+
+/* spotlight + tilt on every tile */
+document.addEventListener('pointermove', e => {
+  const t = e.target.closest?.('.t'); document.body.style.setProperty('--gx', e.clientX / innerWidth * 100 + '%'); document.body.style.setProperty('--gy', e.clientY / innerHeight * 100 + '%');
+  if (!t) return;
+  const r = t.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  t.style.setProperty('--mx', x + 'px'); t.style.setProperty('--my', y + 'px');
+  if (t.classList.contains('p') || t.classList.contains('nxt')) t.style.transform = `perspective(900px) rotateX(${(y / r.height - .5) * -5}deg) rotateY(${(x / r.width - .5) * 6}deg)`;
+});
+document.addEventListener('pointerout', e => { const t = e.target.closest?.('.t'); if (t && !t.contains(e.relatedTarget)) t.style.transform = ''; });
+
+function countUp() {
+  $$('[data-count]').forEach(el => {
+    const raw = el.dataset.count, n = parseFloat(raw.replace(/,/g, '')); if (isNaN(n)) return;
+    const dec = (raw.split('.')[1] || '').length, suf = raw.replace(/[\d.,]/g, ''), t0 = performance.now();
+    const tick = t => { const k = Math.min(1, (t - t0) / 1300), v = n * (1 - Math.pow(1 - k, 4)); el.textContent = v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf; if (k < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  });
+}
+
+/* command palette */
+const cmd = $('#cmd'), q = $('#q'), res = $('#res'); let sel = 0;
+const items = () => [...PROJECTS.map(p => ({ t: p.title, s: p.tag, h: `#/p/${p.key}`, c: p.color })), { t: 'About me', s: 'resume ↗', h: ABOUT.link, c: ABOUT.color, ext: 1 }, { t: 'Copy email', s: 'action', h: '#copy', c: '#fff' }];
+function renderCmd() {
+  const k = q.value.toLowerCase(), list = items().filter(i => (i.t + i.s).toLowerCase().includes(k)); sel = Math.min(sel, list.length - 1);
+  res.innerHTML = list.map((i, j) => `<li><a href="${i.h}" class="${j === sel ? 'sel' : ''}" ${i.ext ? 'target="_blank"' : ''}><span style="width:8px;height:8px;border-radius:50%;background:${i.c}"></span>${i.t}<small>${i.s}</small></a></li>`).join('');
+}
+const openCmd = () => { cmd.classList.add('on'); q.value = ''; sel = 0; renderCmd(); q.focus(); };
+$('#openCmd').onclick = openCmd;
+cmd.onclick = e => { if (e.target === cmd || e.target.closest('a')) { cmd.classList.remove('on'); if (e.target.closest('a[href="#copy"]')) { e.preventDefault(); copy(); } } };
+q.oninput = renderCmd;
+addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); cmd.classList.contains('on') ? cmd.classList.remove('on') : openCmd(); }
+  if (!cmd.classList.contains('on')) return;
+  if (e.key === 'Escape') cmd.classList.remove('on');
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(0, sel + (e.key === 'ArrowDown' ? 1 : -1)); renderCmd(); }
+  if (e.key === 'Enter') { $('#res a.sel')?.click(); }
+});
+
+function copy() { navigator.clipboard?.writeText(SITE.email); const t = $('#toast'); t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); }
+document.addEventListener('click', e => { if (e.target.closest('[data-copy]')) copy(); });
+setInterval(() => { const c = $('#clock'); if (c) c.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' }); }, 1000);
+
+function route() {
+  const m = location.hash.match(/#\/p\/(\w+)/);
+  const go = () => { m ? project(m[1]) : home(); scrollTo(0, 0); };
+  if (!document.startViewTransition || !app.children.length) return go();
+  const vt = document.startViewTransition(go); vt.ready.catch(() => {}); vt.finished.catch(() => {}); vt.updateCallbackDone.catch(() => {});
+}
+addEventListener('hashchange', route);
+seg(); route();
+</script>
+</body>
+</html>
