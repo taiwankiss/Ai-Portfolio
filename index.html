@@ -117,6 +117,9 @@ img,video{display:block}
 .stats{flex-direction:column;align-items:stretch;justify-content:space-between;padding-top:96px}
 .bgv.dim{filter:blur(22px) brightness(.28) saturate(1.3);transform:scale(1.15)!important}
 .stats .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
+.nhead{display:flex;justify-content:space-between;align-items:flex-start;gap:5vw}
+.why{max-width:34em}
+.why p{font:400 clamp(15px,1.15vw,18px)/1.75 var(--sans);color:#d8d5ce;margin-top:10px}
 .nhead h2{font:600 clamp(28px,3.4vw,52px)/1 var(--disp);letter-spacing:-.03em;margin-top:10px}
 .stats .g{display:grid;grid-template-columns:repeat(3,1fr);gap:4vw;width:100%}
 .stat{display:flex;flex-direction:column;align-items:center;gap:18px}
@@ -135,13 +138,16 @@ img,video{display:block}
 .panel.on .stat .val{stroke-dashoffset:.25}
 .stat text{fill:var(--txt);font:800 34px var(--disp);text-anchor:middle;dominant-baseline:middle}
 .stat span{font:400 12px var(--mono);color:var(--mute)}
-.fan{align-items:center;justify-content:center}
-.fan .stack{position:relative;width:min(760px,70vw);aspect-ratio:16/10}
+.fan{flex-direction:column;align-items:center;justify-content:flex-start;gap:5vh;padding-top:96px}
+.fanhead{width:100%;display:flex;justify-content:space-between;align-items:flex-end;gap:5vw}
+.fanhead .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
+.fanhead p{max-width:40em;font:400 clamp(15px,1.15vw,18px)/1.75 var(--sans);color:#d8d5ce;margin-top:10px}
+.fan .stack{position:relative;width:min(760px,70vw,calc((100vh - 400px)*1.6));aspect-ratio:16/10;margin:auto 0}
 .fan figure{position:absolute;inset:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -20px #000;transition:transform .9s var(--ease);z-index:var(--z);transform:rotate(calc((var(--k) - var(--mid))*3deg)) translateY(calc(var(--k)*-6px))}
 .fan figure img{width:100%;height:100%;object-fit:cover;object-position:top}
 .fan .stack:hover figure{transform:translateX(calc((var(--k) - var(--mid))*var(--sp))) rotate(calc((var(--k) - var(--mid))*6deg)) scale(.7)}
 .fan .stack figure:hover{z-index:50;transform:translateX(calc((var(--k) - var(--mid))*var(--sp))) scale(.82)}
-.fan .cap{position:absolute;left:6vw;top:110px;font:400 12px var(--mono);color:var(--mute)}
+.fan .cap{font:400 11px var(--mono);color:var(--mute);white-space:nowrap}
 .show{align-items:center;justify-content:center}
 .show .cap{position:absolute;left:6vw;top:110px;font:400 12px var(--mono);color:var(--mute)}
 .devices{display:flex;align-items:flex-end;justify-content:center;gap:3vw;width:100%}
@@ -154,11 +160,14 @@ img,video{display:block}
 .next{align-items:center;justify-content:center;flex-direction:column;gap:24px;text-align:center}
 .next small{font:400 12px var(--mono);color:var(--mute)}
 .next h2{font:800 clamp(48px,9vw,150px)/.9 var(--disp);letter-spacing:-.05em}
-.endbtns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-.nextbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 24px;border-radius:99px;border:1px solid var(--nc);color:var(--txt);font:500 15px/1 var(--sans);overflow:hidden;isolation:isolate;transition:color .45s var(--ease),transform .4s var(--ease)}
-.nextbtn::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--nc);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
-.nextbtn:hover{color:#111;transform:scale(1.05)}
-.nextbtn:hover::before{transform:scaleX(1)}
+.endbtns{display:flex;flex-direction:column;align-items:center;gap:22px;margin-top:8px}
+.nextlink{position:relative;font:500 14px/1 var(--sans);color:#d8d5ce;padding-bottom:6px;transition:color .3s}
+.nextlink::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform-origin:right;transition:transform .5s var(--ease)}
+.nextlink span{display:inline-block;margin-left:4px;transition:transform .4s var(--ease)}
+.nextlink:hover{color:var(--nc)}
+.nextlink:hover span{transform:translateX(5px)}
+.nextlink:hover::after{animation:uline .7s var(--ease)}
+@keyframes uline{0%{transform:scaleX(1);transform-origin:right}45%{transform:scaleX(0);transform-origin:right}46%{transform-origin:left}100%{transform:scaleX(1);transform-origin:left}}
 .back{font:400 12px var(--mono)}
 .prog{position:fixed;left:28px;right:28px;bottom:34px;z-index:15;display:flex;gap:8px}
 .prog button{flex:1;text-align:left;font:400 10px var(--mono);color:var(--mute);letter-spacing:.06em;padding-top:10px;position:relative}
@@ -194,6 +203,8 @@ img,video{display:block}
   .stat span{font-size:10px;text-align:center}
   .prog{display:none}
   .fan .stack{width:88vw}
+  .nhead,.fanhead{flex-direction:column;align-items:flex-start;gap:18px}
+  .panel.fan{padding-top:80px;gap:28px}
   .devices{flex-direction:column;align-items:center;gap:24px}
   .laptop{width:100%}
   .phone{width:58%}
@@ -315,13 +326,13 @@ function project(key) {
     <section class="panel steps"><div class="dots"></div><div class="grid"><ol class="in">${p.steps.map(([h, t], k) => `<li data-k="${k}" class="${k ? '' : 'hl'}"><small>0${k + 1}<br>${h}</small><p>${t}</p></li>`).join('')}</ol>
       <div class="shot in${p.halftone ? ' ht' : ''}" style="transition-delay:.15s"><img id="stepImg" src="${IMG(p)}" alt=""></div></div></section>
     <section class="panel stats"><img class="bgv dim" src="${M(p.shots[p.shots.length - 1])}.webp" alt=""><div class="dots"></div>
-      <div class="nhead in"><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div>
+      <div class="nhead in"><div><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div><div class="why"><span class="k">WHY · 動機</span><p>${p.why}</p></div></div>
       <div class="g">${p.stats.map(([n, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${n}">${n}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div>
       <div class="nfoot in"><div><span class="k">BUILT WITH</span><div class="chips">${p.tools.map(t => `<span>${t}</span>`).join('')}</div></div><p>${p.one}</p></div></section>
-    <section class="panel fan"><div class="dots"></div><span class="cap">HOVER TO SPREAD · ${shots.length} SCREENS</span><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
+    <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">PROCESS · 製作過程</span><p>${p.process}</p></div><span class="cap">HOVER TO SPREAD · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
     <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
       <small class="in">NEXT PROJECT</small><h2 class="in">${nx.title}</h2>
-      <div class="endbtns in"><a class="enter" href="${p.link}" target="_blank" rel="noopener">Go to project ↗</a><a class="nextbtn" href="#/p/${nx.key}"><span>Next project →</span></a></div></section>
+      <div class="endbtns in"><a class="enter" href="${p.link}" target="_blank" rel="noopener">Go to project ↗</a><a class="nextlink" href="#/p/${nx.key}">Next project <span>→</span></a></div></section>
   </div>
   <nav class="prog">${names.map((n, k) => `<button data-k="${k}">${String(k + 1).padStart(2, '0')} ${n}</button>`).join('')}</nav>`;
   const deck = $('#deck'), panels = $$('.panel'), mobile = matchMedia('(max-width:760px)').matches;

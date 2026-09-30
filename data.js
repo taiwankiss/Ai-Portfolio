@@ -25,6 +25,9 @@ window.PROJECTS = [
     color2: '#4fc3ff',
     bg: '#0f0c1d',
     one: '關於我學習與訓練的軌跡',
+    // longer context shown on the Numbers (why) and Gallery (process) chapters
+    why: '跑步、騎車、英文和 AI 使用紀錄散在不同平台，每次都要逐一登入比對，很難看出時間到底花去哪、有沒有在蹉跎。',
+    process: '用 Connector 串接 Strava、Santa、Claude，統一各平台的資料格式與更新頻率，再把近 30 天畫成同心軌道，反覆調整資訊密度與可讀性。',
     steps: [
       ['問題', '數據散在 4 個平台'],
       ['做法', 'Connector 串接 Strava · Santa · Claude'],
@@ -47,6 +50,8 @@ window.PROJECTS = [
     color2: '#8fcf7a',
     bg: '#070b09',
     one: '回放每一趟百岳單攻',
+    why: '高山環境充滿變數，每一趟的路線、時間與補給都值得留下，下一次出發才更有把握，也能回頭看看走過的路。',
+    process: '整理 Strava、健行筆記的 GPX 與 Google Sheet 打卡紀錄，用地形圖磚把路線做成 3D 等高線動畫；沒有 GPS 的幾座，改用 OpenStreetMap 步道推算。',
     steps: [
       ['問題', 'GPX、照片、試算表各放各的'],
       ['做法', 'GPX 轉 3D 等高線路線動畫'],
@@ -69,6 +74,8 @@ window.PROJECTS = [
     color2: '#edeae4',
     bg: '#09090a',
     one: '九年半的淘寶消費，一台購物車看完',
+    why: '在淘寶買了九年半，想知道錢到底花去哪，以及生活的改變怎麼反映在購物清單上。',
+    process: '用 Apps Script 整理並分類 732 筆訂單，在 Blender 建出購物車模型，再用 Three.js 讓它隨捲動旋轉、拆解、切層，串起 8 個章節。',
     steps: [
       ['問題', '9 年淘寶訂單堆在試算表'],
       ['做法', 'Blender 購物車 + Three.js 捲動拆解'],
@@ -91,6 +98,8 @@ window.PROJECTS = [
     color2: '#5aa0ff',
     bg: '#0d0b0a',
     one: '持續滾動推進訓練的一天',
+    why: '一直想試試 scrollytelling 的華麗效果，就把喜歡的跑步、騎車、登山組成一個品牌活動頁，讓人看完就想出門訓練。',
+    process: '先用 ChatGPT 生成三種運動的設定圖，再用 Higgsfield 渲染影片；原本一格畫面對應一次滾動效果不好，改成滑一次播一段，轉場更順。',
     steps: [
       ['問題', '想做一次 scrollytelling'],
       ['做法', 'ChatGPT 設定圖 → Higgsfield 生成影片'],
@@ -117,6 +126,8 @@ window.ABOUT = {
   year: '2026',
   color: '#f24e1e',
   one: '關於我的履歷',
+  why: '履歷不只拿來閱讀，也希望它本身就是一件能被欣賞的設計作品，在一疊文字履歷裡更有辨識度。',
+  process: '用 Adobe Firefly 把大頭照生成動態影像，再和 Claude Code 以 vibe coding 反覆調整排版、字體與動態節奏。',
   steps: [
     ['2019—26', '悠勢科技 · Design Manager'],
     ['2018—19', '華生基因 · Visual Designer'],
