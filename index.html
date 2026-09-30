@@ -49,6 +49,9 @@ img,video{display:block}
 .backc:hover{background:var(--c);border-color:transparent;color:#111;transform:scale(1.06)}
 .pj .brand{display:none}
 .pj .backc{display:grid!important}
+.livepill{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:99px;background:var(--c);color:#111;font:500 13px/1 var(--sans);opacity:0;transform:translateY(-12px) scale(.96);pointer-events:none;transition:opacity .45s var(--ease),transform .45s var(--ease),background .6s var(--ease)}
+.livepill:hover{transform:scale(1.05)!important}
+.pj.past .livepill{opacity:1;transform:none;pointer-events:auto}
 
 /* home stage */
 .stage{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;perspective:1800px;touch-action:pan-y;cursor:grab;padding:40px 0 330px}
@@ -163,11 +166,6 @@ img,video{display:block}
 .next small{font:400 12px var(--mono);color:var(--mute)}
 .next h2{font:800 clamp(48px,9vw,150px)/.9 var(--disp);letter-spacing:-.05em}
 .endbtns{display:flex;flex-direction:column;align-items:center;gap:22px;margin-top:8px}
-.nextlink{position:relative;font:500 11px/1 var(--sans);letter-spacing:.02em;color:#d8d5ce;padding-bottom:5px;transition:color .3s}
-.nextlink::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform-origin:right;transition:transform .5s var(--ease)}
-.nextlink:hover{color:var(--nc)}
-.nextlink:hover::after{animation:uline .7s var(--ease)}
-@keyframes uline{0%{transform:scaleX(1);transform-origin:right}45%{transform:scaleX(0);transform-origin:right}46%{transform-origin:left}100%{transform:scaleX(1);transform-origin:left}}
 .prog{position:fixed;left:28px;right:28px;bottom:34px;z-index:15;display:flex;gap:8px}
 .prog button{flex:1;text-align:left;font:400 10px var(--mono);color:var(--mute);letter-spacing:.06em;padding-top:10px;position:relative}
 .prog button::before{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:var(--line)}
@@ -222,7 +220,7 @@ img,video{display:block}
 <div class="hud">
   <div class="hud__top">
     <a class="brand" href="#/"><img src="media/logo.webp" alt="">AI WORK</a><a class="backc" href="#/" aria-label="Back to orbit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
-    <div class="r"><span class="hm" id="count"></span></div>
+    <div class="r"><span class="hm" id="count"></span><a class="livepill" id="live" target="_blank" rel="noopener">Live Project ↗</a></div>
   </div>
 </div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="outline" x="-5%" y="-20%" width="110%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius=".8" result="d"/><feComposite in="d" in2="SourceAlpha" operator="out" result="o"/><feFlood flood-color="#fff" flood-opacity=".28"/><feComposite in2="o" operator="in"/></filter></svg>
@@ -258,7 +256,7 @@ function scramble(el, text) {
 }
 
 function home() {
-  document.body.classList.remove('pj');
+  document.body.classList.remove('pj', 'past');
   const n = ITEMS.length, step = 360 / n;
   app.innerHTML = `
   <div class="stage" id="stage"><div class="dots" style="position:fixed"></div><div class="big" id="big"></div><div class="ring" id="ring">
@@ -315,14 +313,14 @@ function project(key) {
   const i = ITEMS.findIndex(p => p.key === key), p = ITEMS[i];
   if (!p) return home();
   const nx = ITEMS[(i + 1) % ITEMS.length];
-  root.style.setProperty('--c', p.color); ambient(null); document.body.classList.add('pj');
+  root.style.setProperty('--c', p.color); ambient(null); document.body.classList.add('pj'); document.body.classList.remove('past'); $('#live').href = p.link;
   const names = ['COVER', ...(p.showcase ? ['MOTION'] : []), p.key === 'about' ? 'CAREER' : 'HOW', 'NUMBERS', 'GALLERY', 'NEXT'];
   const shots = MOB ? p.mshots : p.shots, mid = (shots.length - 1) / 2;
   app.innerHTML = `
   <div class="deck" id="deck">
     <section class="panel cover"><video class="bgv" src="${VID(p)}" poster="${IMG(p)}" muted loop playsinline autoplay></video><div class="dots"></div>
       <div class="row"><div class="in"><h1>${p.title}</h1><div class="meta"><span>${String(i + 1).padStart(2, '0')} · ${p.tag}</span><span>${p.year}</span>${p.tools.map(t => `<span>${t}</span>`).join('')}</div><p class="one">${p.one}</p></div>
-      <a class="enter in" href="${p.link}" target="_blank" rel="noopener" style="transition-delay:.2s">${p.key === 'about' ? 'Open resume' : 'Open live site'} ↗</a></div></section>
+      <a class="enter in" href="${p.link}" target="_blank" rel="noopener" style="transition-delay:.2s">Live Project ↗</a></div></section>
     ${p.showcase ? `<section class="panel show"><div class="dots"></div><span class="cap in">MOTION RÉSUMÉ · DESKTOP / MOBILE</span>
       <div class="devices in"><figure class="laptop"><i></i><video src="${M(p.video)}.mp4" poster="${M(p.shots[0])}.webp" muted loop playsinline autoplay></video></figure>
       <figure class="phone"><video src="${M(p.video)}-m.mp4" poster="${M(p.mobile)}.webp" muted loop playsinline autoplay></video></figure></div></section>` : ''}
@@ -334,8 +332,8 @@ function project(key) {
       <div class="nfoot in"><div><span class="k">BUILT WITH</span><div class="chips">${p.tools.map(t => `<span>${t}</span>`).join('')}</div></div><p>${p.one}</p></div></section>
     <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">PROCESS · 製作過程</span><p>${p.process}</p></div><span class="cap">${MOB ? 'TAP A SCREEN' : 'HOVER TO SPREAD'} · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k};--zm:${Math.round((shots.length - Math.abs(k - mid)) * 2)}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
     <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
-      <small class="in">NEXT PROJECT</small><h2 class="in">${nx.title}</h2>
-      <div class="endbtns in"><a class="enter" href="${p.link}" target="_blank" rel="noopener">Go to project ↗</a><a class="nextlink" href="#/p/${nx.key}">Next project</a></div></section>
+      <h2 class="in">${nx.title}</h2>
+      <div class="endbtns in"><a class="enter" href="#/p/${nx.key}" style="--c:${nx.color}">Next Project ↗</a></div></section>
   </div>
   <nav class="prog">${names.map((n, k) => `<button data-k="${k}">${String(k + 1).padStart(2, '0')} ${n}</button>`).join('')}</nav>`;
   const deck = $('#deck'), panels = $$('.panel'), mobile = matchMedia('(max-width:760px)').matches;
@@ -343,6 +341,7 @@ function project(key) {
   const show = k => {
     k = Math.max(0, Math.min(panels.length - 1, k)); if (k === idx) return; idx = k;
     if (!mobile) deck.style.transform = `translateX(${-k * 100}vw)`;
+    document.body.classList.toggle('past', k > 0);
     panels.forEach((pn, j) => pn.classList.toggle('on', j === k));
     $$('.prog button').forEach((b, j) => b.classList.toggle('done', j <= k));
     $('#count').textContent = `${String(k + 1).padStart(2, '0')} / ${names.length}`;
@@ -370,7 +369,7 @@ function project(key) {
     lis.forEach(li => sio.observe(li));
     const cv = $('.cover .bgv'); cv.style.transition = 'none'; let pr = 0;
     const par = () => { cancelAnimationFrame(pr); pr = requestAnimationFrame(() => { const y = Math.min(document.body.scrollTop || scrollY, innerHeight * 1.2);
-      cv.style.transform = `translate3d(0,${y * .45}px,0) scale(${1 + y / innerHeight * .35})`; }); };
+      cv.style.transform = `translate3d(0,${y * .45}px,0) scale(${1 + y / innerHeight * .35})`; document.body.classList.toggle('past', y > innerHeight * .6); }); };
     document.body.addEventListener('scroll', par, { passive: true }); addEventListener('scroll', par, { passive: true }); par();
     const pc = cleanup; cleanup = () => { pc(); sio.disconnect(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
   }
