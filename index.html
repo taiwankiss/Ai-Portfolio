@@ -49,9 +49,10 @@ img,video{display:block}
 .backc:hover{background:var(--c);border-color:transparent;color:#111;transform:scale(1.06)}
 .pj .brand{display:none}
 .pj .backc{display:grid!important}
-.livepill{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:99px;background:var(--c);color:#111;font:500 13px/1 var(--sans);opacity:0;transform:translateY(-12px) scale(.96);pointer-events:none;transition:opacity .45s var(--ease),transform .45s var(--ease),background .6s var(--ease)}
-.livepill:hover{transform:scale(1.05)!important}
-.pj.past .livepill{opacity:1;transform:none;pointer-events:auto}
+.livepill{position:relative;overflow:hidden;display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:99px;background:color-mix(in srgb,var(--c) 38%,transparent);border:1px solid color-mix(in srgb,var(--c) 60%,#ffffff40);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);color:#fff;font:500 13px/1 var(--sans);white-space:nowrap;box-shadow:inset 0 1px 0 #ffffff30;opacity:0;visibility:hidden;max-width:0;padding:0;border-width:0;margin-left:-22px;transform:translateY(-6px);transition:opacity .6s var(--ease),visibility .6s,transform .6s var(--ease),max-width .6s var(--ease),padding .6s var(--ease),margin .6s var(--ease),background .6s var(--ease)}
+.livepill::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#fff6 50%,transparent 70%);transform:translateX(-100%);animation:shine 2.6s 1s infinite}
+.livepill:hover{background:color-mix(in srgb,var(--c) 60%,transparent)}
+.pj.past .livepill{opacity:1;visibility:visible;transform:none;max-width:200px;padding:0 18px;border-width:1px;margin-left:0}
 
 /* home stage */
 .stage{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;perspective:1800px;touch-action:pan-y;cursor:grab;padding:40px 0 330px}
@@ -71,8 +72,13 @@ img,video{display:block}
 .info .k{font:400 12px var(--mono);color:var(--c);letter-spacing:.1em}
 .info h2{font:600 clamp(26px,3vw,40px)/1.05 var(--disp);letter-spacing:-.02em}
 .info p{font:400 15px/1.5 var(--sans);color:#d8d5ce;max-width:36ch;min-height:1.5em}
-.enter{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:50px;font:500 15px/1 var(--sans);padding:0 24px;border-radius:99px;background:var(--c);color:#111;position:relative;overflow:hidden;transition:transform .4s var(--ease)}
+.enter{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;font:500 13px/1 var(--sans);padding:0 18px;border-radius:99px;background:var(--c);color:#111;position:relative;overflow:hidden;transition:transform .4s var(--ease)}
 .enter:hover{transform:scale(1.05)}
+.enter.ghost{background:transparent;color:var(--txt);border:1px solid var(--c);isolation:isolate;transition:transform .4s var(--ease),color .45s var(--ease)}
+.enter.ghost::after{display:none}
+.enter.ghost::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--c);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.enter.ghost:hover{color:#111}
+.enter.ghost:hover::before{transform:scaleX(1)}
 .enter::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#fff8 50%,transparent 70%);transform:translateX(-100%);animation:shine 2.6s 1s infinite}
 @keyframes shine{60%,100%{transform:translateX(100%)}}
 
@@ -179,6 +185,7 @@ img,video{display:block}
 @media (max-width:760px){
   body{overflow:auto}
   .hud{padding:16px}
+  .amb img{filter:blur(22px) saturate(1.2) brightness(.4)}
   .hud__top .r .hm{display:none}
   .info{bottom:110px}
   .scrub button span{display:none}
@@ -284,7 +291,7 @@ function home() {
     ambient(p.key);
   };
   const loop = () => {
-    ang += (target - ang) * .08;
+    ang += (target - ang) * (MOB ? .14 : .08);
     ring.style.transform = `translateZ(${-R}px) rotateX(-6deg) rotateY(${ang}deg)`;
     cards.forEach((c, i) => {
       const a = i * step, d = (((a + ang) % 360) + 540) % 360 - 180, k = Math.abs(d) / 180;
@@ -297,10 +304,12 @@ function home() {
   const toIndex = i => { const cur = Math.round(-target / step); let d = ((i - cur) % n + n) % n; if (d > n / 2) d -= n; target -= d * step; };
   const onWheel = e => { e.preventDefault(); target -= (Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY) * .12; clearTimeout(idle); idle = setTimeout(snap, 160); };
   const onKey = e => { if (e.key === 'ArrowRight') target -= step; if (e.key === 'ArrowLeft') target += step; if (e.key === 'Enter') $('#go').click(); };
-  stage.onpointerdown = e => { drag = { x: e.clientX, t: target, moved: 0 }; stage.classList.add('drag'); stage.setPointerCapture(e.pointerId); };
-  stage.onpointermove = e => { if (!drag) return; const dx = e.clientX - drag.x; drag.moved = Math.max(drag.moved, Math.abs(dx)); target = drag.t + dx * .25; };
+  stage.onpointerdown = e => { drag = { x: e.clientX, t: target, moved: 0, touch: e.pointerType !== 'mouse' }; stage.classList.add('drag'); try { stage.setPointerCapture(e.pointerId); } catch (_) {} };
+  stage.onpointermove = e => { if (!drag) return; const dx = e.clientX - drag.x; drag.moved = Math.max(drag.moved, Math.abs(dx)); drag.dx = dx; target = drag.t + (drag.touch ? Math.max(-step * .5, Math.min(step * .5, dx * .3)) : dx * .25); };
   stage.onpointerup = e => {
-    stage.classList.remove('drag'); const was = drag; drag = null; snap();
+    stage.classList.remove('drag'); const was = drag; drag = null;
+    if (was && was.touch && was.moved > 24) { target = Math.round(was.t / step) * step - Math.sign(-was.dx) * step; return; } // swipe = exactly one project
+    snap();
     if (was && was.moved < 5) { const c = document.elementsFromPoint(e.clientX, e.clientY).find(x => x.classList?.contains('card')); if (c) +c.dataset.i === active ? $('#go').click() : toIndex(+c.dataset.i); }
   };
   $$('.scrub button').forEach(b => b.onclick = () => toIndex(+b.dataset.i));
@@ -334,7 +343,7 @@ function project(key) {
     <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">PROCESS · 製作過程</span><p>${p.process}</p></div><span class="cap">${MOB ? 'TAP A SCREEN' : 'HOVER TO SPREAD'} · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k};--zm:${Math.round((shots.length - Math.abs(k - mid)) * 2)}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
     <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
       <h2 class="in">${nx.title}</h2>
-      <div class="endbtns in"><a class="enter" href="#/p/${nx.key}" style="--c:${nx.color}">Next Project ↗</a></div></section>
+      <div class="endbtns in"><a class="enter ghost" href="#/p/${nx.key}" style="--c:${nx.color}">Next Project ↗</a></div></section>
   </div>
   <nav class="prog">${names.map((n, k) => `<button data-k="${k}">${String(k + 1).padStart(2, '0')} ${n}</button>`).join('')}</nav>`;
   const deck = $('#deck'), panels = $$('.panel'), mobile = matchMedia('(max-width:760px)').matches;
@@ -368,11 +377,13 @@ function project(key) {
   if (mobile) {
     const sio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && lit(lis.indexOf(e.target))), { rootMargin: '-45% 0px -45% 0px' });
     lis.forEach(li => sio.observe(li));
+    const lio = new IntersectionObserver(([e]) => document.body.classList.toggle('past', !e.isIntersecting && e.boundingClientRect.top < 0), { rootMargin: '-60px 0px 0px 0px' });
+    lio.observe($('.cover .enter'));
     const cv = $('.cover .bgv'); cv.style.transition = 'none'; let pr = 0;
     const par = () => { cancelAnimationFrame(pr); pr = requestAnimationFrame(() => { const y = Math.min(document.body.scrollTop || scrollY, innerHeight * 1.2);
-      cv.style.transform = `translate3d(0,${y * .45}px,0) scale(${1 + y / innerHeight * .35})`; document.body.classList.toggle('past', y > innerHeight * .6); }); };
+      cv.style.transform = `translate3d(0,${y * .45}px,0) scale(${1 + y / innerHeight * .35})`; }); };
     document.body.addEventListener('scroll', par, { passive: true }); addEventListener('scroll', par, { passive: true }); par();
-    const pc = cleanup; cleanup = () => { pc(); sio.disconnect(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
+    const pc = cleanup; cleanup = () => { pc(); sio.disconnect(); lio.disconnect(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
   }
   if (!mobile) requestAnimationFrame(() => show(0));
   const prev = cleanup;
