@@ -73,6 +73,11 @@ img,video{display:block}
 .info p{font:400 15px/1.5 var(--sans);color:#d8d5ce;max-width:36ch;min-height:1.5em}
 .enter{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;font:500 13px/1 var(--sans);padding:0 18px;border-radius:99px;background:var(--c);color:#111;position:relative;overflow:hidden;transition:transform .4s var(--ease)}
 .enter:hover{transform:scale(1.05)}
+.nextlink{position:relative;font:500 13px/1 var(--sans);letter-spacing:.02em;color:var(--txt);padding-bottom:6px;transition:color .35s var(--ease)}
+.nextlink::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform-origin:left;transition:transform .5s var(--ease)}
+.nextlink:hover{color:var(--c)}
+.nextlink:hover::after{animation:uline .7s var(--ease)}
+@keyframes uline{0%{transform:scaleX(1);transform-origin:right}45%{transform:scaleX(0);transform-origin:right}46%{transform-origin:left}100%{transform:scaleX(1);transform-origin:left}}
 .enter.ghost{background:transparent;color:var(--txt);border:1px solid var(--c);isolation:isolate;transition:transform .4s var(--ease),color .45s var(--ease)}
 .enter.ghost::after{display:none}
 .enter.ghost::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--c);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
@@ -342,7 +347,7 @@ function project(key) {
     <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">PROCESS · 製作過程</span><p>${p.process}</p></div><span class="cap">${MOB ? 'TAP A SCREEN' : 'HOVER TO SPREAD'} · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k};--zm:${Math.round((shots.length - Math.abs(k - mid)) * 2)}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
     <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
       <h2 class="in">${nx.title}</h2>
-      <div class="endbtns in"><a class="enter ghost" href="#/p/${nx.key}" style="--c:${nx.color}">Next Project ↗</a></div></section>
+      <div class="endbtns in"><a class="nextlink" href="#/p/${nx.key}" style="--c:${nx.color}">Next Project</a></div></section>
   </div>
   <nav class="prog">${names.map((n, k) => `<button data-k="${k}">${String(k + 1).padStart(2, '0')} ${n}</button>`).join('')}</nav>`;
   const deck = $('#deck'), panels = $$('.panel'), mobile = matchMedia('(max-width:760px)').matches;

@@ -50,7 +50,7 @@ window.PROJECTS = [
     color: '#5fd38d',
     color2: '#ff8a3d',
     bg: '#070b09',
-    one: '回放每一趟百岳單攻',
+    one: '回放我的每一趟百岳單攻',
     why: '高山環境充滿變數，每一趟的路線、時間與補給都值得留下，下一次出發才更有把握，也能回頭看看走過的路。',
     process: '整理 Strava、健行筆記的 GPX 與 Google Sheet 打卡紀錄，用地形圖磚把路線做成 3D 等高線動畫；沒有 GPS 的幾座，改用 OpenStreetMap 步道推算。',
     steps: [
@@ -129,7 +129,7 @@ window.ABOUT = {
   sub: 'Visual Designer / Design Manager',
   year: '2026',
   color: '#f24e1e',
-  one: '關於我的履歷',
+  one: '工作經歷與技能展',
   why: '履歷不只拿來閱讀，也希望它本身就是一件能被欣賞的設計作品，在一疊文字履歷裡更有辨識度。',
   process: '用 Adobe Firefly 把大頭照生成動態影像，再和 Claude Code 以 vibe coding 反覆調整排版、字體與動態節奏。',
   steps: [
