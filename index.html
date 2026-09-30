@@ -45,8 +45,6 @@ img,video{display:block}
 .pill{border:1px solid var(--line);border-radius:99px;padding:8px 14px;backdrop-filter:blur(10px);background:#ffffff08;transition:.3s var(--ease)}
 .pill:hover{background:var(--txt);color:#111}
 .hud__top a{white-space:nowrap}
-.port{color:var(--txt);transition:color .3s}
-.port:hover{color:var(--c)}
 
 /* home stage */
 .stage{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;perspective:1800px;touch-action:pan-y;cursor:grab;padding:40px 0 330px}
@@ -161,11 +159,9 @@ img,video{display:block}
 .next small{font:400 12px var(--mono);color:var(--mute)}
 .next h2{font:800 clamp(48px,9vw,150px)/.9 var(--disp);letter-spacing:-.05em}
 .endbtns{display:flex;flex-direction:column;align-items:center;gap:22px;margin-top:8px}
-.nextlink{position:relative;font:500 14px/1 var(--sans);color:#d8d5ce;padding-bottom:6px;transition:color .3s}
+.nextlink{position:relative;font:500 11px/1 var(--sans);letter-spacing:.02em;color:#d8d5ce;padding-bottom:5px;transition:color .3s}
 .nextlink::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform-origin:right;transition:transform .5s var(--ease)}
-.nextlink span{display:inline-block;margin-left:4px;transition:transform .4s var(--ease)}
 .nextlink:hover{color:var(--nc)}
-.nextlink:hover span{transform:translateX(5px)}
 .nextlink:hover::after{animation:uline .7s var(--ease)}
 @keyframes uline{0%{transform:scaleX(1);transform-origin:right}45%{transform:scaleX(0);transform-origin:right}46%{transform-origin:left}100%{transform:scaleX(1);transform-origin:left}}
 .back{font:400 12px var(--mono)}
@@ -220,10 +216,10 @@ img,video{display:block}
 <div class="hud">
   <div class="hud__top">
     <a href="#/"><img src="media/logo.webp" alt="">AI WORK</a>
-    <div class="r"><a class="port" href="https://weilee01.com/" target="_blank" rel="noopener">PORTFOLIO ↗</a><span class="hm" id="count"></span></div>
+    <div class="r"><span class="hm" id="count"></span></div>
   </div>
 </div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="outline" x="-5%" y="-20%" width="110%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.3" result="d"/><feComposite in="d" in2="SourceAlpha" operator="out" result="o"/><feFlood flood-color="#fff" flood-opacity=".28"/><feComposite in2="o" operator="in"/></filter></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="outline" x="-5%" y="-20%" width="110%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius=".8" result="d"/><feComposite in="d" in2="SourceAlpha" operator="out" result="o"/><feFlood flood-color="#fff" flood-opacity=".28"/><feComposite in2="o" operator="in"/></filter></svg>
 <main id="app"></main>
 <div class="intro" id="intro"><h1 id="introH"></h1></div>
 <div class="toast" id="toast">EMAIL COPIED</div>
@@ -261,7 +257,7 @@ function home() {
   <div class="stage" id="stage"><div class="dots" style="position:fixed"></div><div class="big" id="big"></div><div class="ring" id="ring">
     ${ITEMS.map((p, i) => `<div class="card${p.halftone ? ' ht' : ''}" data-i="${i}" style="--cc:${p.color}"><img src="${IMG(p)}" alt="" draggable="false">${MOB ? '' : `<video muted loop playsinline preload="none" data-src="${VID(p)}"></video>`}<span class="tg">${String(i + 1).padStart(2, '0')} · ${p.tag}</span></div>`).join('')}
   </div></div>
-  <div class="info"><span class="k" id="k"></span><h2 id="t"></h2><p id="o"></p><a class="enter" id="go">Enter project →</a></div>
+  <div class="info"><span class="k" id="k"></span><h2 id="t"></h2><p id="o"></p><a class="enter" id="go">Enter project ↗</a></div>
   <nav class="scrub"><div class="ticks">${ITEMS.map((p, i) => `<button data-i="${i}"><span>${p.title.toUpperCase()}</span><i></i></button>`).join('')}<span class="knob" id="knob"></span></div></nav>`;
   const ring = $('#ring'), cards = $$('.card'), stage = $('#stage');
   // ring radius: neighbour edge gap is 0.6x the original layout (R0), never letting cards intersect
@@ -332,7 +328,7 @@ function project(key) {
     <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">PROCESS · 製作過程</span><p>${p.process}</p></div><span class="cap">HOVER TO SPREAD · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
     <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
       <small class="in">NEXT PROJECT</small><h2 class="in">${nx.title}</h2>
-      <div class="endbtns in"><a class="enter" href="${p.link}" target="_blank" rel="noopener">Go to project ↗</a><a class="nextlink" href="#/p/${nx.key}">Next project <span>→</span></a></div></section>
+      <div class="endbtns in"><a class="enter" href="${p.link}" target="_blank" rel="noopener">Go to project ↗</a><a class="nextlink" href="#/p/${nx.key}">Next project</a></div></section>
   </div>
   <nav class="prog">${names.map((n, k) => `<button data-k="${k}">${String(k + 1).padStart(2, '0')} ${n}</button>`).join('')}</nav>`;
   const deck = $('#deck'), panels = $$('.panel'), mobile = matchMedia('(max-width:760px)').matches;

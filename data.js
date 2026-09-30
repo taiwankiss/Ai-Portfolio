@@ -102,7 +102,7 @@ window.PROJECTS = [
     process: '先用 ChatGPT 生成三種運動的設定圖，再用 Higgsfield 渲染影片；原本一格畫面對應一次滾動效果不好，改成滑一次播一段，轉場更順。',
     steps: [
       ['問題', '想做一次 scrollytelling'],
-      ['做法', 'ChatGPT 設定圖 → Higgsfield 生成影片'],
+      ['做法', 'ChatGPT 設定圖，Higgsfield 生成影片'],
       ['成果', '滑一次播一段，數據 UI 同步推進'],
     ],
     stats: [['3', '種運動'], ['100%', 'AI 生成影片'], ['∞', 'scroll']],
