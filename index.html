@@ -289,7 +289,7 @@ function home() {
   <div class="stage" id="stage"><div class="dots" style="position:fixed"></div><div class="big" id="big"></div><div class="ring" id="ring">
     ${ITEMS.map((p, i) => `<div class="card${p.halftone ? ' ht' : ''}" data-i="${i}" style="--cc:${p.color}"><img src="${IMG(p)}" alt="" draggable="false">${MOB ? '' : `<video muted loop playsinline preload="none" data-src="${VID(p)}"></video>`}<span class="tg">${String(i + 1).padStart(2, '0')} · ${p.tag}</span></div>`).join('')}
   </div></div>
-  <div class="info"><span class="k" id="k"></span><h2 id="t"></h2><p id="o"></p><a class="enter" id="go">Enter project ↗</a></div>
+  <div class="info"><span class="k" id="k"></span><h2 id="t"></h2><p id="o"></p><a class="enter" id="go">Project Intro ↗</a></div>
   <nav class="scrub"><div class="ticks">${ITEMS.map((p, i) => `<button data-i="${i}"><span>${p.title.toUpperCase()}</span><i></i></button>`).join('')}<span class="knob" id="knob"></span></div></nav>`;
   const ring = $('#ring'), cards = $$('.card'), stage = $('#stage');
   // ring radius: neighbour edge gap is 0.6x the original layout (R0), never letting cards intersect
