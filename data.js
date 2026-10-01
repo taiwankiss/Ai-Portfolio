@@ -146,6 +146,6 @@ window.ABOUT = {
   mshots: ['resume-m', 'resume-m2', 'resume-m3'],
   video: 'resume',
   showcase: true,
-  // résumé motion video on YouTube: horizontal for desktop, vertical (Short) for phones
-  youtube: { h: 'v7jYKuwiUdo', v: 'J8KrHJjncoA' },
+  // motion résumé reel (media/about-reel.mp4 horizontal for desktop, about-reel-v.mp4 vertical for phones)
+  reel: 'about-reel',
 };
