@@ -170,6 +170,10 @@ img,video{display:block}
 .laptop{width:min(1060px,74vw,calc((100vh - 300px)*1.54));aspect-ratio:1440/936;border-radius:14px;border:1px solid var(--line);padding-top:36px}
 .laptop i{position:absolute;left:14px;top:13px;width:10px;height:10px;border-radius:50%;background:#ff5f57;box-shadow:16px 0 #febc2e,32px 0 #28c840}
 .laptop video{width:100%;height:100%;object-fit:cover;object-position:top}
+.yt{border-radius:16px;border:1px solid var(--line);background:#000}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt.h{width:min(1060px,74vw,calc((100vh - 300px)*1.778));aspect-ratio:16/9}
+.yt.v{width:min(78vw,calc((100svh - 230px)*.5625));aspect-ratio:9/16;border-radius:22px}
 .phone{width:min(250px,17vw);aspect-ratio:390/844;border-radius:34px;border:7px solid #1a1a1c;outline:1px solid var(--line)}
 .phone video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .next{align-items:center;justify-content:center;flex-direction:column;gap:24px;text-align:center}
@@ -334,8 +338,10 @@ function project(key) {
     <section class="panel cover"><video class="bgv" src="${VID(p)}" poster="${IMG(p)}" muted loop playsinline autoplay></video><div class="dots"></div>
       <div class="row"><div class="in"><h1>${p.title}</h1><div class="meta"><span>${String(i + 1).padStart(2, '0')} · ${p.tag}</span><span>${p.year}</span>${p.tools.map(t => `<span>${t}</span>`).join('')}</div><p class="one">${p.one}</p></div>
       <a class="enter in" href="${p.link}" target="_blank" rel="noopener" style="transition-delay:.2s">Live Project ↗</a></div></section>
-    ${p.showcase ? `<section class="panel show"><div class="dots"></div><span class="cap in">MOTION RÉSUMÉ · ${MOB ? 'MOBILE' : 'DESKTOP'}</span>
-      <div class="devices in">${MOB
+    ${p.showcase ? `<section class="panel show"><div class="dots"></div><span class="cap in">MOTION RÉSUMÉ · 求職動態影片</span>
+      <div class="devices in">${p.youtube
+        ? `<figure class="yt ${MOB ? 'v' : 'h'}"><iframe data-src="https://www.youtube-nocookie.com/embed/${MOB ? p.youtube.v : p.youtube.h}?autoplay=1&mute=1&loop=1&playlist=${MOB ? p.youtube.v : p.youtube.h}&playsinline=1&rel=0&modestbranding=1&enablejsapi=1" title="${p.title} motion résumé" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></figure>`
+        : MOB
         ? `<figure class="phone"><video src="${M(p.video)}-m.mp4" poster="${M(p.mobile)}.webp" muted loop playsinline autoplay></video></figure>`
         : `<figure class="laptop"><i></i><video src="${M(p.video)}.mp4" poster="${M(p.shots[0])}.webp" muted loop playsinline autoplay></video></figure>`}</div></section>` : ''}
     <section class="panel steps"><div class="dots"></div><div class="grid"><ol class="in">${p.steps.map(([h, t], k) => `<li data-k="${k}"><small>0${k + 1}<br>${h}</small><p>${t}</p></li>`).join('')}</ol>
@@ -352,6 +358,8 @@ function project(key) {
   <nav class="prog">${names.map((n, k) => `<button data-k="${k}">${String(k + 1).padStart(2, '0')} ${n}</button>`).join('')}</nav>`;
   const deck = $('#deck'), panels = $$('.panel'), mobile = matchMedia('(max-width:760px)').matches;
   let idx = -1, lock = 0, acc = 0;
+  const yt = $('.yt iframe'), ytCmd = f => yt?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: f, args: [] }), '*');
+  const ytOn = on => { if (!yt) return; if (on && !yt.src) yt.src = yt.dataset.src; else if (yt.src) ytCmd(on ? 'playVideo' : 'pauseVideo'); };
   const show = k => {
     k = Math.max(0, Math.min(panels.length - 1, k)); if (k === idx) return; idx = k;
     if (!mobile) deck.style.transform = `translateX(${-k * 100}vw)`;
@@ -360,6 +368,7 @@ function project(key) {
     $$('.prog button').forEach((b, j) => b.classList.toggle('done', j <= k));
     $('#count').textContent = `${String(k + 1).padStart(2, '0')} / ${names.length}`;
     if (panels[k].classList.contains('stats')) countUp(panels[k]);
+    ytOn(panels[k].classList.contains('show'));
     const nv = $('.next .bgv'); if (panels[k].classList.contains('next')) { nv.preload = 'auto'; nv.play().catch(() => {}); } else nv.pause();
   };
   // the steps chapter lights 01 → 02 → 03 one scroll at a time before moving on
@@ -377,7 +386,7 @@ function project(key) {
   addEventListener('wheel', onWheel, { passive: false }); addEventListener('keydown', onKey); addEventListener('touchstart', ts); addEventListener('touchend', te);
   $$('.prog button').forEach(b => b.onclick = () => { show(+b.dataset.k); if (panels[idx].classList.contains('steps')) lit(-1); });
   // phones scroll vertically: each chapter animates once when it enters and stays on
-  if (mobile) { const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const pn = e.target; io.unobserve(pn); pn.classList.add('on'); if (pn.classList.contains('stats')) countUp(pn); if (pn.classList.contains('next')) $('.bgv', pn).play().catch(() => {}); }), { threshold: .35 }); panels.forEach(pn => io.observe(pn)); cleanup = () => io.disconnect(); }
+  if (mobile) { const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const pn = e.target; io.unobserve(pn); pn.classList.add('on'); if (pn.classList.contains('stats')) countUp(pn); if (pn.classList.contains('show')) ytOn(true); if (pn.classList.contains('next')) $('.bgv', pn).play().catch(() => {}); }), { threshold: .35 }); panels.forEach(pn => io.observe(pn)); cleanup = () => io.disconnect(); }
   if (mobile) {
     const sio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && lit(lis.indexOf(e.target))), { rootMargin: '-45% 0px -45% 0px' });
     lis.forEach(li => sio.observe(li));
