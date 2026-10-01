@@ -144,8 +144,13 @@ img,video{display:block}
 .stat span{display:flex;gap:10px;align-items:baseline;font:400 13px var(--sans)!important;color:#d8d5ce!important;padding-top:4px;min-width:60%;justify-content:center}
 .stat span b{font:400 11px var(--mono);color:var(--c);font-weight:400}
 .nfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px}
-.nfoot .chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.nfoot .chips span{font:400 12px var(--mono);border:1px solid var(--line);border-radius:99px;padding:7px 12px;background:#0005;backdrop-filter:blur(8px)}
+.nfoot .tools{display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.ti{position:relative;display:block;width:32px;height:32px;transition:transform .35s var(--ease)}
+.ti img{width:100%;height:100%;border-radius:8px;display:block}
+.ti::after{content:attr(data-name);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,4px);white-space:nowrap;font:400 10px var(--mono);letter-spacing:.04em;color:var(--txt);background:#000c;border:1px solid var(--line);padding:5px 8px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s var(--ease)}
+.ti:hover{transform:translateY(-3px)}
+.ti:hover::after{opacity:1;transform:translate(-50%,0)}
+.tc{font:400 12px var(--mono);border:1px solid var(--line);border-radius:99px;padding:7px 12px}
 .nfoot p{font:400 16px var(--sans);color:#d8d5ce}
 .stat circle{fill:none;stroke-width:3}
 .stat .trk{stroke:var(--line)}
@@ -250,6 +255,9 @@ img,video{display:block}
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const app = $('#app'), M = n => `media/${n}`, root = document.documentElement;
 const ITEMS = [...PROJECTS, ABOUT];
+// tool name → media/icons/<file>.webp; names without an icon fall back to a text chip
+const ICONS = { 'Claude': 'claude', 'Strava': 'strava', 'Santa': 'santa', 'Google Sheets': 'google-sheets', 'Blender': 'blender', 'Higgsfield': 'higgsfield', 'ChatGPT': 'chatgpt', 'Adobe Firefly': 'firefly' };
+const toolIcon = t => ICONS[t] ? `<span class="ti" data-name="${t}"><img src="media/icons/${ICONS[t]}.webp" alt="${t}" width="32" height="32"></span>` : `<span class="tc">${t}</span>`;
 // phones get each project's own portrait (mobile) screenshot + recording
 const mq = matchMedia('(max-width:760px)'), MOB = mq.matches;
 mq.addEventListener('change', e => e.matches !== MOB && location.reload()); // swap desktop/portrait media when crossing the breakpoint
@@ -351,7 +359,7 @@ function project(key) {
     <section class="panel stats"><img class="bgv dim" src="${M(p.shots[p.shots.length - 1])}.webp" alt=""><div class="dots"></div>
       <div class="nhead in"><div><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div><div class="why"><span class="k">WHY · 動機</span><p>${p.why}</p></div></div>
       <div class="g">${p.stats.map(([n, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${n}">${n}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div>
-      <div class="nfoot in"><div><span class="k">BUILT WITH</span><div class="chips">${p.tools.map(t => `<span>${t}</span>`).join('')}</div></div><p>${p.one}</p></div></section>
+      <div class="nfoot in"><div><span class="k">BUILT WITH</span><div class="tools">${p.tools.map(toolIcon).join('')}</div></div><p>${p.one}</p></div></section>
     <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">PROCESS · 製作過程</span><p>${p.process}</p></div><span class="cap">${MOB ? 'TAP A SCREEN' : 'HOVER TO SPREAD'} · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k};--zm:${Math.round((shots.length - Math.abs(k - mid)) * 2)}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
     <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
       <h2 class="in">${nx.title}</h2>
