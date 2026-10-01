@@ -61,9 +61,9 @@ window.PROJECTS = [
     stats: [['17', '座百岳'], ['217.1', 'km 總里程'], ['19,434', 'm 總爬升']],
     tools: ['Claude', 'Strava', 'Google Sheets'],
     link: 'https://100-peaks.pages.dev/',
-    shots: ['peaks-1', 'peaks-3', 'peaks-2', 'peaks-4'],
-    mobile: 'peaks-m',
-    mshots: ['peaks-m', 'peaks-m2', 'peaks-m3'],
+    shots: ['peaks-3', 'peaks-1', 'peaks-2', 'peaks-4'],
+    mobile: 'peaks-m3',
+    mshots: ['peaks-m3', 'peaks-m', 'peaks-m2'],
     video: 'peaks',
   },
   {
