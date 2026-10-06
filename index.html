@@ -129,6 +129,14 @@ img,video{display:block}
 .steps .shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 40px 100px -30px #000;transform:perspective(1200px) rotateY(-12deg) rotateX(4deg);transition:transform .8s var(--ease)}
 .steps .shot:hover{transform:none}
 .steps .shot img{width:100%}
+.rounds{flex-direction:column;align-items:stretch;justify-content:center;gap:5vh;padding-top:96px}
+.rounds .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
+.rounds h2{font:600 clamp(22px,2.4vw,36px)/1.3 var(--disp);letter-spacing:-.02em;margin-top:10px;max-width:30em}
+.rounds ol{list-style:none;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:0 3vw}
+.rounds li{border-top:1px solid var(--line);padding:18px 0 26px;display:flex;flex-direction:column;gap:10px}
+.rounds li small{font:400 11px var(--mono);color:var(--c)}
+.rounds li b{font:600 clamp(17px,1.45vw,22px)/1.35 var(--disp);color:var(--txt)}
+.rounds li p{font:400 clamp(13px,.95vw,15px)/1.7 var(--sans);color:#d8d5ce}
 .stats{flex-direction:column;align-items:stretch;justify-content:space-between;padding-top:96px}
 .bgv.dim{filter:blur(22px) brightness(.28) saturate(1.3);transform:scale(1.15)!important}
 .stats .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
@@ -216,6 +224,8 @@ img,video{display:block}
   .steps .grid{grid-template-columns:1fr}
   .steps .shot{width:62%;margin:0 auto;transform:none}
   .steps li{grid-template-columns:60px 1fr}
+  .rounds ol{grid-template-columns:1fr}
+  .panel.rounds{gap:24px}
   .panel.stats{min-height:auto;padding:80px 14px 50px;gap:28px}
   .stat span{flex-direction:column;align-items:center;gap:4px;min-width:0;width:100%;font-size:11px!important;text-align:center}
   .stats .g{grid-template-columns:repeat(3,1fr);gap:10px}
@@ -258,7 +268,7 @@ const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [..
 const app = $('#app'), M = n => `media/${n}`, root = document.documentElement;
 const ITEMS = [...PROJECTS, ABOUT];
 // tool name → media/icons/<file>.webp; names without an icon fall back to a text chip
-const ICONS = { 'Claude': 'claude', 'Strava': 'strava', 'Santa': 'santa', 'Google Sheets': 'google-sheets', 'Blender': 'blender', 'Higgsfield': 'higgsfield', 'ChatGPT': 'chatgpt', 'Adobe Firefly': 'firefly' };
+const ICONS = { 'Claude': 'claude', 'Strava': 'strava', 'Santa': 'santa', 'Google Sheets': 'google-sheets', 'Blender': 'blender', 'Higgsfield': 'higgsfield', 'ChatGPT': 'chatgpt', 'Adobe Firefly': 'firefly', 'Google Drive': 'google-drive', 'Demucs': 'demucs', 'homr': 'homr' };
 const toolIcon = t => ICONS[t] ? `<span class="ti" data-name="${t}"><img src="media/icons/${ICONS[t]}.webp" alt="${t}" width="32" height="32"></span>` : `<span class="tc">${t}</span>`;
 // phones get each project's own portrait (mobile) screenshot + recording
 const mq = matchMedia('(max-width:760px)'), MOB = mq.matches;
@@ -343,7 +353,7 @@ function project(key) {
   if (!p) return home();
   const nx = ITEMS[(i + 1) % ITEMS.length];
   root.style.setProperty('--c', p.color); ambient(null); document.body.classList.add('pj'); document.body.classList.remove('past'); $('#live').href = p.link;
-  const names = ['COVER', ...(p.showcase ? ['MOTION'] : []), p.key === 'about' ? 'CAREER' : 'HOW', 'NUMBERS', 'GALLERY', 'NEXT'];
+  const names = ['COVER', ...(p.showcase ? ['MOTION'] : []), p.key === 'about' ? 'CAREER' : 'HOW', ...(p.log ? ['ROUNDS'] : []), 'NUMBERS', 'GALLERY', 'NEXT'];
   const shots = MOB ? p.mshots : p.shots, mid = (shots.length - 1) / 2;
   app.innerHTML = `
   <div class="deck" id="deck">
@@ -358,6 +368,8 @@ function project(key) {
         : `<figure class="laptop"><i></i><video src="${M(p.video)}.mp4" poster="${M(p.shots[0])}.webp" muted loop playsinline autoplay></video></figure>`}</div></section>` : ''}
     <section class="panel steps"><div class="dots"></div><div class="grid"><ol class="in">${p.steps.map(([h, t], k) => `<li data-k="${k}"><small>0${k + 1}<br>${h}</small><p>${t}</p></li>`).join('')}</ol>
       <div class="shot in${p.halftone ? ' ht' : ''}" style="transition-delay:.15s"><img id="stepImg" src="${IMG(p)}" alt=""></div></div></section>
+    ${p.log ? `<section class="panel rounds"><div class="dots"></div><div class="in"><span class="k">ITERATION · 來回修正</span><h2>${p.loop}</h2></div>
+      <ol class="in" style="transition-delay:.15s;--n:${Math.min(p.log.length, 4)}">${p.log.map(([q, a], k) => `<li><small>ROUND ${String(k + 1).padStart(2, '0')}</small><b>${q}</b><p>${a}</p></li>`).join('')}</ol></section>` : ''}
     <section class="panel stats"><img class="bgv dim" src="${M(p.shots[p.shots.length - 1])}.webp" alt=""><div class="dots"></div>
       <div class="nhead in"><div><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div><div class="why"><span class="k">WHY · 動機</span><p>${p.why}</p></div></div>
       <div class="g">${p.stats.map(([n, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${n}">${n}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div>
