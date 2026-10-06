@@ -369,7 +369,7 @@ function project(key) {
     <section class="panel steps"><div class="dots"></div><div class="grid"><ol class="in">${p.steps.map(([h, t], k) => `<li data-k="${k}"><small>0${k + 1}<br>${h}</small><p>${t}</p></li>`).join('')}</ol>
       <div class="shot in${p.halftone ? ' ht' : ''}" style="transition-delay:.15s"><img id="stepImg" src="${IMG(p)}" alt=""></div></div></section>
     ${p.log ? `<section class="panel rounds"><div class="dots"></div><div class="in"><span class="k">ITERATION · 來回修正</span><h2>${p.loop}</h2></div>
-      <ol class="in" style="transition-delay:.15s;--n:${Math.min(p.log.length, 4)}">${p.log.map(([q, a], k) => `<li><small>ROUND ${String(k + 1).padStart(2, '0')}</small><b>${q}</b><p>${a}</p></li>`).join('')}</ol></section>` : ''}
+      <ol class="in" style="transition-delay:.15s;--n:${Math.min(p.log.length, 5)}">${p.log.map(([q, a], k) => `<li><small>ROUND ${String(k + 1).padStart(2, '0')}</small><b>${q}</b><p>${a}</p></li>`).join('')}</ol></section>` : ''}
     <section class="panel stats"><img class="bgv dim" src="${M(p.shots[p.shots.length - 1])}.webp" alt=""><div class="dots"></div>
       <div class="nhead in"><div><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div><div class="why"><span class="k">WHY · 動機</span><p>${p.why}</p></div></div>
       <div class="g">${p.stats.map(([n, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${n}">${n}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div>
