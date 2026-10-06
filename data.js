@@ -71,8 +71,8 @@ window.PROJECTS = [
     tools: ['Claude', 'homr', 'Demucs', 'Google Drive'],
     link: 'https://weilee01.com/my-score/',
     shots: ['myscore-1', 'myscore-2', 'myscore-3', 'myscore-4'],
-    mobile: 'myscore-m',
-    mshots: ['myscore-m', 'myscore-m2', 'myscore-m3'],
+    mobile: 'myscore-m3',
+    mshots: ['myscore-m3', 'myscore-m', 'myscore-m2'],
     video: 'myscore',
   },
   {
