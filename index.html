@@ -56,8 +56,9 @@ img,video{display:block}
 /* home stage */
 .stage{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;perspective:1800px;touch-action:pan-y;cursor:grab;padding:40px 0 330px}
 .stage.drag{cursor:grabbing}
-.big{position:absolute;left:0;right:0;top:calc(50% - 145px);transform:translateY(-50%);text-align:center;font:800 clamp(56px,15vw,260px)/.9 var(--disp);letter-spacing:-.04em;color:#fff;filter:url(#outline);white-space:nowrap;pointer-events:none;user-select:none}
-.big span{display:inline-block}
+.big{position:absolute;left:0;right:0;top:calc(50% - 145px);transform:translateY(-50%);text-align:center;font:800 clamp(56px,15vw,260px)/.9 var(--disp);letter-spacing:-.04em;color:#fff;white-space:nowrap;pointer-events:none;user-select:none;overflow:hidden}
+.big .mq{display:flex;width:max-content;filter:url(#outline);will-change:transform}
+.big span{display:inline-block;padding-right:.3em}
 .ring{position:relative;width:min(570px,62vw,calc((100vh - 400px)*1.6));aspect-ratio:16/10;transform-style:preserve-3d}
 .card{position:absolute;inset:0;border-radius:18px;overflow:hidden;background:#111;backface-visibility:hidden;border:1px solid var(--line);box-shadow:0 40px 80px -30px #000;transition:filter .5s,box-shadow .5s}
 .card img,.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
@@ -283,25 +284,37 @@ function ambient(key) { $$('video', amb).forEach(v => { const on = v.dataset.k =
 
 /* text scramble */
 function scramble(el, text) {
+  const els = [].concat(el); el = els[0];
   const chars = '!<>-_\\/[]{}—=+*^?#01', from = el.textContent, len = Math.max(from.length, text.length), q = [];
   for (let i = 0; i < len; i++) q.push({ to: text[i] || '', s: Math.random() * 12 | 0, e: (Math.random() * 12 | 0) + 12 });
   let f = 0; cancelAnimationFrame(el._r);
   const tick = () => { let out = '', done = 0;
     q.forEach(c => { if (f >= c.e) { done++; out += c.to; } else if (f >= c.s) out += chars[Math.random() * chars.length | 0]; else out += from[q.indexOf(c)] || ''; });
-    el.textContent = out; if (done < q.length) { f++; el._r = requestAnimationFrame(tick); } };
+    els.forEach(e => e.textContent = out); if (done < q.length) { f++; el._r = requestAnimationFrame(tick); } };
   tick();
+}
+// home title: endless slow crawl to the left; 4 copies so even short titles fill the width
+function marquee(track) {
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let x = 0, t0 = performance.now();
+  const tick = now => { if (!track.isConnected) return;
+    const w = track.firstElementChild.offsetWidth;
+    if (!still && w) { x = (x - (now - t0) * .035) % w; track.style.transform = `translateX(${x}px)`; }
+    t0 = now; requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
 }
 
 function home() {
   document.body.classList.remove('pj', 'past');
   const n = ITEMS.length, step = 360 / n;
   app.innerHTML = `
-  <div class="stage" id="stage"><div class="dots" style="position:fixed"></div><div class="big" id="big"></div><div class="ring" id="ring">
+  <div class="stage" id="stage"><div class="dots" style="position:fixed"></div><div class="big"><div class="mq" id="big">${'<span></span>'.repeat(4)}</div></div><div class="ring" id="ring">
     ${ITEMS.map((p, i) => `<div class="card${p.halftone ? ' ht' : ''}" data-i="${i}" style="--cc:${p.color}"><img src="${IMG(p)}" alt="" draggable="false">${MOB ? '' : `<video muted loop playsinline preload="none" data-src="${VID(p)}"></video>`}<span class="tg">${String(i + 1).padStart(2, '0')} · ${p.tag}</span></div>`).join('')}
   </div></div>
   <div class="info"><span class="k" id="k"></span><h2 id="t"></h2><p id="o"></p><a class="enter" id="go">Project Intro ↗</a></div>
   <nav class="scrub"><div class="ticks">${ITEMS.map((p, i) => `<button data-i="${i}"><span>${p.title.toUpperCase()}</span><i></i></button>`).join('')}<span class="knob" id="knob"></span></div></nav>`;
   const ring = $('#ring'), cards = $$('.card'), stage = $('#stage');
+  marquee($('#big'));
   // ring radius: neighbour edge gap is 0.6x the original layout (R0), never letting cards intersect
   const W = ring.offsetWidth, sn = Math.sin(2 * Math.PI / n), cs = Math.cos(2 * Math.PI / n), half = W / 2 * (1 + cs);
   const R0 = Math.max(W * .5 / Math.tan(Math.PI / n) + 60, W * 1.05), R = Math.max((.6 * (R0 * sn - half) + half) / sn, W * .5 / Math.tan(Math.PI / n) + 10);
@@ -311,7 +324,7 @@ function home() {
     if (i === active) return; active = i; const p = ITEMS[i];
     root.style.setProperty('--c', p.color);
     cards.forEach((c, j) => { c.classList.toggle('act', j === i); const v = $('video', c); if (!v) return; if (j === i) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); } else v.pause(); });
-    scramble($('#big'), p.title.toUpperCase()); scramble($('#t'), p.title);
+    scramble($$('#big span'), p.title.toUpperCase()); scramble($('#t'), p.title);
     $('#k').textContent = `${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')} · ${p.tag.toUpperCase()} · ${p.year}`;
     $('#o').textContent = p.one;
     $('#go').href = `#/p/${p.key}`;
