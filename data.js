@@ -16,6 +16,31 @@ window.SITE = {
 
 window.PROJECTS = [
   {
+    key: 'home',
+    title: '3D Home',
+    tag: '3D',
+    sub: 'Walk-through home style try-on',
+    year: '2026',
+    color: '#d0583a',
+    color2: '#efebe3',
+    bg: '#0e0c0b',
+    one: '從一張平面圖，走進自己的家',
+    why: '只有一張平面圖和樣品屋照片，很難想像換了風格、換了光線之後，家裡實際會是什麼樣子。',
+    process: '照平面圖用 Python 在 Blender 建出整間房子和家具，再用 Three.js 做成網頁：一鍵換 20 種風格、切換日光黃昏夜晚，還能走進去逛。',
+    steps: [
+      ['問題', '平面圖看不出住起來的樣子'],
+      ['做法', 'Blender 建模 + Three.js 互動'],
+      ['成果', '一鍵換風格，走進去看'],
+    ],
+    stats: [['20', '種風格'], ['3', '種光線時段'], ['54', 'm² 實際戶型']],
+    tools: ['Claude', 'Blender', 'Three.js'],
+    link: 'https://a2-home.pages.dev/',
+    shots: ['home-1', 'home-2', 'home-3', 'home-4'],
+    mobile: 'home-m',
+    mshots: ['home-m', 'home-m2', 'home-m3'],
+    video: 'home',
+  },
+  {
     key: 'dashboard',
     title: 'My Dashboard',
     tag: 'Data',
