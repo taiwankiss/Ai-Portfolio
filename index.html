@@ -274,7 +274,7 @@ const toolIcon = t => ICONS[t] ? `<span class="ti" data-name="${t}"><img src="me
 // phones get each project's own portrait (mobile) screenshot + recording
 const mq = matchMedia('(max-width:760px)'), MOB = mq.matches;
 mq.addEventListener('change', e => e.matches !== MOB && location.reload()); // swap desktop/portrait media when crossing the breakpoint
-const IMG = p => M(MOB ? p.mobile : p.shots[0]) + '.webp', VID = p => M(p.video + (MOB ? '-m' : '')) + '.mp4';
+const IMG = p => M(MOB ? p.mobile : p.shots[0]) + '.webp', VID = p => M(p.preview ? p.preview + (MOB ? '-v' : '') : p.video + (MOB ? '-m' : '')) + '.mp4';
 let cleanup = () => {};
 
 /* ambient video layer shared by both views */

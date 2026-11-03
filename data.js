@@ -250,4 +250,6 @@ window.ABOUT = {
   showcase: true,
   // motion résumé reel (media/about-reel.mp4 horizontal for desktop, about-reel-v.mp4 vertical for phones)
   reel: 'about-reel',
+  // home card / cover preview plays the reel too instead of the site recording
+  preview: 'about-reel',
 };
