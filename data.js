@@ -24,7 +24,7 @@ window.PROJECTS = [
     color: '#9fd67f',
     color2: '#8fd0c8',
     bg: '#0a0f0c',
-    one: '把動物園變成一片海上群島',
+    one: '想像動物園是一片海上群島',
     why: '動物園的平面導覽圖很難看出園區之間的距離和高低，也不知道現在哪些動物醒著、值得先去看。',
     process: '照官方地圖把 12 個園區做成海上的厚台地島，用橋、樓梯和海上大橋串起來；再用 Three.js 放進 75 種會動的方塊動物、遊客、船和飛機，點島或動物就有介紹卡和隨堂小考。',
     steps: [
@@ -168,7 +168,7 @@ window.PROJECTS = [
     color: '#d0583a',
     color2: '#efebe3',
     bg: '#0e0c0b',
-    one: '從一張平面圖，走進自己的家',
+    one: '從平面到3D，歡迎參觀',
     why: '只有一張平面圖和樣品屋照片，很難想像換了風格、換了光線之後，家裡實際會是什麼樣子。',
     process: '照平面圖用 Python 在 Blender 建出整間房子和家具，再用 Three.js 做成網頁：一鍵換 20 種風格、切換日光黃昏夜晚，還能走進去逛。',
     steps: [
@@ -202,7 +202,7 @@ window.PROJECTS = [
     color: '#ff9e5a',
     color2: '#5aa0ff',
     bg: '#0d0b0a',
-    one: '持續滾動推進訓練的一天',
+    one: '訓練分析與商品推薦',
     why: '一直想試試 scrollytelling 的華麗效果，就把喜歡的跑步、騎車、登山組成一個品牌活動頁，讓人看完就想出門訓練。',
     process: '先用 ChatGPT 生成三種運動的設定圖，再用 Higgsfield 渲染影片；原本一格畫面對應一次滾動效果不好，改成滑一次播一段，轉場更順。',
     steps: [
@@ -220,9 +220,34 @@ window.PROJECTS = [
     // recorded without the site's dot texture; the page lays the dots back on in CSS (much smaller files)
     halftone: true,
   },
+  {
+    key: 'aifree',
+    title: 'AI-free Portfolio',
+    tag: 'Portfolio',
+    sub: 'Design work & résumé',
+    year: '2026',
+    color: '#f4a711',
+    color2: '#edeae4',
+    bg: '#0e0d0b',
+    one: '非 AI 作品集與個人經歷',
+    why: '十年的設計作品放在難更新的 WordPress，履歷又在另一個網站；想把作品和經歷整理在同一個地方。',
+    process: '把 WordPress 的 37 件作品、292 張圖搬成靜態網站，再把履歷網站併進來當 About 頁，統一深色與橘色；接上 Pages CMS 當後台，存檔就自動上線。',
+    steps: [
+      ['問題', '作品和履歷分散在兩個網站'],
+      ['做法', '作品集搬成靜態網站，履歷併成 About'],
+      ['成果', '作品與經歷一站看完'],
+    ],
+    stats: [['37', '件作品'], ['10+', '年設計經驗'], ['5', '種作品類別']],
+    tools: ['Claude', 'Cloudflare', 'Pages CMS'],
+    link: 'https://weilee01.com/',
+    shots: ['aifree-1', 'aifree-2', 'aifree-3', 'aifree-4'],
+    mobile: 'aifree-m',
+    mshots: ['aifree-m', 'aifree-m2', 'aifree-m3'],
+    video: 'aifree',
+  },
 ];
 
-// About me: sits in the orbit like any project and has its own page.
+// About me: no longer in the orbit (AI-free Portfolio covers it); kept for the concepts/ prototypes.
 // `showcase` adds a chapter with the desktop + mobile recordings side by side.
 window.ABOUT = {
   key: 'about',
