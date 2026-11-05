@@ -273,7 +273,8 @@ img,video{display:block}
 <div class="intro" id="intro"><h1 id="introH"></h1></div>
 <div class="toast" id="toast">EMAIL COPIED</div>
 
-<script src="data.js"></script>
+<!-- weilee01.com's Cloudflare zone tells browsers to cache files for 4 h: load data.js fresh so edits show right away -->
+<script>document.write('<script src="data.js?v=' + Date.now() + '"><\/script>');</script>
 <script>
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const app = $('#app'), M = n => `media/${n}`, root = document.documentElement;
@@ -286,6 +287,7 @@ const mq = matchMedia('(max-width:760px)'), MOB = mq.matches;
 mq.addEventListener('change', e => e.matches !== MOB && location.reload()); // swap desktop/portrait media when crossing the breakpoint
 const IMG = p => M(MOB ? p.mobile : p.shots[0]) + '.webp', VID = p => M(p.preview ? p.preview + (MOB ? '-v' : '') : p.video + (MOB ? '-m' : '')) + '.mp4';
 let cleanup = () => {};
+let lastIdx = 0; // last project opened: going back re-centres the ring on it
 
 /* ambient video layer shared by both views */
 const amb = $('#amb');
@@ -335,7 +337,7 @@ function home() {
     R = Math.max((.6 * (R0 * sn - half) + half) / sn, W * .5 / Math.tan(Math.PI / n) + 10);
     const b = $$('.scrub button')[active]; if (b) $('#knob').style.left = b.offsetLeft + b.offsetWidth / 2 + 'px';
   };
-  let ang = 0, target = 0, active = -1, raf, drag = null, idle;
+  let ang = -lastIdx * step, target = ang, active = -1, raf, drag = null, idle;
   const snap = () => { target = Math.round(target / step) * step; };
   const setActive = i => {
     if (i === active) return; active = i; const p = ITEMS[i];
@@ -382,6 +384,7 @@ function home() {
 function project(key) {
   const i = ITEMS.findIndex(p => p.key === key), p = ITEMS[i];
   if (!p) return home();
+  lastIdx = i;
   const nx = ITEMS[(i + 1) % ITEMS.length];
   root.style.setProperty('--c', p.color); ambient(null); document.body.classList.add('pj'); document.body.classList.remove('past'); $('#live').href = p.link;
   const names = ['COVER', ...(p.showcase ? ['MOTION'] : []), p.key === 'about' ? 'CAREER' : 'HOW', ...(p.log ? ['ROUNDS'] : []), 'NUMBERS', 'GALLERY', 'NEXT'];
