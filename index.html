@@ -3,7 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ai Work</title>
+<title>WEI LEE · WORKS</title>
+<meta name="description" content="十年視覺設計，現在也用 AI 把想法做出來。 AI 作品、非 AI 作品集與個人經歷。">
+<meta property="og:title" content="WEI LEE · WORKS">
+<meta property="og:description" content="十年視覺設計，現在也用 AI 把想法做出來。 AI 作品、非 AI 作品集與個人經歷。">
+<meta property="og:image" content="https://weilee01.com/media/zoo-1.webp">
+<meta property="og:url" content="https://weilee01.com/">
+<meta name="apple-mobile-web-app-title" content="WEI LEE">
 <link rel="icon" type="image/png" href="media/favicon.png">
 <link rel="apple-touch-icon" href="media/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -117,6 +123,9 @@ img,video{display:block}
 .cover .meta{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 26px;font:400 12px var(--mono)}
 .cover .meta span{border:1px solid var(--line);border-radius:99px;padding:7px 12px;backdrop-filter:blur(8px);background:#0004}
 .cover .one{font:400 clamp(18px,1.8vw,24px)/1.45 var(--sans);max-width:30ch;color:#e4e1da}
+/* phones: hint that the project page scrolls down (hidden once you leave the cover) */
+.swipe{display:none}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
 .cover .row{display:flex;gap:20px;align-items:flex-end;justify-content:space-between;width:100%;flex-wrap:wrap}
 .steps{align-items:center;background:radial-gradient(60% 60% at 80% 50%,color-mix(in srgb,var(--c) 18%,transparent),transparent)}
 .steps .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:5vw;width:100%;align-items:center}
@@ -227,6 +236,10 @@ img,video{display:block}
   .scrub button span{display:none}
   .deck{position:relative;flex-direction:column;transform:none!important}
   .panel{flex:none;width:100%;min-height:100svh;height:auto;padding:90px 18px 60px}
+  .cover .swipe{display:flex;flex-direction:column;align-items:center;gap:8px;position:absolute;left:50%;bottom:18px;transform:translateX(-50%);font:400 10px var(--mono);letter-spacing:.2em;color:var(--mute);transition:opacity .4s}
+  .cover .swipe i{width:1px;height:26px;background:linear-gradient(var(--c),transparent);animation:bob 1.8s var(--ease) infinite}
+  .past .cover .swipe{opacity:0}
+  .panel.cover{padding-bottom:100px}
   .panel .in{opacity:1;transform:none}
   .stage{padding:56px 0 290px}
   .big{top:calc(50% - 116px)}
@@ -264,7 +277,7 @@ img,video{display:block}
 <div class="grain"></div>
 <div class="hud">
   <div class="hud__top">
-    <a class="brand" href="#/"><img src="media/logo.webp" alt="">AI WORK</a><a class="backc" href="#/" aria-label="Back to orbit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
+    <a class="brand" href="#/"><img src="media/logo.webp" alt="">WEI LEE · WORKS</a><a class="backc" href="#/" aria-label="Back to orbit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
     <div class="r"><span class="hm" id="count"></span><a class="livepill" id="live" target="_blank" rel="noopener">Live Project ↗</a></div>
   </div>
 </div>
@@ -393,7 +406,7 @@ function project(key) {
   <div class="deck" id="deck">
     <section class="panel cover"><video class="bgv" src="${VID(p)}" poster="${IMG(p)}" muted loop playsinline autoplay></video><div class="dots"></div>
       <div class="row"><div class="in"><h1>${p.title}</h1><div class="meta"><span>${String(i + 1).padStart(2, '0')} · ${p.tag}</span><span>${p.year}</span>${p.tools.map(t => `<span>${t}</span>`).join('')}</div><p class="one">${p.one}</p></div>
-      <a class="enter in" href="${p.link}" target="_blank" rel="noopener" style="transition-delay:.2s">Live Project ↗</a></div></section>
+      <a class="enter in" href="${p.link}" target="_blank" rel="noopener" style="transition-delay:.2s">Live Project ↗</a></div><div class="swipe" aria-hidden="true">SCROLL<i></i></div></section>
     ${p.showcase ? `<section class="panel show"><div class="dots"></div><span class="cap in">MOTION RÉSUMÉ · 求職動態影片</span>
       <div class="devices in">${p.reel
         ? `<figure class="yt ${MOB ? 'v' : 'h'}"><video data-src="${M(p.reel + (MOB ? '-v' : ''))}.mp4" poster="${M(p.reel + (MOB ? '-v' : ''))}.webp" muted loop playsinline preload="none"></video><button class="snd" type="button" aria-label="Sound">SOUND OFF</button></figure>`

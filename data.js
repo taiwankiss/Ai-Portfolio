@@ -1,9 +1,9 @@
 // Single source of truth for all three concepts.
 // To add a project: append one object to PROJECTS — every layout picks it up.
 window.SITE = {
-  name: 'Ai Work',
-  kicker: 'Ai Work',
-  intro: '用 AI 把腦袋的想法做出來。',
+  name: 'WEI LEE · WORKS',
+  kicker: 'WEI LEE · WORKS',
+  intro: '十年視覺設計，現在也用 AI 把想法做出來。',
   email: 's923446@gmail.com',
   socials: [
     ['Website', 'https://weilee01.com/'],
