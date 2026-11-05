@@ -168,7 +168,7 @@ window.PROJECTS = [
     color: '#d0583a',
     color2: '#efebe3',
     bg: '#0e0c0b',
-    one: '從平面到3D，歡迎參觀',
+    one: '從平面到3D，歡迎參觀我家',
     why: '只有一張平面圖和樣品屋照片，很難想像換了風格、換了光線之後，家裡實際會是什麼樣子。',
     process: '照平面圖用 Python 在 Blender 建出整間房子和家具，再用 Three.js 做成網頁：一鍵換 20 種風格、切換日光黃昏夜晚，還能走進去逛。',
     steps: [
