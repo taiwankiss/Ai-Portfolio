@@ -280,7 +280,7 @@ function project(key) {
       <div class="chips">${p.tools.map(t => `<span>${t}</span>`).join('')}</div>
       <div class="cta"><a class="btn" href="${p.link}" target="_blank" rel="noopener">Open live site ${arrow}</a></div>
     </section>
-    ${p.steps.map(([h, t], k) => `<section class="t step enter" style="--i:${k + 2}"><span class="n">0${k + 1} — ${h}</span><p>${t}</p><div class="bar"><i style="transition-delay:${k * 200 + 300}ms"></i></div></section>`).join('')}
+    ${(p.steps || []).map(([h, t], k) => `<section class="t step enter" style="--i:${k + 2}"><span class="n">0${k + 1} — ${h}</span><p>${t}</p><div class="bar"><i style="transition-delay:${k * 200 + 300}ms"></i></div></section>`).join('')}
     ${p.stats.map(([n, l], k) => `<section class="t stat enter" style="--i:${k + 5}"><span class="lbl">${l}</span><b data-count="${n}">${n}</b></section>`).join('')}
     <section class="t mob enter" style="--i:8"><img src="${M(p.mobile)}.webp" alt="${p.title} mobile"></section>
     <section class="t gal enter" style="--i:9"><div class="strip" id="strip">${shots.map(s => `<figure><img src="${M(s)}.webp" alt="" loading="lazy"></figure>`).join('')}</div><div class="dots">${shots.map((_, k) => `<i class="${k ? '' : 'on'}"></i>`).join('')}</div></section>

@@ -302,7 +302,7 @@ function project(key) {
     </div>
     <p class="pj__one reveal">${p.one}</p>
     <a class="stage" href="${p.link}" target="_blank" rel="noopener"><video src="${M(p.video)}.mp4" poster="${M(p.shots[0])}.webp" muted loop playsinline autoplay></video><span class="cur">VISIT ↗</span></a>
-    <div class="steps">${p.steps.map(([h, t], k) => `<div class="step reveal" style="transition-delay:${k * 90}ms"><small><span>${h}</span><span>0${k + 1}</span></small><p>${t}</p></div>`).join('')}</div>
+    <div class="steps">${(p.steps || []).map(([h, t], k) => `<div class="step reveal" style="transition-delay:${k * 90}ms"><small><span>${h}</span><span>0${k + 1}</span></small><p>${t}</p></div>`).join('')}</div>
     <div class="stats">${p.stats.map(([n, l]) => `<div class="stat reveal"><b data-count="${n}">${n}</b><span>${l}</span></div>`).join('')}</div>
   </article>
   <section class="hscroll" id="hs">

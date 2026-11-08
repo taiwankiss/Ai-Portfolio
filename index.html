@@ -131,17 +131,16 @@ img,video{display:block}
 .swipe{display:none}
 @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
 .cover .row{display:flex;gap:20px;align-items:flex-end;justify-content:space-between;width:100%;flex-wrap:wrap}
-.steps{align-items:center;background:radial-gradient(60% 60% at 80% 50%,color-mix(in srgb,var(--c) 18%,transparent),transparent)}
-.steps .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:5vw;width:100%;align-items:center}
-.steps ol{list-style:none;display:flex;flex-direction:column;gap:6px}
-.steps li{padding:22px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:90px 1fr;gap:12px;cursor:default;transition:padding .5s var(--ease)}
-.steps li small{font:400 12px var(--mono);color:var(--c);padding-top:10px}
-.steps li p{font:600 clamp(22px,2.6vw,40px)/1.15 var(--disp);letter-spacing:-.02em;color:#ffffff55;transition:color .4s}
-.steps li.hl p{color:var(--txt)}
-.steps li.hl{padding-left:12px}
-.steps .shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 40px 100px -30px #000;transform:perspective(1200px) rotateY(-12deg) rotateX(4deg);transition:transform .8s var(--ease)}
-.steps .shot:hover{transform:none}
-.steps .shot img{width:100%}
+.story{align-items:center;background:radial-gradient(60% 60% at 80% 50%,color-mix(in srgb,var(--c) 18%,transparent),transparent)}
+.story .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:5vw;width:100%;align-items:center}
+/* the project's story as two short paragraphs: why it was made, then how */
+.story .txt{display:flex;flex-direction:column;gap:12px;max-width:36em}
+.story .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
+.story .why{font:600 clamp(20px,2vw,30px)/1.45 var(--disp);letter-spacing:-.01em;color:var(--txt);margin-bottom:22px}
+.story .how{font:400 clamp(15px,1.15vw,18px)/1.8 var(--sans);color:#d8d5ce}
+.story .shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 40px 100px -30px #000;transform:perspective(1200px) rotateY(-12deg) rotateX(4deg);transition:transform .8s var(--ease)}
+.story .shot:hover{transform:none}
+.story .shot img{width:100%}
 .rounds{flex-direction:column;align-items:stretch;justify-content:center;gap:5vh;padding-top:96px}
 .rounds .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
 .rounds h2{font:600 clamp(22px,2.4vw,36px)/1.3 var(--disp);letter-spacing:-.02em;margin-top:10px;max-width:30em}
@@ -154,10 +153,8 @@ img,video{display:block}
 .bgv.dim{filter:blur(22px) brightness(.28) saturate(1.3);transform:scale(1.15)!important}
 .stats .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
 .nhead{display:flex;justify-content:space-between;align-items:flex-start;gap:5vw}
-.why{max-width:34em}
-.why p{font:400 clamp(15px,1.15vw,18px)/1.75 var(--sans);color:#d8d5ce;margin-top:10px}
 .nhead h2{font:600 clamp(28px,3.4vw,52px)/1 var(--disp);letter-spacing:-.03em;margin-top:10px}
-.stats .g{display:grid;grid-template-columns:repeat(3,1fr);gap:4vw;width:100%}
+.stats .g{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:4vw;width:100%;max-width:calc(var(--n) * 30%);margin:0 auto}
 .stat{display:flex;flex-direction:column;align-items:center;gap:18px}
 .stat svg{width:min(300px,22vw,34vh);height:auto;overflow:visible}
 .stat .tick{stroke:#ffffff30;stroke-width:6;stroke-dasharray:.0025 .01417;transform-origin:center;animation:turn 60s linear infinite}
@@ -249,14 +246,13 @@ img,video{display:block}
   .big{top:calc(50% - 116px)}
   .ring{width:min(200px,50vw,calc((100svh - 390px)*.462));aspect-ratio:390/844}
   .card{border-radius:16px}
-  .steps .grid{grid-template-columns:1fr}
-  .steps .shot{width:62%;margin:0 auto;transform:none}
-  .steps li{grid-template-columns:60px 1fr}
+  .story .grid{grid-template-columns:1fr}
+  .story .shot{width:62%;margin:0 auto;transform:none}
   .rounds ol{grid-template-columns:1fr}
   .panel.rounds{gap:24px}
   .panel.stats{min-height:auto;padding:80px 14px 50px;gap:28px}
   .stat span{flex-direction:column;align-items:center;gap:4px;min-width:0;width:100%;font-size:11px!important;text-align:center}
-  .stats .g{grid-template-columns:repeat(3,1fr);gap:10px}
+  .stats .g{grid-template-columns:repeat(var(--n),1fr);gap:10px;max-width:calc(var(--n) * 33.4%)}
   .stat{gap:10px}
   .stat svg{width:100%}
   .stat span{font-size:10px;text-align:center}
@@ -404,7 +400,8 @@ function project(key) {
   lastIdx = i;
   const nx = ITEMS[(i + 1) % ITEMS.length];
   root.style.setProperty('--c', p.color); ambient(null); document.body.classList.add('pj'); document.body.classList.remove('past'); $('#live').href = p.link;
-  const names = ['COVER', ...(p.showcase ? ['MOTION'] : []), p.key === 'about' ? 'CAREER' : 'HOW', ...(p.log ? ['ROUNDS'] : []), 'NUMBERS', 'GALLERY', 'NEXT'];
+  // chapters follow what each project has: ROUNDS only with a log, NUMBERS only with stats
+  const names = ['COVER', ...(p.showcase ? ['MOTION'] : []), 'STORY', ...(p.log ? ['ROUNDS'] : []), ...(p.stats?.length ? ['NUMBERS'] : []), 'GALLERY', 'NEXT'];
   const shots = MOB ? p.mshots : p.shots, mid = (shots.length - 1) / 2;
   app.innerHTML = `
   <div class="deck" id="deck">
@@ -417,15 +414,15 @@ function project(key) {
         : MOB
         ? `<figure class="phone"><video src="${M(p.video)}-m.mp4" poster="${M(p.mobile)}.webp" muted loop playsinline autoplay></video></figure>`
         : `<figure class="laptop"><i></i><video src="${M(p.video)}.mp4" poster="${M(p.shots[0])}.webp" muted loop playsinline autoplay></video></figure>`}</div></section>` : ''}
-    <section class="panel steps"><div class="dots"></div><div class="grid"><ol class="in">${p.steps.map(([h, t], k) => `<li data-k="${k}"><small>0${k + 1}<br>${h}</small><p>${t}</p></li>`).join('')}</ol>
-      <div class="shot in${p.halftone ? ' ht' : ''}" style="transition-delay:.15s"><img id="stepImg" src="${IMG(p)}" alt=""></div></div></section>
+    <section class="panel story"><div class="dots"></div><div class="grid"><div class="txt in"><span class="k">WHY · 動機</span><p class="why">${p.why}</p><span class="k">HOW · 做法</span><p class="how">${p.process}</p></div>
+      <div class="shot in${p.halftone ? ' ht' : ''}" style="transition-delay:.15s"><img src="${IMG(p)}" alt=""></div></div></section>
     ${p.log ? `<section class="panel rounds"><div class="dots"></div><div class="in"><span class="k">ITERATION · 來回修正</span><h2>${p.loop}</h2></div>
       <ol class="in" style="transition-delay:.15s;--n:${Math.min(p.log.length, 5)}">${p.log.map(([q, a], k) => `<li><small>ROUND ${String(k + 1).padStart(2, '0')}</small><b>${q}</b><p>${a}</p></li>`).join('')}</ol></section>` : ''}
-    <section class="panel stats"><img class="bgv dim" src="${M(p.shots[p.shots.length - 1])}.webp" alt=""><div class="dots"></div>
-      <div class="nhead in"><div><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div><div class="why"><span class="k">WHY · 動機</span><p>${p.why}</p></div></div>
-      <div class="g">${p.stats.map(([n, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${n}">${n}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div>
-      <div class="nfoot in"><div><span class="k">BUILT WITH</span><div class="tools">${p.tools.map(toolIcon).join('')}</div></div><p>${p.one}</p></div></section>
-    <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">PROCESS · 製作過程</span><p>${p.process}</p></div><span class="cap">${MOB ? 'TAP A SCREEN' : 'HOVER TO SPREAD'} · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k};--zm:${Math.round((shots.length - Math.abs(k - mid)) * 2)}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
+    ${p.stats?.length ? `<section class="panel stats"><img class="bgv dim" src="${M(p.shots[p.shots.length - 1])}.webp" alt=""><div class="dots"></div>
+      <div class="nhead in"><div><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div></div>
+      <div class="g" style="--n:${p.stats.length}">${p.stats.map(([n, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${n}">${n}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div>
+      <div class="nfoot in"><div><span class="k">BUILT WITH</span><div class="tools">${p.tools.map(toolIcon).join('')}</div></div><p>${p.one}</p></div></section>` : ''}
+    <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">GALLERY · 畫面</span></div><span class="cap">${MOB ? 'TAP A SCREEN' : 'HOVER TO SPREAD'} · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k};--zm:${Math.round((shots.length - Math.abs(k - mid)) * 2)}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
     <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
       <h2 class="in">${nx.title}</h2>
       <div class="endbtns in"><a class="nextlink" href="#/p/${nx.key}" style="--c:${nx.color}">Next Project</a></div></section>
@@ -448,31 +445,21 @@ function project(key) {
     ytOn(panels[k].classList.contains('show'));
     const nv = $('.next .bgv'); if (panels[k].classList.contains('next')) { nv.preload = 'auto'; nv.play().catch(() => {}); } else nv.pause();
   };
-  // the steps chapter lights 01 → 02 → 03 one scroll at a time before moving on
-  const lis = $$('.steps li'); let step = -1;
-  const lit = k => { step = k; lis.forEach((li, j) => li.classList.toggle('hl', j === k));
-    if (k < 0 || MOB) return; const img = $('#stepImg'), src = `${M(p.shots[k % p.shots.length])}.webp`; if (img.getAttribute('src') === src) return;
-    img.animate([{ opacity: .2, transform: 'scale(1.04)' }, { opacity: 1, transform: 'none' }], { duration: 500, easing: 'ease-out' }); img.src = src; };
-  const go = d => {
-    if (panels[idx]?.classList.contains('steps')) { if (d > 0 && step < lis.length - 1) return lit(step + 1); if (d < 0 && step >= 0) return lit(step - 1); }
-    show(idx + d); if (panels[idx].classList.contains('steps')) lit(d > 0 ? -1 : lis.length - 1);
-  };
-  const onWheel = e => { if (mobile) return; e.preventDefault(); if (Date.now() < lock) return; acc += e.deltaY + e.deltaX; if (Math.abs(acc) > 60) { const d = Math.sign(acc); acc = 0; const wasSteps = panels[idx].classList.contains('steps'); go(d); lock = Date.now() + (wasSteps && panels[idx].classList.contains('steps') ? 450 : 900); } };
+  const go = d => show(idx + d);
+  const onWheel = e => { if (mobile) return; e.preventDefault(); if (Date.now() < lock) return; acc += e.deltaY + e.deltaX; if (Math.abs(acc) > 60) { const d = Math.sign(acc); acc = 0; go(d); lock = Date.now() + 900; } };
   const onKey = e => { if (['ArrowRight', 'ArrowDown', ' '].includes(e.key)) go(1); if (['ArrowLeft', 'ArrowUp'].includes(e.key)) go(-1); if (e.key === 'Escape') location.hash = '#/'; };
   let ty = 0; const ts = e => ty = e.touches[0].clientX, te = e => { const d = ty - e.changedTouches[0].clientX; if (!mobile && Math.abs(d) > 50) go(Math.sign(d)); };
   addEventListener('wheel', onWheel, { passive: false }); addEventListener('keydown', onKey); addEventListener('touchstart', ts); addEventListener('touchend', te);
-  $$('.prog button').forEach(b => b.onclick = () => { show(+b.dataset.k); if (panels[idx].classList.contains('steps')) lit(-1); });
+  $$('.prog button').forEach(b => b.onclick = () => show(+b.dataset.k));
   // phones scroll vertically: each chapter animates once when it enters and stays on
   if (mobile) { const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const pn = e.target; io.unobserve(pn); pn.classList.add('on'); if (pn.classList.contains('stats')) countUp(pn); if (pn.classList.contains('show')) ytOn(true); if (pn.classList.contains('next')) $('.bgv', pn).play().catch(() => {}); }), { threshold: .35 }); panels.forEach(pn => io.observe(pn)); cleanup = () => io.disconnect(); }
   if (mobile) {
-    const sio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && lit(lis.indexOf(e.target))), { rootMargin: '-45% 0px -45% 0px' });
-    lis.forEach(li => sio.observe(li));
     const cv = $('.cover .bgv'), cb = $('.cover .enter'); cv.style.transition = 'none'; let pr = 0;
     const par = () => { cancelAnimationFrame(pr); pr = requestAnimationFrame(() => { const y = Math.min(document.body.scrollTop || scrollY, innerHeight * 1.2);
       cv.style.transform = `translate3d(0,${y * .45}px,0) scale(${1 + y / innerHeight * .35})`;
       document.body.classList.toggle('past', cb.getBoundingClientRect().bottom < 64); }); }; // pill shows once the cover button has passed under the header, at any scroll speed
     document.body.addEventListener('scroll', par, { passive: true }); addEventListener('scroll', par, { passive: true }); par();
-    const pc = cleanup; cleanup = () => { pc(); sio.disconnect(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
+    const pc = cleanup; cleanup = () => { pc(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
   }
   if (!mobile) requestAnimationFrame(() => show(0));
   const prev = cleanup;
