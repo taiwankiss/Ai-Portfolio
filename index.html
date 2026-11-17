@@ -153,14 +153,20 @@ img,video{display:block}
 .story .shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 40px 100px -30px #000;transform:perspective(1200px) rotateY(-12deg) rotateX(4deg);transition:transform .8s var(--ease)}
 .story .shot:hover{transform:none}
 .story .shot img{width:100%}
-.rounds{flex-direction:column;align-items:stretch;justify-content:center;gap:5vh;padding-top:96px}
+.rounds{align-items:center}
+.rounds .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:5vw;width:100%;align-items:center}
 .rounds .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
-.rounds h2{font:600 clamp(22px,2.4vw,36px)/1.3 var(--disp);letter-spacing:-.02em;margin-top:10px;max-width:30em}
-.rounds ol{list-style:none;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:0 3vw}
-.rounds li{border-top:1px solid var(--line);padding:18px 0 26px;display:flex;flex-direction:column;gap:10px}
-.rounds li small{font:400 11px var(--mono);color:var(--c)}
-.rounds li b{font:600 clamp(17px,1.45vw,22px)/1.35 var(--disp);color:var(--txt)}
-.rounds li p{font:400 clamp(13px,.95vw,15px)/1.7 var(--sans);color:#d8d5ce}
+.rounds h2{font:600 clamp(20px,1.9vw,28px)/1.35 var(--disp);letter-spacing:-.02em;margin:10px 0 22px;max-width:30em}
+.rounds ol{list-style:none;display:flex;flex-direction:column}
+/* one round is lit at a time (scroll steps through them); the others wait in the dark */
+.rounds li{border-top:1px solid var(--line);border-left:2px solid transparent;padding:14px 0 16px;display:grid;grid-template-columns:76px 1fr;gap:4px 14px;opacity:.38;transition:opacity .4s,padding .5s var(--ease),border-color .4s}
+.rounds li.hl{opacity:1;padding-left:14px;border-left-color:var(--c)}
+.rounds li small{font:400 7px/1.6 var(--px);color:var(--c);padding-top:5px}
+.rounds li b{font:600 clamp(15px,1.25vw,19px)/1.35 var(--disp);color:var(--txt)}
+.rounds li p{grid-column:2;font:400 clamp(13px,.95vw,15px)/1.65 var(--sans);color:#d8d5ce}
+.rounds .shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 40px 100px -30px #000;transform:perspective(1200px) rotateY(10deg) rotateX(3deg);transition:transform .8s var(--ease)}
+.rounds .shot:hover{transform:none}
+.rounds .shot img{width:100%;display:block}
 .stats{flex-direction:column;align-items:stretch;justify-content:space-between;padding-top:96px}
 .bgv.dim{filter:blur(22px) brightness(.28) saturate(1.3);transform:scale(1.15)!important}
 .stats .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
@@ -188,11 +194,12 @@ img,video{display:block}
 .panel.on .stat .val{stroke-dashoffset:.25}
 .stat text{fill:var(--txt);font:800 34px var(--disp);text-anchor:middle;dominant-baseline:middle}
 .stat span{font:400 12px var(--mono);color:var(--mute)}
-.fan{flex-direction:column;align-items:center;justify-content:flex-start;gap:5vh;padding-top:96px}
+.fan{flex-direction:column;align-items:center;justify-content:flex-start;gap:4vh;padding-top:96px}
+.fanhead h2{font:600 clamp(24px,2.8vw,42px)/1.25 var(--disp);letter-spacing:-.02em;margin-top:12px;max-width:22em}
 .fanhead{width:100%;display:flex;justify-content:space-between;align-items:flex-end;gap:5vw}
 .fanhead .k{font:400 11px var(--mono);letter-spacing:.12em;color:var(--c)}
 .fanhead p{max-width:40em;font:400 clamp(15px,1.15vw,18px)/1.75 var(--sans);color:#d8d5ce;margin-top:10px}
-.fan .stack{position:relative;width:min(760px,70vw,calc((100vh - 400px)*1.6));aspect-ratio:16/10;margin:auto 0}
+.fan .stack{position:relative;width:min(760px,70vw,calc((100vh - 360px)*1.6));aspect-ratio:16/10;margin:auto 0 0}
 .fan figure{position:absolute;inset:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -20px #000;transition:transform .9s var(--ease);z-index:var(--z);transform:rotate(calc((var(--k) - var(--mid))*3deg)) translateY(calc(var(--k)*-6px))}
 .fan figure img{width:100%;height:100%;object-fit:cover;object-position:top}
 .fan .stack:hover figure{transform:translateX(calc((var(--k) - var(--mid))*var(--sp))) rotate(calc((var(--k) - var(--mid))*6deg)) scale(.7)}
@@ -216,6 +223,8 @@ img,video{display:block}
 .next{align-items:center;justify-content:center;flex-direction:column;gap:24px;text-align:center}
 .next small{font:400 12px var(--mono);color:var(--mute)}
 .next h2{font:800 clamp(48px,9vw,150px)/.9 var(--disp);letter-spacing:-.05em}
+.next .one{font:400 clamp(15px,1.3vw,20px)/1.5 var(--sans);color:#e4e1da;max-width:30ch}
+.next .bgv{filter:brightness(.8)}
 .endbtns{display:flex;flex-direction:column;align-items:center;gap:22px;margin-top:8px}
 .prog{position:fixed;left:28px;right:28px;bottom:34px;z-index:15;display:flex;gap:8px}
 .prog button{flex:1;text-align:left;font:400 10px var(--mono);color:var(--mute);letter-spacing:.06em;padding-top:10px;position:relative}
@@ -261,8 +270,11 @@ img,video{display:block}
   .card{border-radius:16px}
   .story .grid{grid-template-columns:1fr}
   .story .shot{width:62%;margin:0 auto;transform:none}
-  .rounds ol{grid-template-columns:1fr}
-  .panel.rounds{gap:24px}
+  .rounds .grid{grid-template-columns:1fr;gap:28px}
+  .rounds .shot{width:62%;margin:0 auto;transform:none}
+  .rounds li{grid-template-columns:1fr;padding:14px 0}
+  .rounds li.hl{padding-left:12px}
+  .rounds li p{grid-column:1}
   .panel.stats{min-height:auto;padding:80px 14px 50px;gap:28px}
   .stat span{flex-direction:column;align-items:center;gap:4px;min-width:0;width:100%;font-size:11px!important;text-align:center}
   .stats .g{grid-template-columns:repeat(var(--n),1fr);gap:10px;max-width:calc(var(--n) * 33.4%)}
@@ -521,15 +533,16 @@ function project(key) {
         : `<figure class="laptop"><i></i><video src="${M(p.video)}.mp4" poster="${M(p.shots[0])}.webp" muted loop playsinline autoplay></video></figure>`}</div></section>` : ''}
     <section class="panel story"><div class="dots"></div><div class="grid"><div class="txt in"><span class="k">WHY · 動機</span><p class="why">${p.why}</p><span class="k">HOW · 做法</span><p class="how">${p.process}</p></div>
       <div class="shot in${p.halftone ? ' ht' : ''}" style="transition-delay:.15s"><img src="${IMG(p)}" alt=""></div></div></section>
-    ${p.log ? `<section class="panel rounds"><div class="dots"></div><div class="in"><span class="k">ITERATION · 來回修正</span><h2>${p.loop}</h2></div>
-      <ol class="in" style="transition-delay:.15s;--n:${Math.min(p.log.length, 5)}">${p.log.map(([q, a], k) => `<li><small>ROUND ${String(k + 1).padStart(2, '0')}</small><b>${q}</b><p>${a}</p></li>`).join('')}</ol></section>` : ''}
+    ${p.log ? `<section class="panel rounds"><div class="dots"></div><div class="grid"><div class="shot in${p.halftone ? ' ht' : ''}"><img id="roundImg" src="${M(shots[1 % shots.length])}.webp" alt=""></div>
+      <div class="in" style="transition-delay:.15s"><span class="k">ITERATION · 來回修正</span><h2>${p.loop}</h2>
+      <ol>${p.log.map(([q, a], k) => `<li><small>ROUND ${String(k + 1).padStart(2, '0')}</small><b>${q}</b><p>${a}</p></li>`).join('')}</ol></div></div></section>` : ''}
     ${p.stats?.length ? `<section class="panel stats"><img class="bgv dim" src="${M(p.shots[p.shots.length - 1])}.webp" alt=""><div class="dots"></div>
       <div class="nhead in"><div><span class="k">BY THE NUMBERS</span><h2>${p.title}</h2></div></div>
       <div class="g" style="--n:${p.stats.length}">${p.stats.map(([n, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${n}">${n}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div>
       <div class="nfoot in"><div><span class="k">BUILT WITH</span><div class="tools">${p.tools.map(toolIcon).join('')}</div></div><p>${p.one}</p></div></section>` : ''}
-    <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">GALLERY · 畫面</span></div><span class="cap">${MOB ? 'TAP A SCREEN' : 'HOVER TO SPREAD'} · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k};--zm:${Math.round((shots.length - Math.abs(k - mid)) * 2)}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
-    <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.35"></video><div class="dots"></div>
-      <h2 class="in">${nx.title}</h2>
+    <section class="panel fan"><div class="dots"></div><div class="fanhead in"><div><span class="k">GALLERY · 畫面</span><h2>${p.one}</h2></div><span class="cap">${MOB ? 'TAP A SCREEN' : 'HOVER TO SPREAD'} · ${shots.length} SCREENS</span></div><div class="stack in" style="--sp:${Math.min(34, 52 / Math.max(mid, .5))}%">${shots.map((s, k) => `<figure class="${p.halftone ? 'ht' : ''}" style="--k:${k};--mid:${mid};--z:${shots.length - k};--zm:${Math.round((shots.length - Math.abs(k - mid)) * 2)}"><img src="${M(s)}.webp" alt=""></figure>`).join('')}</div></section>
+    <section class="panel next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none" style="opacity:.55"></video><div class="dots"></div>
+      <h2 class="in">${nx.title}</h2><p class="one in" style="transition-delay:.1s">${nx.one}</p>
       <div class="endbtns in"><a class="nextlink" href="#/p/${nx.key}" style="--c:${nx.color}">Next Project</a></div></section>
   </div>
   <nav class="prog">${names.map((n, k) => `<button data-k="${k}">${String(k + 1).padStart(2, '0')} ${n}</button>`).join('')}</nav>`;
@@ -550,21 +563,32 @@ function project(key) {
     ytOn(panels[k].classList.contains('show'));
     const nv = $('.next .bgv'); if (panels[k].classList.contains('next')) { nv.preload = 'auto'; nv.play().catch(() => {}); } else nv.pause();
   };
-  const go = d => show(idx + d);
-  const onWheel = e => { if (mobile) return; e.preventDefault(); if (Date.now() < lock) return; acc += e.deltaY + e.deltaX; if (Math.abs(acc) > 60) { const d = Math.sign(acc); acc = 0; go(d); lock = Date.now() + 900; } };
+  // the rounds chapter lights one round per scroll step before moving on; the screenshot follows the lit round
+  const lis = $$('.rounds li'); let rstep = -1;
+  const lit = k => { rstep = k; lis.forEach((li, j) => li.classList.toggle('hl', j === k));
+    if (k < 0 || MOB) return; const img = $('#roundImg'), src = `${M(shots[(k + 1) % shots.length])}.webp`; if (img.getAttribute('src') === src) return;
+    img.animate([{ opacity: .2, transform: 'scale(1.04)' }, { opacity: 1, transform: 'none' }], { duration: 500, easing: 'ease-out' }); img.src = src; };
+  const inRounds = () => panels[idx]?.classList.contains('rounds');
+  const go = d => {
+    if (inRounds() && lis.length) { if (d > 0 && rstep < lis.length - 1) return lit(rstep + 1); if (d < 0 && rstep > 0) return lit(rstep - 1); }
+    show(idx + d); if (inRounds()) lit(d > 0 ? 0 : lis.length - 1);
+  };
+  const onWheel = e => { if (mobile) return; e.preventDefault(); if (Date.now() < lock) return; acc += e.deltaY + e.deltaX; if (Math.abs(acc) > 60) { const d = Math.sign(acc); acc = 0; const was = inRounds(); go(d); lock = Date.now() + (was && inRounds() ? 450 : 900); } };
   const onKey = e => { if (['ArrowRight', 'ArrowDown', ' '].includes(e.key)) go(1); if (['ArrowLeft', 'ArrowUp'].includes(e.key)) go(-1); if (e.key === 'Escape') location.hash = '#/'; };
   let ty = 0; const ts = e => ty = e.touches[0].clientX, te = e => { const d = ty - e.changedTouches[0].clientX; if (!mobile && Math.abs(d) > 50) go(Math.sign(d)); };
   addEventListener('wheel', onWheel, { passive: false }); addEventListener('keydown', onKey); addEventListener('touchstart', ts); addEventListener('touchend', te);
-  $$('.prog button').forEach(b => b.onclick = () => show(+b.dataset.k));
+  $$('.prog button').forEach(b => b.onclick = () => { show(+b.dataset.k); if (inRounds()) lit(0); });
   // phones scroll vertically: each chapter animates once when it enters and stays on
   if (mobile) { const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const pn = e.target; io.unobserve(pn); pn.classList.add('on'); if (pn.classList.contains('stats')) countUp(pn); if (pn.classList.contains('show')) ytOn(true); if (pn.classList.contains('next')) $('.bgv', pn).play().catch(() => {}); }), { threshold: .35 }); panels.forEach(pn => io.observe(pn)); cleanup = () => io.disconnect(); }
   if (mobile) {
+    const sio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && lit(lis.indexOf(e.target))), { rootMargin: '-45% 0px -45% 0px' });
+    lis.forEach(li => sio.observe(li));
     const cv = $('.cover .bgv'), cb = $('.cover .enter'); cv.style.transition = 'none'; let pr = 0;
     const par = () => { cancelAnimationFrame(pr); pr = requestAnimationFrame(() => { const y = Math.min(document.body.scrollTop || scrollY, innerHeight * 1.2);
       cv.style.transform = `translate3d(0,${y * .45}px,0) scale(${1 + y / innerHeight * .35})`;
       document.body.classList.toggle('past', cb.getBoundingClientRect().bottom < 64); }); }; // pill shows once the cover button has passed under the header, at any scroll speed
     document.body.addEventListener('scroll', par, { passive: true }); addEventListener('scroll', par, { passive: true }); par();
-    const pc = cleanup; cleanup = () => { pc(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
+    const pc = cleanup; cleanup = () => { pc(); sio.disconnect(); document.body.removeEventListener('scroll', par); removeEventListener('scroll', par); };
   }
   if (!mobile) requestAnimationFrame(() => show(0));
   const prev = cleanup;
@@ -605,7 +629,8 @@ function leaveIntro() {
   $('#intro').classList.add('out');
   setTimeout(() => { dispatchEvent(new Event('introdone')); $('#intro').remove(); }, 700);
 }
-if (seen) { $('#intro').remove(); } else {
+if (seen) { $('#intro').remove(); } else if (/^#\/p\//.test(location.hash)) { setTimeout(leaveIntro, 1200); } // a shared project link: greet, then straight in
+else {
   setTimeout(() => $('#introPS').classList.add('on'), 1100);
   // the start key only lifts the intro; it never reaches the ring's own shortcuts
   const arm = () => { addEventListener('keydown', e => { e.stopImmediatePropagation(); leaveIntro(); }, { once: true, capture: true }); $('#intro').addEventListener('pointerdown', leaveIntro, { once: true }); };
