@@ -111,6 +111,11 @@ img,video{display:block}
 .walker{position:absolute;bottom:7px;width:36px;height:48px;image-rendering:pixelated;pointer-events:none;transform:translateX(-50%)}
 .walker.flip{transform:translateX(-50%) scaleX(-1)}
 #fx{position:fixed;inset:0;z-index:16;pointer-events:none;image-rendering:pixelated}
+.px{image-rendering:pixelated;display:inline-block;vertical-align:middle;animation:bob2 1.1s steps(2,end) infinite}
+@keyframes bob2{50%{transform:translateY(-3px)}}
+.k .px{margin-right:12px;position:relative;top:-1px}
+.cover .in>.px{display:block;margin-bottom:18px;animation-duration:1.4s}
+.next .px{margin-bottom:8px}
 .scrub .knob{position:absolute;bottom:2px;width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 16px var(--c);transform:translateX(-50%);transition:left .6s var(--ease)}
 
 /* intro */
@@ -118,6 +123,10 @@ img,video{display:block}
 .intro.out{clip-path:inset(0 0 100% 0)}
 .intro .wrap{display:flex;flex-direction:column;align-items:center;gap:34px;transform-origin:left top;transition:transform .9s var(--ease),opacity .7s .15s}
 .intro.out .wrap{opacity:0}
+/* intro: the eight project items pop in one by one under the greeting, like a start screen */
+.intro .items{display:flex;gap:18px;margin-top:-6px}
+.intro .items .px{opacity:0;animation:pop .35s var(--ease) forwards,bob2 1.1s steps(2,end) infinite;animation-delay:var(--d),calc(var(--d) + .35s)}
+@keyframes pop{0%{opacity:0;transform:translateY(14px) scale(.3)}100%{opacity:1;transform:none}}
 .intro .ps{font:400 clamp(9px,1.1vw,13px)/1 var(--px);color:#ff8a3d;letter-spacing:.1em;animation:blink 1s steps(2,start) infinite;opacity:0;transition:opacity .4s}
 .intro .ps.on{opacity:1}
 @keyframes blink{50%{opacity:.15}}
@@ -252,6 +261,7 @@ img,video{display:block}
   .hud{padding:16px}
   .intro{align-items:center;padding-bottom:16svh} /* phones: greeting sits a little above centre */
   .walker{width:27px;height:36px;bottom:9px}
+  .intro .items{gap:10px}
   .nfoot{flex-direction:column-reverse;align-items:flex-start;gap:18px} /* phones: one-line description above Built With */
   .amb img{filter:blur(22px) saturate(1.2) brightness(.4)}
   .hud__top .r .hm{display:none}
@@ -308,7 +318,7 @@ img,video{display:block}
 </div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="outline" x="-5%" y="-20%" width="110%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius=".8" result="d"/><feComposite in="d" in2="SourceAlpha" operator="out" result="o"/><feFlood flood-color="#fff" flood-opacity=".5"/><feComposite in2="o" operator="in"/></filter></svg>
 <main id="app"></main>
-<div class="intro" id="intro"><div class="wrap" id="introW"><h1 id="introH"></h1><span class="ps" id="introPS">PRESS START</span></div></div>
+<div class="intro" id="intro"><div class="wrap" id="introW"><h1 id="introH"></h1><div class="items" id="introI"></div><span class="ps" id="introPS">PRESS START</span></div></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="toast" id="toast">EMAIL COPIED</div>
 
@@ -334,7 +344,113 @@ ITEMS.forEach(p => { const v = document.createElement(MOB ? 'img' : 'video'); if
 function ambient(key) { $$('video', amb).forEach(v => { const on = v.dataset.k === key; v.classList.toggle('on', on); if (on) { if (!v.src) v.src = v.dataset.src; v.play?.().catch(() => {}); } else setTimeout(() => !v.classList.contains('on') && v.pause?.(), 1200); }); }
 
 /* pixel sprites: drawn from character maps, so no image files and no Aseprite needed */
-const PX = { K: '#141311', O: '#ff8a3d', W: '#f2efe8', C: 'c' /* project colour */, E: '#1a1a1a' };
+const PX = { K: '#141311', O: '#ff8a3d', W: '#f2efe8', C: 'c' /* project colour */, E: '#1a1a1a', Y: '#ffd23f', R: '#e8453c', G: '#5fd38d', B: '#4f7cff', N: '#8b5a2b', S: '#b8bec6', P: '#ff9bb3' };
+// each project's item, 12 x 12: penguin, heart, note, peak with flag, cart, house, dumbbell, pencil
+const ITEM = {
+  zoo: `....KKKK....
+...KKKKKK...
+..KKWKKWKK..
+..KKKOOKKK..
+..KKWWWWKK..
+.KKWWWWWWKK.
+.KKWWWWWWKK.
+.KKWWWWWWKK.
+..KWWWWWWK..
+..KKWWWWKK..
+...OO..OO...
+..OOO..OOO..`,
+  dashboard: `............
+..RR...RR...
+.RRRR.RRRR..
+RRWRRRRRRRR.
+RRRRRRRRRRR.
+RRRRRRRRRRR.
+.RRRRRRRRR..
+..RRRRRRR...
+...RRRRR....
+....RRR.....
+.....R......
+............`,
+  myscore: `.......YY...
+......YYYY..
+......YY.YY.
+......YY..Y.
+......YY....
+......YY....
+......YY....
+..YYYYYY....
+.YYYYYYY....
+.YYYYYY.....
+..YYYY......
+............`,
+  peaks: `.....RR.....
+.....RRR....
+.....R......
+....KWK.....
+...KWWWK....
+...KWGWK....
+..KGGGGGK...
+..KGGGGGK...
+.KGGGGGGGK..
+.KGGGGGGGK..
+KGGGGGGGGGK.
+KKKKKKKKKKK.`,
+  shopping: `KK..........
+.KK.........
+..KBBBBBBBB.
+..KBBBBBBBB.
+..KBBBBBBBB.
+..KBBBBBBBB.
+..KBBBBBBBK.
+...KKKKKKK..
+...K.....K..
+..KK.....KK.
+..WW.....WW.
+............`,
+  home: `.....RR.....
+....RRRR....
+...RRRRRR...
+..RRRRRRRR..
+.RRRRRRRRRR.
+RRRRRRRRRRRR
+.KWWWWWWWWK.
+.KWWBBWWBBK.
+.KWWBBWWBBK.
+.KWWWWWWWWK.
+.KWWWNNWWWK.
+.KKKKNNKKKK.`,
+  campaign: `............
+............
+.KK......KK.
+.KK......KK.
+KKKK....KKKK
+KKKKSSSSKKKK
+KKKKSSSSKKKK
+KKKK....KKKK
+.KK......KK.
+.KK......KK.
+............
+............`,
+  aifree: `.........KK.
+........KPPK
+.......KPPPK
+......KOOOK.
+.....KOOOK..
+....KOOOK...
+...KOOOK....
+..KOOOK.....
+.KWWOK......
+.KWWK.......
+.KKK........
+K...........`,
+};
+Object.keys(ITEM).forEach(k => ITEM[k] = ITEM[k].split('\n'));
+// a project's item as a small canvas, scaled up pixel-perfect; bobs on a two-step beat (CSS)
+function item(key, scale = 2) {
+  const rows = ITEM[key]; if (!rows) return document.createComment('');
+  const cv = document.createElement('canvas'); cv.width = cv.height = 12; cv.className = 'px'; cv.style.width = cv.style.height = 12 * scale + 'px';
+  drawSprite(cv.getContext('2d'), rows, '#fff'); return cv;
+}
 const WALK = [ // 12 x 16, three frames: stride left, stand, stride right
 `....KKKK....
 ...KOOOOK...
@@ -546,6 +662,7 @@ function project(key) {
       <div class="endbtns in"><a class="nextlink" href="#/p/${nx.key}" style="--c:${nx.color}">Next Project</a></div></section>
   </div>
   <nav class="prog">${names.map((n, k) => `<button data-k="${k}">${String(k + 1).padStart(2, '0')} ${n}</button>`).join('')}</nav>`;
+  $('.cover .in').prepend(item(p.key, 4)); $$('.panel .k').forEach(k => k.prepend(item(p.key, 2))); $('.next h2').before(item(nx.key, 4));
   const deck = $('#deck'), panels = $$('.panel'), mobile = matchMedia('(max-width:760px)').matches;
   let idx = -1, lock = 0, acc = 0;
   // reel loads only when its chapter is reached, plays muted and pauses when you leave
@@ -629,6 +746,7 @@ function leaveIntro() {
   $('#intro').classList.add('out');
   setTimeout(() => { dispatchEvent(new Event('introdone')); $('#intro').remove(); }, 700);
 }
+if (!seen) PROJECTS.forEach((p, i) => { const c = item(p.key, MOB ? 2 : 3); c.style.setProperty('--d', 500 + i * 110 + 'ms'); $('#introI').append(c); });
 if (seen) { $('#intro').remove(); } else if (/^#\/p\//.test(location.hash)) { setTimeout(leaveIntro, 1200); } // a shared project link: greet, then straight in
 else {
   setTimeout(() => $('#introPS').classList.add('on'), 1100);
