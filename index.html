@@ -707,11 +707,15 @@ function home() {
   const ring = $('#ring'), cards = $$('.card'), stage = $('#stage');
   marquee($('#big'));
   const wk = walker($('.scrub .ticks'));
-  // first visit: cards fly in from the depth once the intro lifts, each landing with a pixel burst
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let flyT0 = introDone || still ? 0 : Infinity, landed = still ? n : 0; if (flyT0) stage.classList.add('fly');
-  const startFly = () => { flyT0 = performance.now(); };
-  if (flyT0) addEventListener('introdone', startFly, { once: true });
+  // first visit: each card waits, hidden, until its pixel item flies over from the intro and lands on it; then it pops open from that spot
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches, waiting = !(introDone || still);
+  let landed = waiting ? 0 : n, popFallback; if (waiting) stage.classList.add('fly');
+  const pops = new Array(n).fill(waiting ? Infinity : 0);
+  const onLand = e => { if (pops[e.detail] === Infinity) pops[e.detail] = performance.now(); };
+  const popAll = () => pops.forEach((t, i) => { if (t === Infinity) pops[i] = performance.now() + i * 60; }); // safety net: never leave a card hidden
+  const startFallback = () => { popFallback = setTimeout(popAll, 3200); };
+  if (waiting) { addEventListener('itemland', onLand); addEventListener('introdone', startFallback, { once: true }); }
+  const backOut = t => 1 + 2.7 * Math.pow(t - 1, 3) + 1.7 * Math.pow(t - 1, 2);
   // ring radius: neighbour edge gap is 0.6x the original layout (R0), never letting cards intersect
   // re-measured on resize / rotate, since the ring width follows the viewport
   const sn = Math.sin(2 * Math.PI / n), cs = Math.cos(2 * Math.PI / n);
@@ -744,11 +748,12 @@ function home() {
     const now = performance.now();
     cards.forEach((c, i) => {
       const a = i * step, d = (((a + ang) % 360) + 540) % 360 - 180, k = Math.abs(d) / 180;
-      // fly-in: order follows the ring from the front card round the back, 70 ms apart, 900 ms each
-      let fl = 0;
-      if (flyT0 < Infinity && landed < n) { const o = ((i - lastIdx) % n + n) % n, t = Math.min(1, Math.max(0, (now - flyT0 - o * 70) / 900)); fl = 1 - (1 - Math.pow(1 - t, 3)); c.style.opacity = Math.min(1, t * 3);
-        if (t >= 1 && !c._landed) { c._landed = 1; landed++; const r = c.getBoundingClientRect(); if (k < .5) spark(r.left + r.width / 2, r.top + r.height / 2, ITEMS[i].color); if (landed >= n) stage.classList.remove('fly'); } }
-      c.style.transform = `rotateY(${a}deg) translateZ(${R}px)` + (fl ? ` translateZ(${-fl * 1100}px) translateY(${fl * 120}px) scale(${1 - fl * .5})` : '');
+      // pop-in: from a speck where the item landed to full size with a little overshoot, 420 ms
+      let sc = 1;
+      if (landed < n && !c._landed) { const t = pops[i] === Infinity ? 0 : Math.min(1, Math.max(0, (now - pops[i]) / 420));
+        c.style.opacity = Math.min(1, t * 2.5); sc = .12 + .88 * backOut(t);
+        if (t >= 1) { c._landed = 1; landed++; sc = 1; if (landed >= n) stage.classList.remove('fly'); } }
+      c.style.transform = `rotateY(${a}deg) translateZ(${R}px)` + (sc !== 1 ? ` scale(${sc})` : '');
       c.style.filter = `brightness(${1 - k * .75}) saturate(${1 - k * .6})`;
     });
     setActive((((Math.round(-ang / step)) % n) + n) % n);
@@ -769,7 +774,7 @@ function home() {
   addEventListener('wheel', onWheel, { passive: false }); addEventListener('keydown', onKey);
   measure(); loop();
   const ro = new ResizeObserver(measure); ro.observe(ring); ro.observe($('.scrub'));
-  cleanup = () => { cancelAnimationFrame(raf); ro.disconnect(); wk.stop(); removeEventListener('introdone', startFly); removeEventListener('wheel', onWheel); removeEventListener('keydown', onKey); };
+  cleanup = () => { cancelAnimationFrame(raf); ro.disconnect(); wk.stop(); removeEventListener('introdone', startFallback); removeEventListener('itemland', onLand); clearTimeout(popFallback); removeEventListener('wheel', onWheel); removeEventListener('keydown', onKey); };
 }
 
 function project(key) {
@@ -897,11 +902,38 @@ let introDone = !!seen;
 route();
 function leaveIntro() {
   if (introDone) return; introDone = true;
-  // the greeting shrinks into the top-left corner where the site name sits, so the eye has something to follow
-  const b = $('.brand'), w = $('#introW'); const br = b.getBoundingClientRect(), wr = w.getBoundingClientRect();
-  if (br.width) w.style.transform = `translate(${br.left - wr.left}px,${br.top - wr.top}px) scale(${Math.max(.08, br.height / wr.height)})`;
-  $('#intro').classList.add('out');
-  setTimeout(() => { dispatchEvent(new Event('introdone')); $('#intro').remove(); }, 700);
+  const intro = $('#intro'), cards = $$('.ring .card'), ticks = $$('.scrub button i'), still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  dispatchEvent(new Event('introdone'));
+  // a shared project link, or reduced motion: the curtain simply lifts
+  if (still || !cards.length) { intro.classList.add('out'); setTimeout(() => intro.remove(), 1100); return; }
+  intro.style.pointerEvents = 'none';
+  // the greeting's letters kick up and away one after another; PRESS START blinks out; the black backdrop melts so home shows through
+  $$('#introH span').forEach((sp, k) => sp.animate([{ transform: 'none', opacity: 1 }, { transform: `translateY(-150%) rotate(${(k % 2 ? 1 : -1) * (6 + k % 5 * 5)}deg)`, opacity: 0 }],
+    { duration: 520, delay: k * 22, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' }));
+  $('#introPS').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+  intro.animate([{ backgroundColor: 'rgba(5,5,6,1)' }, { backgroundColor: 'rgba(5,5,6,0)' }], { duration: 800, delay: 250, easing: 'ease-out', fill: 'forwards' });
+  // each project's item leaves the row and arcs down onto its own tick on the project bar; on touchdown: a pixel burst, and that project's card pops open in the ring
+  const layer = document.createElement('div'); layer.style.cssText = 'position:fixed;inset:0;z-index:60;pointer-events:none'; document.body.append(layer);
+  const items = $$('#introI .px'); let done = 0;
+  const finish = () => { if (++done < items.length) return; layer.remove(); intro.remove(); };
+  items.forEach((it, i) => {
+    const r = it.getBoundingClientRect(), tick = ticks[i];
+    Object.assign(it.style, { position: 'fixed', left: r.left + 'px', top: r.top + 'px', margin: 0, animation: 'none', opacity: 1 }); layer.append(it);
+    if (!tick) { dispatchEvent(new CustomEvent('itemland', { detail: i })); it.remove(); return finish(); }
+    const tr = tick.getBoundingClientRect(), tx = tr.left + tr.width / 2, ty = tr.top - r.height * .6; // sits just on top of the tick
+    const x1 = tx - r.left - r.width / 2, y1 = ty - r.top - r.height / 2, mid = (items.length - 1) / 2;
+    const cx = x1 * .5 + (i - mid) * 26, cy = Math.min(0, y1) - 150 - Math.abs(i - mid) * 16; // the arc's peak, above the straight line
+    const t0 = performance.now() + 120 + i * 85, dur = 820;
+    const fly = now => {
+      const t = Math.min(1, Math.max(0, (now - t0) / dur)), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2, u = 1 - e;
+      const x = 2 * u * e * cx + e * e * x1, y = 2 * u * e * cy + e * e * y1;
+      const sc = 1 + Math.sin(e * Math.PI) * .7 - e * .45, rot = Math.round(e * 4) * 90 * (i % 2 ? 1 : -1); // grows mid-flight, turns in quarter steps like a sprite
+      it.style.transform = `translate(${x}px,${y}px) scale(${sc}) rotate(${rot}deg)`;
+      if (t < 1) return requestAnimationFrame(fly);
+      spark(tx, ty, PROJECTS[i].color, 16); dispatchEvent(new CustomEvent('itemland', { detail: i })); it.remove(); finish();
+    };
+    requestAnimationFrame(fly);
+  });
 }
 if (!seen) PROJECTS.forEach((p, i) => { const c = item(p.key, MOB ? 2 : 3); c.style.setProperty('--d', 500 + i * 110 + 'ms'); $('#introI').append(c); });
 if (seen) { $('#intro').remove(); } else if (/^#\/p\//.test(location.hash)) { setTimeout(leaveIntro, 1200); } // a shared project link: greet, then straight in
