@@ -235,6 +235,20 @@ body.pj{overflow-y:auto;overflow-x:hidden;background:var(--pbg)}
 .livebar span{display:inline-block;transition:transform .4s var(--ease)}
 .livebar:hover{filter:brightness(1.1)}
 .livebar:hover span{transform:translate(6px,-6px)}
+/* reflection: what the project taught me and what would make it better — two pixel-framed cards in the project's two colours */
+.recap{--band:color-mix(in srgb,var(--c) 9%,var(--pbg));background:var(--band)}
+.recap .pat{opacity:.04}
+.recap .cl{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.recap .cl .ch{margin-bottom:0}
+.recap .clear{font:400 9px/1 var(--px);letter-spacing:.14em;color:#141311;background:var(--c);padding:10px 12px;box-shadow:4px 4px 0 #0008;animation:blink 1.4s steps(2,start) infinite}
+.recap .grid{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:30px;margin-top:38px}
+.recap .rc{--k:var(--c);border:4px solid var(--k);box-shadow:8px 8px 0 color-mix(in srgb,var(--k) 40%,#000);background:#0003;padding:34px 34px 38px}
+.recap .rc.b{--k:var(--c2)}
+.recap h3{font:400 10px/1.5 var(--px);letter-spacing:.1em;color:var(--k);margin-bottom:26px}
+.recap h3 b{display:block;font:600 clamp(18px,1.6vw,24px)/1.3 var(--disp);letter-spacing:-.01em;color:var(--txt);margin-top:12px}
+.recap ul{list-style:none;display:flex;flex-direction:column;gap:20px}
+.recap li{position:relative;padding-left:28px;font:400 clamp(15px,1.15vw,18px)/1.75 var(--sans);color:#e4e1da}
+.recap li::before{content:'';position:absolute;left:0;top:.7em;width:10px;height:10px;background:var(--k);box-shadow:4px 4px 0 color-mix(in srgb,var(--k) 40%,#000)}
 .next{min-height:88svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;text-align:center;overflow:hidden}
 .next .bgv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;opacity:.32}
 .next .dots{z-index:-1}
@@ -325,6 +339,9 @@ body.pj{overflow-y:auto;overflow-x:hidden;background:var(--pbg)}
   .gal img{aspect-ratio:390/844}
   .xp{left:16px;right:16px;bottom:14px}
   .livebar{height:62px}
+  .recap .grid{grid-template-columns:1fr;gap:26px}
+  .recap .rc{padding:26px 22px 30px}
+  .recap .cl{flex-direction:column;align-items:flex-start;gap:16px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -366,7 +383,8 @@ ITEMS.forEach(p => { const v = document.createElement(MOB ? 'img' : 'video'); if
 function ambient(key) { $$('video', amb).forEach(v => { const on = v.dataset.k === key; v.classList.toggle('on', on); if (on) { if (!v.src) v.src = v.dataset.src; v.play?.().catch(() => {}); } else setTimeout(() => !v.classList.contains('on') && v.pause?.(), 1200); }); }
 
 /* pixel sprites: drawn from character maps, so no image files and no Aseprite needed */
-const PX = { K: '#141311', O: '#ff8a3d', W: '#f2efe8', C: 'c' /* project colour */, E: '#1a1a1a', Y: '#ffd23f', R: '#e8453c', G: '#5fd38d', B: '#4f7cff', N: '#8b5a2b', S: '#b8bec6', P: '#ff9bb3', D: '#1f5e2c', L: '#3fa34d', F: '#f2c79a', T: '#6b4423' };
+// K / D / T are the sprites' darks (outline, penguin body, hood, boots): kept mid-tone so they never sink into the near-black pages
+const PX = { K: '#66769c', O: '#ff8a3d', W: '#f2efe8', C: 'c' /* project colour */, E: '#1a1a1a', Y: '#ffd23f', R: '#e8453c', G: '#5fd38d', B: '#4f7cff', N: '#8b5a2b', S: '#b8bec6', P: '#ff9bb3', D: '#2f9150', L: '#3fa34d', F: '#f2c79a', T: '#a8743c' };
 // each project's item, 12 x 12: penguin, heart, note, peak with flag, cart, house, dumbbell, pencil
 const ITEM = {
   zoo: `....KKKK....
@@ -783,6 +801,10 @@ function project(key) {
   ${p.stats?.length ? `<section class="sec numbers stats edge" data-deco="4"><div class="pat"></div>${ch('NUMBERS', '數字')}
     <div class="g" style="--n:${p.stats.length}">${p.stats.map(([v, l], k) => `<div class="stat in" style="transition-delay:${k * .12}s"><svg viewBox="0 0 220 220"><circle class="tick" cx="110" cy="110" r="106" pathLength="1"/><circle class="trk" cx="110" cy="110" r="90"/><circle class="val" cx="110" cy="110" r="90" pathLength="1" style="transition-delay:${k * .15}s"/><text x="110" y="114" data-count="${v}">${v}</text></svg><span><b>0${k + 1}</b>${l}</span></div>`).join('')}</div></section>` : ''}
   <section class="sec gal" data-deco="2">${ch('GALLERY', '畫面')}<div class="grid in${shots.length % 2 ? ' odd' : ''}">${shots.map(sh => `<figure class="${ht.trim()}"><img src="${M(sh)}.webp" alt="" loading="lazy"></figure>`).join('')}</div></section>
+  ${p.learn?.length || p.better?.length ? `<section class="sec recap edge" data-deco="2"><div class="pat"></div><div class="cl">${ch('REFLECTION', '回顧')}<span class="clear in">STAGE CLEAR</span></div>
+    <div class="grid" style="--n:${(p.learn?.length ? 1 : 0) + (p.better?.length ? 1 : 0)}">
+    ${p.learn?.length ? `<div class="rc in"><h3>LEARNED<b>學到的事</b></h3><ul>${p.learn.map(t => `<li>${t}</li>`).join('')}</ul></div>` : ''}
+    ${p.better?.length ? `<div class="rc b in" style="transition-delay:.12s"><h3>NEXT LEVEL<b>怎樣會更好</b></h3><ul>${p.better.map(t => `<li>${t}</li>`).join('')}</ul></div>` : ''}</div></section>` : ''}
   <a class="livebar edge" href="${p.link}" target="_blank" rel="noopener">Live Project <span>↗</span></a>
   <section class="sec next" style="--nc:${nx.color}"><video class="bgv" src="${M(nx.video)}.mp4" muted loop playsinline preload="none"></video><div class="vig"></div><div class="dots"></div>
     <small class="in">NEXT PROJECT</small><h2 class="in">${nx.title}</h2><p class="one in" style="transition-delay:.1s">${nx.one}</p>

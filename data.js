@@ -40,6 +40,9 @@ window.PROJECTS = [
     work: [13, 11], ver: ['4', '個版本'],
     // version screenshots, oldest first: the BEFORE / AFTER chapter steps through them
     vers: [['zoo-v1', '陸地'], ['zoo-v2', '島嶼'], ['zoo-v3', '浮空島'], ['zoo-1', '海上厚台地']],
+    // REFLECTION chapter: strategic take-aways — decisions and trade-offs I learned, and where it should go next (drafts: edit freely)
+    learn: ['先決定使用者要完成什麼事：看懂園區的距離和高低，再選表現方式。平面圖換成立體島嶼，比把圖畫得更精細有用。', '手機效能是產品限制，不是最後才做的優化。一開始就把模型數量和繪製成本當成預算，後面才不會推翻重來。', '官方資料是這個產品的地基。地圖和保育資料每一筆都要能對照來源，否則做得再漂亮也不能信。'],
+    better: ['從靜態導覽走向「今天怎麼逛」：結合開放狀態和動物活動時間，替人排出路線。', '資料現在靠手動對官網維護，需要一個更新機制，不然半年後就會過期。'],
     tools: ['Claude', 'Three.js', 'Motion'],
     link: 'https://weilee01.com/wanderzoo/',
     shots: ['zoo-1', 'zoo-2', 'zoo-3', 'zoo-4'],
@@ -64,6 +67,9 @@ window.PROJECTS = [
     work: [13, 36], ver: ['115', '次更新'],
     // version screenshots, oldest first: the BEFORE / AFTER chapter steps through them
     vers: [['dashboard-v1', '09.03'], ['dashboard-v2', '09.19'], ['dashboard-v3', '10.14'], ['dashboard-1', '現在']],
+    // REFLECTION chapter: strategic take-aways — decisions and trade-offs I learned, and where it should go next (drafts: edit freely)
+    learn: ['價值不在單一平台，而在跨平台放在一起看。所以先設計統一的資料格式，再接來源；來源可以換，格式不能亂。', '資料取得是最脆弱的一環：沒有開放 API 的平台只能靠網頁抓取，隨時可能失效。', '只呈現過去不會改變行為。把目標和進度放在同一張圖，才有推動力。'],
+    better: ['把更新從手動變成排程，資料才能長期自己流進來。', '從回顧變成提醒：落後目標時主動告訴我，而不是等我自己打開來看。'],
     tools: ['Claude', 'Strava', 'Santa'],
     link: 'https://weilee01.com/myboard/',
     shots: ['dashboard-1', 'dashboard-2'],
@@ -94,6 +100,9 @@ window.PROJECTS = [
     ],
     stats: [['35', '首練習曲'], ['4', '種樂器記譜']],
     work: [29, 15], ver: ['5', '輪修正'],
+    // REFLECTION chapter: strategic take-aways — decisions and trade-offs I learned, and where it should go next (drafts: edit freely)
+    learn: ['選對資料來源比調參數重要：從聽人聲猜旋律，改成直接讀譜，準確度差了一個等級。', '把一首歌的修法變成通用方法，讓每首自動挑適合的，才有辦法從幾首擴到幾十首。', 'AI 做到九成，最後一成交給人。手動校正不是退而求其次，而是讓整個流程真的能用的關鍵。'],
+    better: ['新增一首歌的步驟太多，想包成一條龍：丟進影片，產出可以練習的譜。', '目前只服務我自己。要開放給別人，得先處理譜的版權和檔案怎麼存。'],
     tools: ['Claude', 'homr', 'Demucs', 'Google Drive'],
     link: 'https://weilee01.com/myscore/',
     shots: ['myscore-1', 'myscore-2', 'myscore-3', 'myscore-4'],
@@ -117,6 +126,9 @@ window.PROJECTS = [
     work: [8, 7], ver: ['38', '次更新'],
     // version screenshots, oldest first: the BEFORE / AFTER chapter steps through them
     vers: [['peaks-v1', '09.29'], ['peaks-3', '現在']],
+    // REFLECTION chapter: strategic take-aways — decisions and trade-offs I learned, and where it should go next (drafts: edit freely)
+    learn: ['資料不齊時，先定義可以接受的替代來源和標示方式，而不是放棄。沒有 GPS 的路線用步道資料推算，並清楚標註。', '紀錄要在現場就留下，事後補不如當下記。手機沒電那次，是靠打卡時間才救回來。', '一百座是長期目標，所以流程要做到每爬一座只補一筆，而不是每次重做。'],
+    better: ['把出發前的決策（路線、時間、補給）放進同一個畫面，從回顧工具變成規劃工具。', '建立固定的紀錄習慣，讓資料自己累積，而不是靠事後整理。'],
     tools: ['Claude', 'Strava', 'Google Sheets'],
     link: 'https://weilee01.com/100peaks/',
     shots: ['peaks-3', 'peaks-1', 'peaks-2', 'peaks-4'],
@@ -133,13 +145,16 @@ window.PROJECTS = [
     color: '#4f7cff',
     color2: '#edeae4',
     bg: '#09090a',
-    one: '九年半的淘寶消費，一台購物車看完',
-    why: '在淘寶買了九年半，想知道錢到底花去哪，以及生活的改變怎麼反映在購物清單上。',
+    one: '九年半的電商平台消費，一台購物車看完',
+    why: '在電商平台買了九年半，想知道錢到底花去哪，以及生活的改變怎麼反映在購物清單上。',
     process: '用 Apps Script 整理並分類 732 筆訂單，在 Blender 建出購物車模型，再用 Three.js 讓它隨捲動旋轉、拆解、切層，串起 8 個章節。',
     stats: [['732', '筆訂單'], ['895', '個品項'], ['428,904', 'NT$ 總消費']],
     work: [5, 3], ver: ['3', '個提案'],
     // version screenshots, oldest first: the BEFORE / AFTER chapter steps through them
     vers: [['shopping-v1', '提案一'], ['shopping-v2', '提案二'], ['shopping-v3', '石膏材質'], ['shopping-1', '上線']],
+    // REFLECTION chapter: strategic take-aways — decisions and trade-offs I learned, and where it should go next (drafts: edit freely)
+    learn: ['先有乾淨的資料，才有好故事。九年半的訂單要先整理分類，視覺才有東西可說。', '用一個具體的物件（購物車）承載抽象的數字，讓人願意往下看。形式要服務敘事，不是炫技。', '同時做三個提案再選，比一開始就定案更快找到對的方向。'],
+    better: ['做成可以套用別人資料的範本，這份報告才有機會變成可重複的產品。', '消費資料很私人，公開之前要先決定哪些該遮、哪些能留。'],
     tools: ['Claude', 'Blender', 'Google Sheets'],
     link: 'https://weilee01.com/shopping/',
     shots: ['shopping-1', 'shopping-2', 'shopping-3', 'shopping-4', 'shopping-5'],
@@ -172,6 +187,9 @@ window.PROJECTS = [
     work: [41, 15], ver: ['21', '輪修正'],
     // version screenshots, oldest first: the BEFORE / AFTER chapter steps through them
     vers: [['home-v1', '平面圖'], ['home-v2', 'Blender'], ['home-1', '網頁 3D']],
+    // REFLECTION chapter: strategic take-aways — decisions and trade-offs I learned, and where it should go next (drafts: edit freely)
+    learn: ['把工夫花在最不確定的地方：平面圖尺寸不全，就對照實拍照片校正，而不是整間重建。', '想快速試不同可能，就要用即時運算，不要把結果烘死。換風格、換光線都靠這個決定。', '二十一輪修正真正的價值，是縮短「看到不對」到「改好」的距離。這個回饋迴路才是核心能力。'],
+    better: ['從看起來像，走向能做決定：加入實際尺寸、價格和家具清單，讓它能直接用來買東西。', '把建模流程做成可重複的，換一個空間也能快速複製。'],
     tools: ['Claude', 'Blender', 'Three.js'],
     link: 'https://weilee01.com/3dhome/',
     shots: ['home-1', 'home-2', 'home-3', 'home-4'],
@@ -194,6 +212,9 @@ window.PROJECTS = [
     work: [6, 6], ver: ['2', '種滾動做法'],
     // version screenshots, oldest first: the BEFORE / AFTER chapter steps through them
     vers: [['campaign-v1', '設定圖'], ['campaign-1', '活動頁']],
+    // REFLECTION chapter: strategic take-aways — decisions and trade-offs I learned, and where it should go next (drafts: edit freely)
+    learn: ['互動的單位要對上內容的單位：一格畫面對應一段滾動效果不好，改成滑一次播一段，節奏才對。', '用 AI 生成素材時，先用設定圖鎖定人物和風格，三段影片才像同一個品牌。', '這個專案的價值在於驗證一種敘事方式，而不是做完一個完整的活動。'],
+    better: ['要成為真的活動頁，需要接上轉換目標：訓練分析要連到商品推薦，現在只有展示。', '影片素材偏重，需要載入預算和備用方案。'],
     tools: ['Claude', 'Higgsfield', 'ChatGPT'],
     link: 'https://weilee01.com/trainhard/',
     shots: ['campaign-1', 'campaign-2', 'campaign-3', 'campaign-4'],
@@ -217,6 +238,9 @@ window.PROJECTS = [
     process: '把 WordPress 的 37 件作品、292 張圖搬成靜態網站，再把履歷網站併進來當 About 頁，統一深色與橘色；接上 Pages CMS 當後台，存檔就自動上線。',
     stats: [['37', '件作品'], ['10+', '年設計經驗'], ['5', '種作品類別']],
     work: [2, 4], ver: ['3', '版設計'],
+    // REFLECTION chapter: strategic take-aways — decisions and trade-offs I learned, and where it should go next (drafts: edit freely)
+    learn: ['內容和呈現分開，更新成本才會低。靜態網站加後台，存檔就上線，網站才會持續更新。', '合併兩個網站要先統一品牌系統，不然訪客看到的是兩個人。', '作品集的挑戰是策展，不是搬家。三十七件作品怎麼排序、強調哪些，比搬完更重要。'],
+    better: ['每件作品補上背景、角色和成果，讓人看到思考過程，不只看到結果。', '加上簡單的流量和來源統計，知道誰在看、從哪裡來，再決定要強化什麼。'],
     tools: ['Claude', 'Cloudflare', 'Pages CMS'],
     link: 'https://weilee01.com/ai-free/',
     shots: ['aifree-1', 'aifree-2', 'aifree-3', 'aifree-4'],
